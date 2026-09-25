@@ -2,7 +2,7 @@
 <meta name="description" content="Explorador interactivo de Derecho Procesal Orgánico chileno: elige un tema en el anillo y abre cada concepto con su definición, doctrina y normas.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap">
 <style>
 :root{
   color-scheme:light;
@@ -10,14 +10,14 @@
   --blue:#2F5A8C; --blue-soft:#E2E3DD; --red:#A23A26; --red-soft:#F2DDCF; --on-accent:#FBF7EE;
   --cpr:#A23A26; --cpr-bg:#F2DDCF; --cot:#2F5A8C; --cot-bg:#DFE2DF; --cpc:#3A6A4A; --cpc-bg:#DDE8D6;
   --cc:#674592; --cc-bg:#E8DDE6; --pp:#86560F; --pp-bg:#F0E0C2; --oth:#5E5A50; --oth-bg:#E8E1D0;
-  --serif:"Instrument Serif","Iowan Old Style",Georgia,serif; --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --serif:"Instrument Serif","Iowan Old Style",Georgia,serif; --text:"Source Serif 4",Georgia,"Times New Roman",serif; --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box}
-body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.55;margin:0;-webkit-font-smoothing:antialiased}
 button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:3px}
 h1,h2,h3{margin:0;text-wrap:balance;font-weight:400}
-.eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
 
 /* ---------- header ---------- */
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--paper);border-bottom:1px solid var(--line)}
@@ -50,7 +50,7 @@ h1,h2,h3{margin:0;text-wrap:balance;font-weight:400}
 .wrap{max-width:1480px;margin:0 auto;padding-inline:24px;padding-block:22px 48px}
 .layout{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:28px;align-items:start}
 .main{min-width:0;display:flex;flex-direction:column;gap:20px}
-.lede{font-family:var(--serif);font-size:1.3rem;line-height:1.35;color:var(--muted);max-width:60ch;margin:0}
+.lede{font-family:var(--text);font-size:1.12rem;line-height:1.5;color:var(--muted);max-width:60ch;margin:0}
 .lede em{color:var(--ink)}
 
 /* ---------- norm tags ---------- */
@@ -73,23 +73,25 @@ h1,h2,h3{margin:0;text-wrap:balance;font-weight:400}
 .sector path.fill{fill:var(--surface);stroke:var(--line);stroke-width:1;transition:fill .25s,stroke .25s}
 .sector:hover path.fill{fill:var(--blue-soft)}
 .sector.on path.fill{fill:var(--blue);stroke:var(--blue)}
-.sector text{font-family:var(--mono)!important;font-size:12.5px;letter-spacing:3px;fill:var(--ink);transition:fill .25s;pointer-events:none}
-.sector .no{font-size:10px;letter-spacing:1.5px;fill:var(--muted)}
+.sector text{font-family:var(--mono)!important;font-size:14px;font-weight:500;letter-spacing:2.6px;fill:var(--ink);transition:fill .25s;pointer-events:none}
+.sector .no{font-size:11px;letter-spacing:1.5px;fill:var(--muted)}
 .sector.on text{fill:var(--on-accent)}
 .sector:focus-visible{outline:none}
 .sector:focus-visible path.fill{stroke:var(--red);stroke-width:2}
 .center{cursor:pointer}
 .center .disc{fill:var(--surface);stroke:var(--ink);stroke-width:1}
 .center text{text-anchor:middle;pointer-events:none}
-.center .ct{font-family:var(--serif)!important;font-size:30px;fill:var(--ink)}
-.center .cs{font-family:var(--mono)!important;font-size:10px;letter-spacing:3px;fill:var(--muted)}
+.center .ct{font-family:var(--serif)!important;font-size:34px;fill:var(--ink)}
+.center .core{fill:var(--surface);stroke:var(--ink);stroke-width:1.1}
+.center:hover .core{fill:var(--blue-soft)}
+.center .cs{font-family:var(--mono)!important;font-size:11px;letter-spacing:2.6px;fill:var(--muted)}
 .fan line{stroke:var(--ink);stroke-width:.5;opacity:.28;stroke-dasharray:80;stroke-dashoffset:80;animation:draw .7s ease-out forwards;animation-delay:calc(var(--i) * 18ms)}
 .garc{fill:none;stroke:var(--ink);stroke-width:1.2;opacity:.55}
 .glab{font-family:var(--mono)!important;font-size:9px;letter-spacing:2px;fill:var(--muted)}
 .cn{cursor:pointer;opacity:0;transform-box:fill-box;transform-origin:center;animation:pop .45s cubic-bezier(.2,.8,.3,1.2) forwards;animation-delay:calc(120ms + var(--i) * 22ms)}
 .cn .dot{fill:var(--surface);stroke:var(--ink);stroke-width:1.2;transition:r .2s,fill .2s,stroke .2s}
 .cn .hit{fill:transparent}
-.cn text{font-size:13px;fill:var(--ink);transition:fill .2s}
+.cn text{font-size:16px;font-weight:500;fill:var(--ink);transition:fill .2s}
 .cn:hover .dot,.cn:focus-visible .dot{fill:var(--blue);stroke:var(--blue);r:7}
 .cn:hover text,.cn:focus-visible text{fill:var(--blue)}
 .cn:focus,.cn:focus-visible,.sector:focus,.center:focus{outline:none}
@@ -124,23 +126,23 @@ h1,h2,h3{margin:0;text-wrap:balance;font-weight:400}
 .p-sec{padding:16px 0;border-bottom:1px solid var(--line)}
 .p-sec:last-child{border-bottom:0}
 .p-sec>.eyebrow{display:block;margin-bottom:10px}
-.def{font-family:var(--serif);font-size:1.28rem;line-height:1.38;margin:0}
+.def{font-family:var(--text);font-size:1.12rem;line-height:1.6;margin:0}
 .quote{margin:0 0 12px;padding-left:14px;border-left:2px solid var(--red)}
 .quote:last-child{margin-bottom:0}
-.quote p{font-family:var(--serif);font-style:italic;font-size:1.12rem;line-height:1.38;margin:0 0 6px}
+.quote p{font-family:var(--text);font-style:italic;font-size:1.02rem;line-height:1.55;margin:0 0 6px}
 .quote cite{font-style:normal;font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--red)}
 .nlist{display:flex;flex-direction:column;gap:7px}
 .nitem{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:baseline;font-size:.84rem;color:var(--muted)}
 .subs{display:flex;flex-direction:column;gap:6px}
 .sub{border:1px solid var(--line);border-radius:3px;background:var(--paper)}
-.sub>summary{cursor:pointer;padding:9px 11px;font-weight:500;font-size:.9rem;list-style:none;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.sub>summary{cursor:pointer;padding:9px 11px;font-weight:600;font-size:.92rem;list-style:none;display:flex;justify-content:space-between;gap:8px;align-items:center}
 .sub>summary::-webkit-details-marker{display:none}
 .chev{width:14px;height:14px;stroke:var(--muted);fill:none;transition:transform .2s;flex:none}
 details[open]>summary .chev{transform:rotate(180deg)}
-.sub .sb{padding:0 11px 11px;font-size:.87rem;display:flex;flex-direction:column;gap:6px}
+.sub .sb{padding:0 11px 11px;font-size:.9rem;display:flex;flex-direction:column;gap:6px}
 .sub .sb p{margin:0}
 .sub .sub{background:var(--surface)}
-.leaf{padding:8px 11px;border:1px solid var(--line);border-radius:3px;background:var(--paper);font-size:.87rem}
+.leaf{padding:9px 12px;border:1px solid var(--line);border-radius:3px;background:var(--paper);font-size:.9rem;line-height:1.5}
 .leaf b{display:block;font-weight:600;font-size:.88rem;margin-bottom:1px}
 .ojo{background:var(--red-soft);border-radius:3px;padding:11px 13px;font-size:.87rem}
 .ojo b{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red);display:block;margin-bottom:3px}
@@ -149,14 +151,14 @@ details[open]>summary .chev{transform:rotate(180deg)}
 .chip small{font-family:var(--mono);font-size:.62rem;color:var(--muted)}
 .chip:hover{border-color:var(--blue);color:var(--blue)}
 .chip.par{background:var(--blue-soft);border-color:transparent;color:var(--blue)}
-.mod-desc{font-family:var(--serif);font-size:1.2rem;line-height:1.35;color:var(--muted);margin:0}
+.mod-desc{font-family:var(--text);font-size:1.02rem;line-height:1.55;color:var(--muted);margin:0}
 .glist{display:flex;flex-direction:column;gap:2px}
 .gname{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
 .gname:first-child{margin-top:0}
 .citem{display:grid;grid-template-columns:14px 1fr;gap:10px;align-items:start;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:9px 2px;cursor:pointer;width:100%}
 .citem:hover .ct{color:var(--blue)}
 .citem .d{width:9px;height:9px;border-radius:50%;border:1.2px solid var(--ink);margin-top:6px}
-.citem .ct{font-family:var(--serif);font-size:1.12rem;line-height:1.2}
+.citem .ct{font-family:var(--sans);font-weight:500;font-size:.95rem;line-height:1.3}
 .citem .tags{margin-top:4px}
 .pager{display:flex;justify-content:space-between;gap:8px;margin-top:16px}
 .ghost{border:1px solid var(--line);background:var(--paper);border-radius:3px;padding:6px 10px;font-size:.8rem;cursor:pointer}
@@ -171,7 +173,7 @@ details[open]>summary .chev{transform:rotate(180deg)}
 .dialog .p-head{padding:22px 28px 16px}
 .dialog .p-head h2{font-size:2.6rem}
 .dialog .p-body{padding:4px 28px 8px}
-.dialog .def{font-size:1.42rem}
+.dialog .def{font-size:1.2rem}
 .d-foot{position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:12px 28px;display:flex;justify-content:space-between;gap:10px;align-items:center}
 .d-foot .eyebrow{font-size:.6rem}
 @media (max-width:520px){.modal{padding:12px 8px}.dialog .p-head,.dialog .p-body,.d-foot{padding-left:18px;padding-right:18px}.dialog .p-head h2{font-size:2rem}.d-foot .eyebrow{display:none}}
@@ -238,7 +240,7 @@ tbody tr:last-child td,tbody tr:last-child th{border-bottom:0}
 .authors{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
 .author{padding:18px;display:flex;flex-direction:column;gap:10px}
 .author h3{font-family:var(--serif);font-size:1.6rem;line-height:1.05}
-.author blockquote{margin:0;font-family:var(--serif);font-style:italic;font-size:1.1rem;line-height:1.38;border-left:2px solid var(--red);padding-left:12px}
+.author blockquote{margin:0;font-family:var(--text);font-style:italic;font-size:1rem;line-height:1.55;border-left:2px solid var(--red);padding-left:12px}
 .keys{padding:16px 20px}
 .keys ol{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.9rem}
 
@@ -1134,7 +1136,7 @@ function renderResults(){
 /* =========================================================
    EXPLORADOR RADIAL
    ========================================================= */
-const C = 550, R_IN = 118, R_S0 = 150, R_S1 = 244, R_TRACK = 300, R_G = 322, R_N = 346, R_L = 362;
+const C = 600, R_IN = 132, R_CORE = 100, R_S0 = 158, R_S1 = 252, R_TRACK = 308, R_G = 330, R_N = 354, R_L = 371;
 const P = (r, a) => [C + r*Math.cos(a*Math.PI/180), C + r*Math.sin(a*Math.PI/180)];
 const f = n => n.toFixed(2);
 function arcPath(r, a0, a1, sweep=1){ const [x0,y0]=P(r,a0),[x1,y1]=P(r,a1); return `M${f(x0)},${f(y0)} A${r},${r} 0 ${Math.abs(a1-a0)>180?1:0} ${sweep} ${f(x1)},${f(y1)}`; }
@@ -1144,7 +1146,7 @@ function sectorPath(a0,a1){
 }
 function staticLayer(){
   let s = `<g class="rings">`;
-  for (let r = 8; r <= R_IN; r += 5.5) s += `<circle cx="${C}" cy="${C}" r="${f(r)}" stroke-width="${r+5.5>R_IN?1:.45}" opacity="${r+5.5>R_IN?.9:(.12+.3*r/R_IN).toFixed(2)}"/>`;
+  for (let r = R_CORE+5; r <= R_IN; r += 4.5) s += `<circle cx="${C}" cy="${C}" r="${f(r)}" stroke-width="${r+4.5>R_IN?1:.45}" opacity="${r+4.5>R_IN?.85:(.18+.35*(r-R_CORE)/(R_IN-R_CORE)).toFixed(2)}"/>`;
   s += `</g><g class="scale">`;
   for (let k = 0; k < 120; k++){
     const a = k*3 - 90, L = k%10===0; const [x0,y0]=P(R_S1+8,a),[x1,y1]=P(R_S1+(L?22:15),a);
@@ -1163,19 +1165,18 @@ function staticLayer(){
       <text><textPath href="#sl${i}" startOffset="50%" text-anchor="middle">${MODNAME[m.id]}</textPath></text>
       <text class="no"><textPath href="#sn${i}" startOffset="50%" text-anchor="middle">${String(i+1).padStart(2,"0")}</textPath></text></g>`;
   });
-  s += `</g><g class="center" id="center" tabindex="0" role="button" aria-label="Ver el tema actual"><circle class="disc" cx="${C}" cy="${C}" r="${R_IN-40}" opacity="0"/><g id="centerText"></g></g>
+  s += `</g><g class="center" id="center" tabindex="0" role="button" aria-label="Ver el tema actual"><circle class="core" cx="${C}" cy="${C}" r="${R_CORE}"/><g id="centerText"></g></g>
   <g id="dyn"></g>`;
   return s;
 }
 function wrapWords(t, max){ const out=[]; let line=""; for (const w of t.split(" ")){ if ((line+" "+w).trim().length>max && line){ out.push(line); line=w; } else line=(line+" "+w).trim(); } if (line) out.push(line); return out; }
 function centerLayer(){
   const m = MODS.find(x=>x.id===state.mod);
-  const lines = wrapWords(m.t.replace(/,.*$/,""), 13).slice(0,3);
-  const y0 = C - (lines.length-1)*15 + 6;
-  return `<rect x="${C-100}" y="${C-70}" width="200" height="140" fill="var(--surface)" opacity=".86" rx="4"/>
-    <text class="cs" x="${C}" y="${y0-34}">TEMA ${m.no}</text>` +
-    lines.map((l,i)=>`<text class="ct" x="${C}" y="${y0+i*30}">${esc(l)}</text>`).join("") +
-    `<text class="cs" x="${C}" y="${y0+lines.length*30+4}">${modIds(m).length} CONCEPTOS</text>`;
+  const name = MODNAME[m.id].charAt(0) + MODNAME[m.id].slice(1).toLowerCase();
+  return `<text class="cs" x="${C}" y="${C-30}">TEMA ${esc(m.no)}</text>
+    <text class="ct" x="${C}" y="${C+11}">${esc(name)}</text>
+    <line x1="${C-22}" y1="${C+28}" x2="${C+22}" y2="${C+28}" stroke="var(--red)" stroke-width="1.2"/>
+    <text class="cs" x="${C}" y="${C+48}">${modIds(m).length} CONCEPTOS</text>`;
 }
 function dynLayer(){
   const m = MODS.find(x=>x.id===state.mod), mi = MODS.indexOf(m);
@@ -1221,7 +1222,7 @@ function renderExplorar(){
   const m = MODS.find(x=>x.id===state.mod);
   return `<p class="lede">Elige un <em>tema</em> en el anillo y sus conceptos se despliegan alrededor. Toca un concepto y se abre una ventana con su definición, doctrina y normas; sus conexiones quedan marcadas en azul.</p>
   <section class="stage"><div class="stage-meta"><span class="eyebrow">Derecho Procesal Orgánico</span><span class="eyebrow">8 temas · ${Object.keys(N).length} conceptos</span></div>
-    <svg id="radial" viewBox="0 0 1100 1100" role="group" aria-label="Mapa radial de temas">${staticLayer()}</svg>
+    <svg id="radial" viewBox="0 0 1200 1200" role="group" aria-label="Mapa radial de temas">${staticLayer()}</svg>
     <div class="hint"><span><i></i>Concepto</span><span><i class="s"></i>Seleccionado</span><span><i class="r"></i>Conectado</span><span>Los arcos exteriores agrupan subtemas</span></div>
   </section>
   <div class="mnav">${MODS.map((x,i)=>`<button class="mbtn" data-mod="${x.id}" aria-pressed="${x.id===state.mod}"><small>${String(i+1).padStart(2,"0")}</small>${esc(MODNAME[x.id].charAt(0)+MODNAME[x.id].slice(1).toLowerCase())}</button>`).join("")}</div>
