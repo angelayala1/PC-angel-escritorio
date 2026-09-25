@@ -1,0 +1,1262 @@
+<title>Mapa Procesal Orgánico</title>
+<meta name="description" content="Esquema interactivo de Derecho Procesal Orgánico chileno: conceptos, doctrina, normas CPR/COT/CPC, tribunales, reglas de descarte, bases y auxiliares.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+<style>
+:root{
+  --bg:#F1F3F6; --surface:#FFFFFF; --surface2:#E8ECF2; --ink:#172033; --muted:#566076; --line:#D3D9E3;
+  --accent:#22406E; --accent-ink:#FFFFFF; --accent-soft:#DCE5F3; --focus:#2F6FDB;
+  --cpr:#B3261E; --cpr-bg:#FBE5E3; --cot:#1D5FB0; --cot-bg:#E1ECFA; --cpc:#1E7A4C; --cpc-bg:#DDF2E6;
+  --cc:#6B3FA0; --cc-bg:#EEE5F8; --pp:#8A5200; --pp-bg:#FBEFD9; --oth:#4E5666; --oth-bg:#E8EBF0;
+  --warn:#8A5200; --warn-bg:#FFF4DC; --shadow:0 1px 2px rgba(23,32,51,.06),0 6px 24px rgba(23,32,51,.08);
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif; --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --bg:#0F141C; --surface:#171E29; --surface2:#1F2835; --ink:#E6EAF1; --muted:#9AA5B8; --line:#2C3747;
+  --accent:#8FB0E3; --accent-ink:#0F141C; --accent-soft:#22314A; --focus:#8FB0E3;
+  --cpr:#F2A49D; --cpr-bg:#3A1C1B; --cot:#9CC2F5; --cot-bg:#16263D; --cpc:#8FD6AE; --cpc-bg:#14301F;
+  --cc:#C9ABEE; --cc-bg:#2A1F3A; --pp:#EDC27A; --pp-bg:#33260F; --oth:#B4BCCB; --oth-bg:#252C38;
+  --warn:#EDC27A; --warn-bg:#2E2412; --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 24px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0F141C; --surface:#171E29; --surface2:#1F2835; --ink:#E6EAF1; --muted:#9AA5B8; --line:#2C3747;
+  --accent:#8FB0E3; --accent-ink:#0F141C; --accent-soft:#22314A; --focus:#8FB0E3;
+  --cpr:#F2A49D; --cpr-bg:#3A1C1B; --cot:#9CC2F5; --cot-bg:#16263D; --cpc:#8FD6AE; --cpc-bg:#14301F;
+  --cc:#C9ABEE; --cc-bg:#2A1F3A; --pp:#EDC27A; --pp-bg:#33260F; --oth:#B4BCCB; --oth-bg:#252C38;
+  --warn:#EDC27A; --warn-bg:#2E2412; --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+h1,h2,h3,h4{text-wrap:balance;margin:0}
+.wrap{max-width:1440px;margin:0 auto;padding-inline:20px;padding-block:0 40px}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:1440px;margin:0 auto;padding-inline:20px;padding-block:14px 0;display:flex;flex-direction:column;gap:12px}
+.brand{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;justify-content:space-between}
+.brand h1{font-family:var(--serif);font-weight:700;font-size:1.55rem;letter-spacing:-.01em}
+.brand h1 small{font-family:var(--mono);font-weight:500;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-left:10px;vertical-align:middle}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.search{position:relative}
+.search input{font:inherit;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 10px 7px 32px;width:260px;max-width:100%}
+.search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--muted);fill:none}
+.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.filters span{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.fbtn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 10px;font-family:var(--mono);font-size:.76rem;font-weight:600;cursor:pointer}
+.fbtn[aria-pressed="true"]{background:var(--c-bg);color:var(--c);border-color:var(--c)}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:0;background:none;padding:9px 14px;font-weight:600;font-size:.9rem;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab:hover{color:var(--ink)}
+
+/* layout */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:24px;align-items:start;padding-top:20px}
+.layout.nopanel{grid-template-columns:minmax(0,1fr)}
+.main{min-width:0;display:flex;flex-direction:column;gap:18px}
+.lede{font-family:var(--serif);font-size:1.05rem;color:var(--muted);max-width:70ch;margin:0}
+
+/* norm tags */
+.tag{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:.72rem;font-weight:600;line-height:1;padding:4px 7px;border-radius:5px;background:var(--c-bg);color:var(--c);border:1px solid transparent;white-space:nowrap}
+.tag b{font-weight:700;letter-spacing:.03em}
+.tag.x{border:1px dashed var(--c);background:transparent}
+.c-CPR{--c:var(--cpr);--c-bg:var(--cpr-bg)} .c-COT{--c:var(--cot);--c-bg:var(--cot-bg)} .c-CPC{--c:var(--cpc);--c-bg:var(--cpc-bg)}
+.c-CC{--c:var(--cc);--c-bg:var(--cc-bg)} .c-NCPP{--c:var(--pp);--c-bg:var(--pp-bg)} .c-OTH{--c:var(--oth);--c-bg:var(--oth-bg)}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+
+/* modules */
+.mod{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.mod>summary{list-style:none;cursor:pointer;padding:14px 18px;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}
+.mod>summary::-webkit-details-marker{display:none}
+.mod-no{font-family:var(--mono);font-weight:600;font-size:.8rem;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:4px 8px;min-width:2.6em;text-align:center}
+.mod-t h2{font-family:var(--serif);font-size:1.18rem;font-weight:700}
+.mod-t p{margin:2px 0 0;color:var(--muted);font-size:.86rem}
+.chev{width:18px;height:18px;stroke:var(--muted);fill:none;transition:transform .2s}
+details[open]>summary .chev{transform:rotate(180deg)}
+.mod-body{padding:4px 18px 18px;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--line)}
+.grp h3{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:12px 0 8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.card{text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;cursor:pointer;display:flex;flex-direction:column;gap:7px;transition:border-color .15s,transform .15s,opacity .15s}
+.card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.card.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft);background:var(--surface)}
+.card.dim{opacity:.32}
+.card .k{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card .t{font-family:var(--serif);font-weight:600;font-size:1.02rem;line-height:1.25}
+.card .d{font-size:.83rem;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.keys{background:var(--warn-bg);border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+.keys h2{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--warn);font-weight:700;margin-bottom:8px}
+.keys ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;font-size:.9rem}
+.bar{display:flex;gap:8px;flex-wrap:wrap}
+.ghost{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 11px;font-size:.84rem;cursor:pointer;font-weight:500}
+.ghost:hover{border-color:var(--accent)}
+.empty{padding:30px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:12px}
+
+/* panel */
+.panel{position:sticky;top:calc(env(safe-area-inset-top,0px) + 130px);max-height:calc(100vh - 150px);overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.p-head{padding:18px 20px 14px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:8px;position:sticky;top:0;background:var(--surface);z-index:1}
+.p-head .row{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.p-head .k{font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.p-head h2{font-family:var(--serif);font-size:1.45rem;font-weight:700;line-height:1.15}
+.x-btn{border:1px solid var(--line);background:var(--bg);border-radius:8px;width:32px;height:32px;display:grid;place-items:center;cursor:pointer;flex:none}
+.x-btn svg{width:14px;height:14px;stroke:currentColor;fill:none}
+.p-body{padding:6px 20px 22px;display:flex;flex-direction:column}
+.p-sec{padding:14px 0;border-bottom:1px solid var(--line)}
+.p-sec:last-child{border-bottom:0}
+.p-sec>h3{font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
+.def{font-family:var(--serif);font-size:1.02rem;line-height:1.55;margin:0}
+.quote{margin:0 0 10px;padding:10px 12px;background:var(--bg);border-radius:8px;border:1px solid var(--line)}
+.quote:last-child{margin-bottom:0}
+.quote p{font-family:var(--serif);font-style:italic;margin:0 0 6px;font-size:.98rem}
+.quote cite{font-style:normal;font-size:.78rem;font-weight:700;color:var(--accent);letter-spacing:.02em}
+.nlist{display:flex;flex-direction:column;gap:7px}
+.nitem{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;font-size:.86rem}
+.nitem .note{color:var(--muted)}
+.subs{display:flex;flex-direction:column;gap:6px}
+.sub{border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.sub>summary{cursor:pointer;padding:8px 10px;font-weight:600;font-size:.9rem;list-style:none;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.sub>summary::-webkit-details-marker{display:none}
+.sub>summary .chev{width:14px;height:14px}
+.sub .sb{padding:0 10px 10px;font-size:.87rem;color:var(--ink);display:flex;flex-direction:column;gap:6px}
+.sub .sb p{margin:0}
+.sub .sub{background:var(--surface)}
+.leaf{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-size:.87rem}
+.leaf b{display:block;font-size:.9rem;margin-bottom:2px}
+.ojo{background:var(--warn-bg);border-radius:8px;padding:10px 12px;font-size:.87rem}
+.ojo b{color:var(--warn)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:4px 10px;font-size:.8rem;cursor:pointer;font-weight:500}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip.par{background:var(--accent-soft);border-color:transparent;color:var(--accent);font-weight:600}
+.p-empty{padding:28px 22px;color:var(--muted);font-size:.92rem;display:flex;flex-direction:column;gap:12px}
+.p-empty h2{font-family:var(--serif);color:var(--ink);font-size:1.2rem}
+.legend{display:flex;flex-direction:column;gap:6px}
+.legend div{display:flex;gap:10px;align-items:center;font-size:.85rem}
+.scrim{display:none}
+
+/* pyramid */
+.pyr{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px}
+.tiers{display:flex;flex-direction:column;align-items:center;gap:8px}
+.tier{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;width:100%}
+.blk{border:1px solid var(--accent);background:var(--accent-soft);color:var(--ink);border-radius:8px;padding:10px 12px;cursor:pointer;text-align:center;display:flex;flex-direction:column;gap:2px;min-width:0}
+.blk:hover,.blk.on{background:var(--accent);color:var(--accent-ink)}
+.blk b{font-family:var(--serif);font-size:1rem}
+.blk small{font-size:.74rem;opacity:.85}
+.blk.acc{border-style:dashed;background:transparent}
+.blk.acc:hover,.blk.acc.on{background:var(--accent);color:var(--accent-ink)}
+.side-col{display:flex;flex-direction:column;gap:12px}
+.box{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.box h3{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.mini{display:flex;flex-wrap:wrap;gap:6px}
+.mini button{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:4px 8px;font-size:.8rem;cursor:pointer}
+.mini button:hover{border-color:var(--accent)}
+.mini .no{border-style:dashed}
+.axis{font-family:var(--mono);font-size:.7rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.classes{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+
+/* flow */
+.flowgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:start}
+.flow{display:flex;flex-direction:column;gap:0}
+.step{position:relative;padding-left:44px;padding-bottom:16px}
+.step::before{content:"";position:absolute;left:15px;top:30px;bottom:0;width:2px;background:var(--line)}
+.step:last-child::before{display:none}
+.step .n{position:absolute;left:0;top:0;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:.8rem;background:var(--surface);border:2px solid var(--line);color:var(--muted)}
+.step.done .n{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.step.cur .n{border-color:var(--accent);color:var(--accent)}
+.step.res .n{background:var(--cpc);border-color:var(--cpc);color:var(--surface)}
+.sbox{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.step.cur .sbox{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.step.res .sbox{border-color:var(--cpc)}
+.sbox .lbl{font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.sbox .q{font-family:var(--serif);font-weight:600;font-size:1.05rem}
+.sbox .ans{font-size:.85rem;color:var(--muted)}
+.sbox .ans b{color:var(--ink)}
+.opts{display:flex;gap:8px;flex-wrap:wrap}
+.opt{border:1px solid var(--accent);background:var(--surface);color:var(--accent);border-radius:8px;padding:7px 12px;cursor:pointer;font-weight:600;font-size:.86rem}
+.opt:hover{background:var(--accent);color:var(--accent-ink)}
+.link{background:none;border:0;padding:0;color:var(--accent);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:.84rem;text-align:left}
+.overview{display:flex;flex-direction:column;gap:10px}
+.ov{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.ov h3{font-family:var(--serif);font-size:1rem;margin-bottom:6px}
+.ov ol{margin:0;padding-left:20px;font-size:.87rem;display:flex;flex-direction:column;gap:4px}
+.ov .tags{margin-top:8px}
+.proc{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.sectitle{font-family:var(--serif);font-size:1.25rem;font-weight:700;margin-top:6px}
+
+/* compare */
+.cmpnav{display:flex;flex-wrap:wrap;gap:6px}
+.cmpnav button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:.84rem;cursor:pointer;font-weight:500}
+.cmpnav button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.cmp{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.cmp-h{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.cmp-h h2{font-family:var(--serif);font-size:1.3rem}
+.cmp-h p{margin:0;color:var(--muted);font-size:.9rem}
+.tblw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.88rem}
+th,td{padding:10px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+thead th{background:var(--surface2);font-family:var(--serif);font-size:1rem;cursor:pointer}
+thead th:first-child{cursor:default;font-family:var(--sans);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);width:150px}
+thead th .tags{margin-top:5px}
+tbody th{font-weight:700;font-size:.8rem;color:var(--muted);letter-spacing:.02em;background:var(--bg)}
+tbody tr:last-child td,tbody tr:last-child th{border-bottom:0}
+tbody td:nth-child(2){border-left:3px solid var(--accent-soft)}
+
+/* authors */
+.authors{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.author{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.author h3{font-family:var(--serif);font-size:1.15rem}
+.author .role{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.author blockquote{margin:0;font-family:var(--serif);font-style:italic;font-size:.98rem;border-left:3px solid var(--accent-soft);padding-left:12px}
+
+@media (max-width:1060px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .panel{position:fixed;left:0;right:0;bottom:0;top:auto;max-height:82vh;border-radius:16px 16px 0 0;z-index:40;transform:translateY(105%);transition:transform .25s;padding-bottom:env(safe-area-inset-bottom,0px)}
+  .panel.open{transform:none}
+  .scrim{display:block;position:fixed;inset:0;background:rgba(10,14,22,.45);z-index:35;opacity:0;pointer-events:none;transition:opacity .2s}
+  .scrim.open{opacity:1;pointer-events:auto}
+  .panel .p-empty{display:none}
+}
+@media (max-width:820px){
+  .pyr,.flowgrid{grid-template-columns:minmax(0,1fr)}
+  .search input{width:100%}
+  .search{flex:1 1 200px}
+  .brand h1 small{display:block;margin:4px 0 0}
+}
+@media (max-width:480px){
+  .wrap,.top-in{padding-inline:16px}
+  .mod>summary{padding:12px 14px;gap:10px}
+  .mod-body{padding:4px 14px 14px}
+  .cards{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <h1>Mapa Procesal Orgánico <small>COT · CPR · CPC</small></h1>
+      <div class="tools">
+        <label class="search" for="q"><svg viewBox="0 0 24 24" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="Buscar concepto, autor o artículo…" autocomplete="off"></label>
+      </div>
+    </div>
+    <div class="filters" id="filters"><span>Resaltar norma</span></div>
+    <nav class="tabs" role="tablist" id="tabs"></nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="layout" id="layout">
+    <main class="main" id="main"></main>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </div>
+</div>
+<div class="scrim" id="scrim"></div>
+
+<script>
+/* =========================================================
+   DATOS — extraídos del apunte "Derecho Procesal Orgánico".
+   Normas: "COD art". Prefijo * = referencia complementaria
+   (no citada en el apunte; se agrega como respaldo legal).
+   ========================================================= */
+const MODS = [
+ {id:"m1", no:"I–II", t:"Conflicto, litigio y formas de solución", d:"Del choque de intereses al litigio; autotutela, autocomposición y heterocomposición.", groups:[
+   ["El conflicto", ["conflicto","litigio"]],
+   ["Formas de solución", ["autotutela","autocomposicion","heterocomposicion"]],
+   ["Autocomposición unilateral", ["renuncia","desistimiento","allanamiento"]],
+   ["Autocomposición bilateral", ["transaccion","mediacion","avenimiento","conciliacion"]]
+ ]},
+ {id:"m2", no:"III–VII", t:"Proceso, derecho procesal y fuentes", d:"El proceso y sus conceptos satélite; características, fuentes y ley procesal en el tiempo y el espacio.", groups:[
+   ["El proceso", ["proceso","accion","pretension","debidoproceso"]],
+   ["El Derecho Procesal", ["derechoprocesal","caracteristicasdp","relaciones"]],
+   ["Fuentes", ["fuentesind","fuentesdir","autosacordados"]],
+   ["Ley procesal", ["leytiempo","leyespacio"]]
+ ]},
+ {id:"m3", no:"VIII–XII", t:"Jurisdicción", d:"Concepto, elementos, momentos, características, límites, equivalentes y facultades conexas.", groups:[
+   ["Núcleo", ["jurisdiccion","elementosjur","momentos","caracjur"]],
+   ["Límites y conflictos", ["limitesjur","conflictosjur"]],
+   ["Figuras vecinas", ["equivalentes","funciones","contencioso","nocontencioso"]],
+   ["Facultades conexas (Art. 3 COT)", ["fconservadoras","fdisciplinarias","feconomicas"]]
+ ]},
+ {id:"m4", no:"XIII–XX", t:"Competencia", d:"La medida de la jurisdicción: clasificaciones, reglas generales, absoluta, relativa, incompetencia e inhabilidades.", groups:[
+   ["Concepto y clasificación", ["competencia","clasifcomp","absrel"]],
+   ["Reglas generales (Arts. 109-114 COT)", ["radicacion","grado","extension","prevencion","ejecucion"]],
+   ["Competencia absoluta", ["cuantia","materia","fuero"]],
+   ["Competencia relativa", ["prorroga","relcivil","relnc","relpenal"]],
+   ["Incompetencia y conflictos", ["incompetencia","cuestiones","contiendas","distribucion"]],
+   ["Competencia subjetiva", ["implicancias","recusaciones"]]
+ ]},
+ {id:"m5", no:"III · XXI · XXV–XXVIII", t:"Tribunales", d:"Estructura piramidal, clasificaciones, tribunales ordinarios en particular y tramitación en los colegiados.", groups:[
+   ["Estructura (Art. 5 COT)", ["ordinarios","especiales","arbitrales","clasiftrib"]],
+   ["Ordinarios en particular", ["cs","ca","unipersonales","jletras","jgarantia","top"]],
+   ["Tramitación en tribunales colegiados", ["cuentavista","vistacausa","acuerdos","discordia"]]
+ ]},
+ {id:"m6", no:"XXII–XXIV", t:"Bases de la jurisdicción y estatuto del juez", d:"Los principios que sostienen el ejercicio de la jurisdicción, su continuidad y el régimen de los jueces.", groups:[
+   ["Bases orgánicas", ["legalidad","independencia","inamovilidad","responsabilidad","territorialidad","jerarquia","publicidad","sedentariedad","pasividad","competenciacomun","inavocabilidad","inexcusabilidad","gratuidad","autogeneracion"]],
+   ["Continuatividad", ["subrogacion","integracion"]],
+   ["Estatuto de los jueces", ["nombramiento","prohibiciones","obligaciones"]]
+ ]},
+ {id:"m7", no:"XXIX · XXXI", t:"Arbitraje", d:"Jueces árbitros: clases, procedencia, fuentes, compromiso, tramitación y recursos.", groups:[
+   ["Concepto y clases", ["arbitros","arbclasesfallo","arbprocedencia","arbrequisitos"]],
+   ["Fuentes y nacimiento", ["arbfuentes","compromiso","clausula","compromisario","arbdesarrollo"]],
+   ["Tramitación y recursos", ["arbtramite","arbdesacuerdo","arbrecursos"]]
+ ]},
+ {id:"m8", no:"XXXII–XXXIII", t:"Auxiliares de la administración de justicia", d:"Quién asiste al tribunal y qué hace cada uno. Y por qué el abogado no es auxiliar.", groups:[
+   ["Auxiliares (Art. 5 COT)", ["fiscalia","defensores","relatores","secretarios","administradores","receptores","procuradores","notarios","conservadores","archiveros"]],
+   ["Profesión", ["abogados"]]
+ ]}
+];
+
+const N = {
+/* ---------------- MÓDULO 1 ---------------- */
+conflicto:{t:"Conflicto de intereses", k:"Punto de partida", d:"Necesidad no satisfecha que genera un choque de intereses. Es el antecedente de todo el Derecho Procesal.",
+ n:["*CPR 76","*COT 1"],
+ sub:[["Conflicto interno","El propio sujeto pondera y resuelve, sacrificando un interés menor por uno mayor."],
+      ["Conflicto externo","Concurren intereses discrepantes de dos o más personas, manifestados en acciones u omisiones.",[
+        ["Sin relevancia jurídica","No hay violación al derecho."],
+        ["Con relevancia jurídica","Hay quebrantamiento del ordenamiento que requiere solución para mantener la paz social: es el LITIGIO."]]]],
+ r:["litigio","autotutela","autocomposicion","heterocomposicion"]},
+litigio:{t:"Litigio", k:"Concepto clave", d:"Conflicto externo con relevancia jurídica. Su nota central es la pretensión de una parte y la resistencia de la otra a satisfacerla.",
+ doc:[["Francisco Hoyos","Conflicto intersubjetivo de intereses, jurídicamente trascendente, reglado por el derecho objetivo, y caracterizado por la existencia de una pretensión resistida."]],
+ n:["*CPR 76","*COT 1"],
+ sub:[["Elementos",null,[["Pretensión","Exigencia de una parte de subordinar el interés ajeno al propio."],["Resistencia","Oposición de la otra parte a satisfacerla."]]]],
+ r:["conflicto","pretension","proceso","jurisdiccion"]},
+autotutela:{t:"Autotutela (autodefensa)", k:"Forma de solución", d:"Una parte impone su decisión sobre la otra, generalmente por la fuerza, sin un tercero imparcial.",
+ doc:[["Eduardo Couture","Reacción directa y personal de quien se hace justicia con manos propias."]],
+ n:["CPR 1","CPR 19 N°1, 2, 3","CPR 76","COT 1"],
+ sub:[["Características",null,[["Sin tercero imparcial","No hay un tercero distinto a las partes."],["Imposición","La decisión de una parte se impone sobre la otra."]]],
+      ["Clasificación (excepciones legales)",null,[["Lícita o autorizada","Ej.: legítima defensa."],["Tolerada","Ej.: guerra defensiva."],["Prohibida","Ej.: delito de usurpación."]]]],
+ ojo:"En Chile, por regla general está prohibida y sancionada civil y penalmente: la CPR y la ley exigen que los conflictos los resuelva un tribunal.",
+ r:["autocomposicion","heterocomposicion","jurisdiccion"]},
+autocomposicion:{t:"Autocomposición", k:"Forma de solución", d:"Forma pacífica por la cual ambas partes, de mutuo acuerdo, o una de ellas, deciden poner término al litigio.",
+ doc:[["Gimeno Sendra","Forma mediante la cual ambas partes (por mutuo acuerdo) o una de ellas, deciden poner término al litigio."]],
+ n:["CPC 7 inc. 2","*CC 1445"],
+ sub:[["Características",null,[["Pacífica y directa","La llevan a cabo las partes."],["Voluntad libre","La fuerza física o moral la invalida."],["Capacidad","Rige el Código Civil; el mandatario judicial requiere facultades especiales (Art. 7 inc. 2 CPC)."],["En el proceso penal","Salidas alternativas: suspensión condicional, acuerdos reparatorios, principio de oportunidad y procedimiento abreviado."]]],
+      ["Según su relación con el proceso",null,[["Extraprocesal","Antes del juicio."],["Intraprocesal","Durante el proceso declarativo; requiere resolución judicial que la apruebe."],["Posprocesal","Desde la sentencia firme y durante su ejecución."]]],
+      ["Unilaterales",null,[["Renuncia",""],["Desistimiento",""],["Allanamiento",""]]],
+      ["Bilaterales",null,[["Transacción","Extrajudicial directa."],["Mediación","Extrajudicial indirecta."],["Avenimiento","Judicial directa."],["Conciliación","Judicial indirecta."]]]],
+ r:["renuncia","desistimiento","allanamiento","transaccion","mediacion","avenimiento","conciliacion"], par:["bilateral"]},
+renuncia:{t:"Renuncia", k:"Autocomposición unilateral", d:"Abandono de la pretensión antes de hacerla valer.",
+ n:["CC 12"],
+ sub:[["Materia civil","Renuncia a la pretensión antes de hacerla valer (Art. 12 CC)."],["Materia penal","Renunciar a la acción penal privada o a la civil extingue la acción; en la acción penal pública la renuncia del ofendido no la extingue para el Ministerio Público."]],
+ r:["desistimiento","allanamiento","autocomposicion"]},
+desistimiento:{t:"Desistimiento", k:"Autocomposición unilateral", d:"Renuncia que efectúa el demandante a la pretensión ya hecha valer en su demanda.",
+ n:["*CPC 148-151"],
+ sub:[["Tramitación","Requiere tramitación incidental y una sentencia interlocutoria que lo acepte."]],
+ r:["renuncia","allanamiento","autocomposicion"]},
+allanamiento:{t:"Allanamiento", k:"Autocomposición unilateral", d:"El demandado reconoce y se somete a la pretensión del actor.",
+ n:["CPC 313"],
+ sub:[["Efecto principal","Elimina la etapa probatoria (Art. 313 CPC)."],["Límite","No opera así si hay interés de orden público comprometido (ej.: nulidad de matrimonio)."]],
+ r:["renuncia","desistimiento","autocomposicion"]},
+transaccion:{t:"Transacción", k:"Bilateral · extrajudicial directa", d:"Contrato por el cual las partes precaven un litigio eventual o terminan uno pendiente, haciéndose concesiones recíprocas.",
+ n:["CC 2446","CC 2460"],
+ sub:[["Naturaleza","Contrato procesal. Requiere facultades especiales del mandato."],["Efecto","Cosa juzgada de última instancia (Art. 2460 CC)."],["Como título ejecutivo","Para tener acción de cosa juzgada debe celebrarse por escritura pública."]],
+ ojo:"El apunte cita el concepto como Art. 2466 CC; la definición legal de la transacción está en el Art. 2446 CC. Es el equivalente jurisdiccional por excelencia.",
+ r:["mediacion","avenimiento","conciliacion","equivalentes"], par:["bilateral"]},
+mediacion:{t:"Mediación", k:"Bilateral · extrajudicial indirecta", d:"Un tercero imparcial (mediador) ayuda a las partes a negociar un acuerdo mutuamente aceptable.",
+ n:["*Ley 19.968"],
+ sub:[["Características","Confidencial, de formalidad flexible, voluntaria u obligatoria según la ley (ej.: Tribunales de Familia)."]],
+ r:["transaccion","avenimiento","conciliacion"], par:["bilateral"]},
+avenimiento:{t:"Avenimiento", k:"Bilateral · judicial directa", d:"Acuerdo logrado directamente por las partes fuera del juicio, que presentan al tribunal para ponerle fin.",
+ n:["*CPC 434 N°3"],
+ sub:[["Naturaleza","Acto jurídico procesal bilateral."],["Efecto","Pasado ante tribunal competente, pone término al proceso y produce cosa juzgada."]],
+ r:["transaccion","conciliacion","equivalentes"], par:["bilateral"]},
+conciliacion:{t:"Conciliación", k:"Bilateral · judicial indirecta", d:"Acto jurídico bilateral en que las partes, a iniciativa del juez que conoce el proceso, le ponen fin por mutuo acuerdo.",
+ n:["CPC 267","*CPC 262"],
+ sub:[["Límite","Las partes solo componen sobre las pretensiones debatidas en el juicio."],["Efecto","El acta se estima sentencia ejecutoriada para todos los efectos legales (Art. 267 CPC)."]],
+ r:["avenimiento","transaccion","equivalentes"], par:["bilateral"]},
+heterocomposicion:{t:"Heterocomposición", k:"Forma de solución", d:"Las partes acuden a un tercero (individual o colegiado) que, tras tramitar un proceso, emite una decisión obligatoria: la sentencia.",
+ n:["CPR 76","COT 1","COT 5"],
+ sub:[["Tercero estatal","Tribunales ordinarios y especiales."],["Tercero privado con jurisdicción","Tribunales arbitrales (Art. 222 COT)."]],
+ r:["proceso","jurisdiccion","ordinarios","arbitros"]},
+
+/* ---------------- MÓDULO 2 ---------------- */
+proceso:{t:"Proceso", k:"Medio formal", d:"Secuencia o serie de actos que se desenvuelven progresivamente, con el objeto de resolver, mediante un juicio de autoridad, el conflicto sometido a su decisión.",
+ doc:[["Piero Calamandrei","Trilogía procesal: la Acción pone en movimiento el sistema, la Jurisdicción es la actividad de juzgar y el Proceso es el medio formal."]],
+ n:["CPR 19 N°3","CPR 76"],
+ sub:[["Conceptos ligados",null,[["Jurisdicción","Poder-deber de conocer, resolver y ejecutar con efecto de cosa juzgada."],["Acción","Derecho subjetivo público para poner en movimiento la actividad jurisdiccional."],["Pretensión","Declaración de voluntad que pide la actuación del órgano (Guasp)."],["Debido proceso","Nadie puede ser condenado sin saber que existe un proceso y sin posibilidad cierta de defensa."]]]],
+ r:["accion","pretension","debidoproceso","jurisdiccion","heterocomposicion"]},
+accion:{t:"Acción", k:"Concepto ligado al proceso", d:"Derecho subjetivo público para poner en movimiento la actividad jurisdiccional.",
+ doc:[["Piero Calamandrei","Pilar de la trilogía procesal: es lo que pone en movimiento al sistema."]],
+ n:["CPR 76","*CPR 19 N°3"],
+ r:["proceso","pretension","pasividad"]},
+pretension:{t:"Pretensión", k:"Concepto ligado al proceso", d:"Declaración de voluntad que solicita la actuación del órgano jurisdiccional frente a una persona distinta del autor de la declaración.",
+ doc:[["Jaime Guasp","Declaración de voluntad solicitando la actuación del órgano frente a una persona distinta al autor de la declaración."]],
+ n:["*CPC 254"],
+ r:["litigio","accion","proceso"]},
+debidoproceso:{t:"Debido proceso", k:"Garantía", d:"Nadie puede ser condenado sin saber legalmente que existe un proceso respecto de él y sin tener posibilidad cierta de defensa. La CPR lo expresa como «racional y justo procedimiento».",
+ n:["CPR 19 N°3"],
+ sub:[["Contenido",null,[["Defensa jurídica","Derecho a la asistencia letrada."],["Proceso previo","Sentencia fundada en un proceso previo legalmente tramitado."],["Juez natural","Prohibición de comisiones especiales."],["Imparcialidad","Base de las implicancias y recusaciones."]]]],
+ r:["legalidad","implicancias","elementosjur"]},
+derechoprocesal:{t:"Derecho Procesal", k:"Concepto", d:"Rama del derecho que estudia la organización y atribuciones de los tribunales y las reglas a que están sometidos en su tramitación los asuntos entregados a su conocimiento.",
+ doc:[["Fernando Alessandri","Rama del derecho que estudia la organización y atribuciones de los tribunales y las reglas a que están sometidos en su tramitación los asuntos entregados a su conocimiento."]],
+ n:["CPR 77","COT 1"],
+ sub:[["Orgánico","Organización de tribunales, jurisdicción, competencia y auxiliares (COT y normas de la CPR)."],["Funcional","Procedimientos civiles y penales y recursos procesales (CPC, CPP, NCPP)."]],
+ r:["caracteristicasdp","fuentesdir","relaciones"]},
+caracteristicasdp:{t:"Características del Derecho Procesal", k:"Doctrina", d:"Rasgos que definen la disciplina según M. Mosquera.",
+ doc:[["Mario Mosquera","El Derecho Procesal es público, por regla general de orden público, autónomo y dotado de unidad."]],
+ n:["COT 1","*CPR 76"],
+ sub:[["Derecho público","Regula el ejercicio de una función estatal: la jurisdicción."],
+      ["Orden público (regla general)",null,[["Irrenunciables","Leyes de organización, de competencia absoluta y de procedimientos no iniciados."],["Renunciables (orden privado)","Competencia relativa en asuntos contenciosos civiles de 1ª instancia (prórroga) y plazos procesales una vez iniciado el juicio."]]],
+      ["Autónomo","No es un mero «derecho adjetivo»: tiene principios e instituciones propias."],
+      ["Unidad","Principios básicos comunes; debate entre tesis unitaria y separatista (civil/penal)."]],
+ r:["derechoprocesal","absrel","prorroga"]},
+relaciones:{t:"Relaciones con otras ramas", k:"Vínculos", d:"El Derecho Procesal dialoga con el constitucional, civil, comercial e internacional.",
+ n:["CPR 76","*CPC 242-251"],
+ sub:[["Constitucional","Bases del Poder Judicial, debido proceso y acción protectora."],["Civil y comercial","El proceso es el vehículo para exigir obligaciones; cruces en prescripción, pago, capacidad y mandato."],["Internacional","Exequatur (cumplimiento de fallos extranjeros) y extradición."]],
+ r:["derechoprocesal","equivalentes"]},
+fuentesind:{t:"Fuentes indirectas", k:"Fuentes", d:"No contienen mandato coactivo general, pero influyen en la evolución y aplicación del Derecho Procesal.",
+ n:["CC 3"],
+ sub:[["Doctrina","Crea principios generales e interpreta la norma."],["Jurisprudencia","Fuerza relativa (Art. 3 CC), pero los fallos de la Corte Suprema son criterios de peso (ej.: unificación de jurisprudencia)."]],
+ ojo:"La costumbre NO es fuente del derecho procesal: la ley procesal no se remite a ella. Existen solo «usos» y «prácticas» judiciales (forma de redactar escritos, coser expedientes).",
+ r:["fuentesdir"]},
+fuentesdir:{t:"Fuentes directas", k:"Fuentes", d:"Contienen el mandato coactivo.",
+ n:["CPR 5 inc. 2","CPR 76","CPR 77","CPR 19 N°3"],
+ sub:[["Constitución",null,[["Orgánico","Conocer, juzgar y ejecutar pertenece exclusivamente a los tribunales (Art. 76); prohíbe comisiones especiales (Art. 19 N°3); inamovilidad e independencia."],["Funcional","Debido proceso: «racional y justo procedimiento»."]]],
+      ["Tratados internacionales","Vigentes y ratificados. Sobre DD.HH. tienen jerarquía material constitucional (Art. 5 inc. 2 CPR)."],
+      ["La ley","COT, CPC, NCPP. El COT es Ley Orgánica Constitucional por mandato del Art. 77 CPR."],
+      ["Autos acordados","Ver ficha propia."]],
+ r:["autosacordados","fuentesind","legalidad"]},
+autosacordados:{t:"Autos acordados", k:"Fuente directa · muy preguntado", d:"Resoluciones emitidas por tribunales superiores para reglamentar, en uso de facultades económicas, asuntos no regulados por la ley o necesarios para el mejor servicio.",
+ n:["CPR 82","COT 3"],
+ sub:[["Fundamento","Superintendencia directiva, correccional y económica de la Corte Suprema (Art. 82 CPR)."],["Naturaleza","Actos administrativos (potestad reglamentaria del tribunal) que fijan normas jurídicas obligatorias."],["Límite","La propia ley."]],
+ r:["feconomicas","cs","fuentesdir"]},
+leytiempo:{t:"Ley procesal en el tiempo", k:"Aplicación temporal", d:"Regla general de irretroactividad; la ley procesal rige in actum (aplicación inmediata), con los matices de la LERL.",
+ n:["LERL 22-24"],
+ sub:[["Estado del juicio al dictarse la ley",null,[["Terminado","Inamovible: cosa juzgada."],["No iniciado","Rige la ley nueva inmediatamente."],["En tramitación","Lo realizado bajo la ley antigua es válido; lo nuevo se rige por la nueva, salvo incompatibilidad absoluta (Art. 24 LERL)."]]],
+      ["Situaciones especiales",null,[["Plazos","Si ya empezó a correr, ley antigua; si no, la nueva."],["Actuaciones, diligencias y recursos","Si ya se iniciaron, ley antigua."],["Prueba","Si es solemne y requisito del acto (ej.: escritura pública de compraventa de inmueble), ley vigente al momento del contrato."]]]],
+ r:["leyespacio"]},
+leyespacio:{t:"Ley procesal en el espacio", k:"Territorialidad", d:"La ley procesal es eminentemente territorial: rige solo dentro de los límites del Estado.",
+ n:["COT 5"],
+ sub:[["Ejemplo","Un extranjero y un chileno litigan en Santiago por un contrato celebrado en Argentina: la forma del proceso y los plazos se rigen íntegramente por la ley chilena (ley del lugar del proceso)."]],
+ r:["leytiempo","territorialidad","limitesjur"]},
+
+/* ---------------- MÓDULO 3 ---------------- */
+jurisdiccion:{t:"Jurisdicción", k:"Pilar del sistema", d:"Poder-deber del Estado, radicado exclusivamente en los tribunales establecidos en la ley, para que resuelvan por medio de un debido proceso los conflictos de relevancia jurídica que se promuevan en el orden temporal y dentro del territorio de la República, con eficacia de cosa juzgada y eventual posibilidad de ejecución.",
+ doc:[["Cristián Maturana / Juan Colombo","Es el poder-deber del Estado, radicado exclusivamente en los tribunales establecidos en la ley, para que éstos resuelvan por medio de un debido proceso, los conflictos de relevancia jurídica que se promuevan en el orden temporal y dentro del territorio de la República, con eficacia de cosa juzgada y eventual posibilidad de ejecución."],["Piero Calamandrei","La jurisdicción es la actividad de juzgar dentro de la trilogía acción, jurisdicción y proceso."]],
+ n:["CPR 76","COT 1","CPR 5"],
+ sub:[["Acepciones incorrectas",null,[["Como territorio","«Aguas jurisdiccionales»."],["Como competencia","La competencia es solo la medida de la jurisdicción."],["Como función de administrar justicia","Resabio histórico de cuando dependía del Ejecutivo."]]],
+      ["Elementos estructurales","9 elementos: ver ficha «Elementos de la jurisdicción»."],
+      ["Momentos","Conocer, juzgar y hacer ejecutar lo juzgado."]],
+ r:["elementosjur","momentos","caracjur","limitesjur","competencia","equivalentes"], par:["jc","func"]},
+elementosjur:{t:"Elementos de la jurisdicción", k:"Desglose del concepto", d:"Nueve piezas que se extraen del concepto doctrinario de Maturana y Colombo.",
+ doc:[["Cristián Maturana / Juan Colombo","Cada elemento corresponde a una frase del concepto: poder-deber, radicación exclusiva, debido proceso, relevancia jurídica, orden temporal, territorio, cosa juzgada y ejecución."]],
+ n:["CPR 76","CPR 76 inc. 2","CPR 19 N°3","COT 6"],
+ sub:[["1. Poder-deber del Estado","Poder privativo y deber inexcusable (Art. 76 inc. 2 CPR): no pueden negarse a fallar ni aun por falta de ley."],
+      ["2. Radicado exclusivamente en tribunales","Nadie puede ser juzgado por comisiones especiales. Ejecutivo y Legislativo no pueden ejercer funciones judiciales ni revivir procesos fenecidos. El Ministerio Público investiga, no ejerce jurisdicción."],
+      ["3. Dentro de su competencia","Todo tribunal tiene jurisdicción, pero no todo tribunal es competente para un caso."],
+      ["4. Juez imparcial","Distinto a las partes y sin interés en el pleito (competencia subjetiva)."],
+      ["5. Debido proceso","Sentencia fundada en un proceso previo legalmente tramitado (Art. 19 N°3 CPR)."],
+      ["6. Requerimiento de parte","Principio dispositivo. En el NPP el MP investiga, pero el tribunal actúa solo a petición."],
+      ["7. Cosa juzgada y ejecución","La sentencia se vuelve inmutable. La ejecución es «eventual»: no toda sentencia se ejecuta (declarativas) o el deudor cumple."],
+      ["8. Orden temporal","Asuntos terrenales, no eclesiásticos ni espirituales."],
+      ["9. Territorio de la República","Límite geográfico, salvo delitos en el extranjero (Art. 6 COT) e inmunidades diplomáticas."]],
+ r:["jurisdiccion","implicancias","pasividad","inexcusabilidad"]},
+momentos:{t:"Momentos jurisdiccionales", k:"Art. 76 CPR", d:"Etapas ineludibles para el ejercicio de la función jurisdiccional.",
+ n:["CPR 76","CPR 76 inc. 3-4"],
+ sub:[["1. Conocer","Enterarse de la pretensión, las defensas y recibir las pruebas (civil: demanda, contestación, prueba; penal: acusación)."],["2. Juzgar","Fase central de reflexión: consideraciones de hecho y de derecho de la sentencia definitiva."],["3. Hacer ejecutar lo juzgado","El tribunal carece de fuerza física: recurre al imperio (fuerza pública) si el fallo es de condena."]],
+ r:["jurisdiccion","independencia"]},
+caracjur:{t:"Características de la jurisdicción", k:"Fijo de examen", d:"Rasgos que distinguen la jurisdicción y que se contrastan con la competencia.",
+ n:["CPR 5","CPR 76","NCPP 35","CPC 71"],
+ sub:[["Origen constitucional","Emana de la soberanía (Arts. 5 y 76 CPR)."],["Unitaria","Es UNA sola; no hay jurisdicción civil o penal. Lo que se clasifica es la competencia."],["Indelegable","El juez no la transfiere; si delega en un subalterno, hay nulidad (Art. 35 NCPP). Solo se delega competencia vía exhorto."],["Improrrogable","Las partes no pueden otorgar jurisdicción; se prorroga solo la competencia relativa."]],
+ r:["jurisdiccion","competencia","prorroga"], par:["jc"]},
+limitesjur:{t:"Límites de la jurisdicción", k:"Acotamientos", d:"Factores que acotan el poder jurisdiccional del Estado.",
+ n:["CPR 76","COT 4","*CPR 80"],
+ sub:[["En el tiempo","Jueces permanentes (cesan a los 75 años) y tribunales temporales (árbitros)."],["En el espacio (externo)","Jurisdicción de otros Estados e inmunidad de jurisdicción (Estados extranjeros, jefes de Estado, diplomáticos y cónsules, salvo renuncia)."],["En la materia","Solo el orden temporal."],["Frente a otros poderes","Los tribunales no se avocan facultades del Ejecutivo o Legislativo, ni viceversa."]],
+ r:["conflictosjur","independencia"]},
+conflictosjur:{t:"Conflictos de jurisdicción", k:"No confundir con contiendas de competencia", d:"Conflictos entre un tribunal y un órgano que no es tribunal chileno ordinario, o entre tribunales de distintos Estados.",
+ n:["*CPR 53 N°3","*CPR 93 N°12"],
+ sub:[["Internacional","Tribunal chileno vs. tribunal extranjero: tratados y Derecho Internacional Privado."],["Nacional (tribunal vs. autoridad política o administrativa)",null,[["Con tribunal superior","Resuelve el Senado."],["Con tribunal inferior","Resuelve el Tribunal Constitucional."]]]],
+ r:["contiendas","limitesjur"]},
+equivalentes:{t:"Equivalentes jurisdiccionales", k:"Concepto", d:"Actos que, sin emanar de la jurisdicción de nuestros tribunales, equivalen a los efectos de una sentencia para solucionar un conflicto. Lo que les da su carácter es que producen la excepción de cosa juzgada.",
+ n:["CC 2460","CPC 267","*CPC 242-251"],
+ sub:[["Transacción","Equivalente por excelencia. Cosa juzgada de última instancia (Art. 2460 CC); con escritura pública, título ejecutivo."],["Conciliación","El acta se estima sentencia ejecutoriada (Art. 267 CPC)."],["Avenimiento","Pasado ante tribunal competente, termina el proceso y produce cosa juzgada."],["Sentencia extranjera","Solo equivale a sentencia nacional si la Corte Suprema otorga el exequatur."]],
+ ojo:"La sentencia arbitral NO es equivalente jurisdiccional: los árbitros sí ejercen jurisdicción.",
+ r:["transaccion","conciliacion","avenimiento","arbitros","jurisdiccion"]},
+funciones:{t:"Jurisdicción vs. legislación y administración", k:"Paralelo", d:"Diferencias formales y materiales entre las funciones del Estado.",
+ n:["CPR 76","CPC 170","CC 3"],
+ sub:[["Manifestación","Sentencia · Ley · Acto administrativo."],["Efecto","Relativo al caso (Art. 3 CC) · General y abstracto · Satisface necesidades públicas."],["Revisabilidad","Inmutable · Derogable · Sujeto a control judicial."]],
+ r:["jurisdiccion","contencioso"], par:["func"]},
+contencioso:{t:"Contencioso administrativo", k:"Conflicto con la Administración", d:"Conflictos entre un particular y la Administración del Estado cuando esta actúa realizando actos de poder (imperio) y no actos puramente patrimoniales.",
+ n:["CPR 76","*CPR 38 inc. 2"],
+ sub:[["Situación en Chile","La CPR de 1925 y la de 1980 prometían tribunales contencioso-administrativos que nunca se crearon de forma general. Hoy resuelven los tribunales ordinarios (Jueces de Letras) por plenitud de jurisdicción (Art. 76 CPR)."]],
+ r:["funciones","jletras"]},
+nocontencioso:{t:"Actos judiciales no contenciosos", k:"«Jurisdicción voluntaria»", d:"Actos que, según la ley, requieren la intervención del juez y en que no se promueve contienda alguna entre partes.",
+ n:["CPC 817","CPC 821"],
+ sub:[["Crítica a la denominación","«Jurisdicción voluntaria»: no hay conflicto que juzgar ni es siempre voluntaria. «No contenciosa»: es más bien función administrativa encargada a los jueces."],
+      ["Requisitos copulativos",null,[["Ley expresa","Que exija la intervención del juez."],["Sin conflicto","Si aparece un legítimo contradictor, el asunto se vuelve contencioso."]]],
+      ["Características procesales",null,[["Fuero","No se considera para fijar competencia."],["Prórroga","No procede."],["Principio inquisitivo","El juez puede decretar diligencias de oficio."],["Prueba","Se aprecia prudencialmente."],["Efecto","Desasimiento revocable si cambian las circunstancias (Art. 821 CPC), no cosa juzgada pura."]]]],
+ r:["relnc","fuero","prorroga"]},
+fconservadoras:{t:"Facultades conservadoras", k:"Facultad conexa", d:"Velar por el respeto de la Constitución, las leyes y el amparo de los derechos y garantías constitucionales.",
+ n:["COT 3","*CPR 20","*CPR 21"],
+ sub:[["Manifestaciones",null,[["Inaplicabilidad","Por inconstitucionalidad, ante el TC."],["Amparo","Ante el Juez de Garantía o la Corte."],["Protección","Ante la Corte de Apelaciones."],["Otras","Privilegio de pobreza y visitas a lugares de detención."]]]],
+ r:["fdisciplinarias","feconomicas","ca"]},
+fdisciplinarias:{t:"Facultades disciplinarias", k:"Facultad conexa", d:"Mantener el correcto y normal funcionamiento de la actividad jurisdiccional, reprimiendo faltas o abusos de funcionarios, abogados o partes.",
+ n:["COT 3","COT 544","COT 545"],
+ sub:[["Regla","A mayor jerarquía del tribunal, mayores facultades disciplinarias."],["Manifestaciones","Queja disciplinaria y recurso de queja (Arts. 544 y 545 COT), sanciones a abogados y visitas de inspección (ordinarias o extraordinarias)."]],
+ r:["fconservadoras","feconomicas","jerarquia","responsabilidad"]},
+feconomicas:{t:"Facultades económicas", k:"Facultad conexa", d:"Velar por el mejor ejercicio de la función jurisdiccional y dictar normas e instrucciones para una pronta y cumplida administración de justicia.",
+ n:["COT 3","CPR 82"],
+ sub:[["Manifestaciones","Autos acordados, intervención en el nombramiento de jueces, escalafón, traslados y permutas."]],
+ r:["autosacordados","nombramiento","cs"]},
+
+/* ---------------- MÓDULO 4 ---------------- */
+competencia:{t:"Competencia", k:"Medida de la jurisdicción", d:"Esfera, grado o medida establecida por el legislador para que cada tribunal ejerza jurisdicción.",
+ doc:[["Concepto legal (Art. 108 COT)","Es la facultad que tiene cada juez o tribunal para conocer de los negocios que la ley ha colocado dentro de la esfera de sus atribuciones."],["Crítica doctrinaria","La ley define competencia como «facultad de conocer», confundiendo la función (jurisdicción) con su medida."]],
+ n:["COT 108"],
+ r:["jurisdiccion","clasifcomp","absrel","radicacion"], par:["jc","absrel"]},
+clasifcomp:{t:"Clasificaciones de la competencia", k:"Árbol", d:"La jurisdicción no se clasifica; la competencia sí, y de muchas maneras.",
+ n:["COT 108","CPC 71","COT 135"],
+ sub:[["Absoluta vs. relativa","Jerarquía vs. territorio. Ver paralelo."],
+      ["Natural vs. prorrogada","Natural: asignada por la ley. Prorrogada: conferida por las partes, expresa o tácitamente."],
+      ["Propia vs. delegada","Propia: para conocer el asunto. Delegada: la ejerce otro tribunal para diligencias vía exhorto (Art. 71 CPC)."],
+      ["Común vs. especial","Común: toda clase de asuntos. Especial: ciertas materias (ej.: Juzgados de Garantía)."],
+      ["Privativa vs. acumulativa (preventiva)",null,[["Privativa","La ley fija un solo tribunal posible."],["Acumulativa","Dos o más opciones; el que previene excluye a los demás. Ej.: acciones inmuebles (Art. 135 COT)."]]],
+      ["Única, primera o segunda instancia","Según si la resolución admite o no apelación."]],
+ r:["competencia","absrel","prorroga","prevencion"]},
+absrel:{t:"Absoluta vs. relativa", k:"Paralelo clave", d:"La absoluta fija la jerarquía del tribunal; la relativa, cuál tribunal específico de esa jerarquía.",
+ n:["COT 115","COT 134","CPC 303 N°1"],
+ sub:[["Competencia absoluta","Cuantía, materia, fuero (y tiempo en penal). Orden público: irrenunciable, improrrogable, declarable de oficio, sin plazo para alegar."],["Competencia relativa","Elemento único: territorio. Orden privado (civil, 1ª instancia): renunciable vía prórroga; solo a petición de parte, con plazo (excepción dilatoria)."]],
+ r:["cuantia","materia","fuero","prorroga","relcivil","incompetencia"], par:["absrel"]},
+radicacion:{t:"Radicación o fijeza", k:"Regla general · Art. 109 COT", d:"Radicado con arreglo a la ley el conocimiento de un negocio ante tribunal competente, no se alterará esta competencia por causa sobreviniente.",
+ n:["COT 109"],
+ sub:[["Requisitos","Que el tribunal intervenga, que sea competente (ley o prórroga) y que lo haga con arreglo a derecho."],
+      ["¿Cuándo se radica?",null,[["Civil","Con la notificación válida de la demanda."],["Penal (NPP)","Con la formalización de la investigación."]]],
+      ["Excepciones reales",null,[["Compromiso","Las partes sacan el juicio del juez ordinario y lo llevan a un árbitro."],["Acumulación de autos","Causas separadas se juntan para evitar fallos contradictorios."]]]],
+ ojo:"Las visitas de Ministros no son excepción: no cambia el tribunal, solo la persona física del juez.",
+ r:["grado","extension","prevencion","ejecucion","inavocabilidad","compromiso"]},
+grado:{t:"Grado o jerarquía", k:"Regla general · Art. 110 COT", d:"Fijada la competencia del juez inferior en 1ª instancia, queda fijada la del tribunal superior que conocerá en 2ª instancia.",
+ n:["COT 110"],
+ sub:[["Característica","Estricto orden público: no opera la prórroga para la segunda instancia."]],
+ r:["radicacion","jerarquia"]},
+extension:{t:"Extensión", k:"Regla general · Art. 111 COT", d:"El tribunal competente para el asunto principal lo es también para las incidencias, la reconvención, la compensación y la ejecución, aunque por su cuantía debieran ir a un juez menor.",
+ n:["COT 111"],
+ sub:[["Aplicación penal (NPP)","El Juez de Garantía conoce los incidentes de la investigación; el TOP, los del juicio oral."],["Acción civil en sede penal","Contra el imputado (restitución o indemnización): puede ir en el proceso penal. Contra terceros: sede civil."]],
+ r:["radicacion","prevencion"]},
+prevencion:{t:"Prevención o inexcusabilidad", k:"Regla general · Art. 112 COT", d:"Si hay dos o más tribunales competentes (competencia acumulativa), el que previene en el conocimiento excluye a los demás, que cesan de ser competentes.",
+ n:["COT 112"],
+ ojo:"No confundir con el principio constitucional de inexcusabilidad para fallar (Art. 76 inc. 2 CPR).",
+ r:["clasifcomp","inexcusabilidad","radicacion"]},
+ejecucion:{t:"Ejecución", k:"Regla general · Arts. 113-114 COT", d:"La ejecución de las resoluciones corresponde a los tribunales que las pronunciaron en primera o única instancia.",
+ n:["COT 113","COT 114"],
+ sub:[["Excepciones",null,[["Penal (NPP)","La sentencia civil dictada en proceso penal se ejecuta ante el juzgado de letras civil, en juicio ejecutivo."],["Tribunales de alzada","Ejecutan sus fallos de sustanciación y el pago de sus costas."],["Nuevo juicio","Si ejecutar requiere un nuevo juicio, el demandante elige entre el tribunal original o el competente por reglas generales (Art. 114 COT)."]]]],
+ r:["radicacion","momentos"]},
+cuantia:{t:"Elemento cuantía", k:"Competencia absoluta", d:"El valor de lo disputado. Ya no define el tribunal (se suprimieron los jueces de menor cuantía), pero sigue siendo vital.",
+ n:["COT 115","COT 128","COT 129"],
+ sub:[["Para qué sirve",null,[["Procedimiento","Más de 500 UTM: ordinario de mayor cuantía."],["Instancia","Hasta 10 UTM: única instancia; más de 10 UTM: primera instancia (apelable)."]]],
+      ["Momento","Se fija al presentar la demanda; no cambia por variaciones de valor, intereses o costas (Arts. 128-129 COT)."],
+      ["No susceptibles de apreciación pecuniaria","Siempre de mayor cuantía: estado civil, cuidado personal, nulidad de testamento, petición de herencia, tutores, quiebras."],
+      ["Susceptibles de apreciación pecuniaria",null,[["Con documentos","Se está a ellos."],["Sin documentos, acción personal","A lo que indique el actor."],["Sin documentos, acción real","Acuerdo de las partes (se presume si el demandado no reclama); sin acuerdo, perito."]]],
+      ["Casos especiales",null,[["Pluralidad de acciones","Se suman."],["Pluralidad de demandados","Valor total de la cosa."],["Reconvención","Se suman para la cuantía, pero la competencia se mira por separado."],["Moneda extranjera","Certificado bancario de equivalencia, no anterior en más de 15 días a la demanda."]]]],
+ r:["materia","fuero","absrel","jletras"]},
+materia:{t:"Elemento materia", k:"Competencia absoluta", d:"La naturaleza del asunto.",
+ n:["COT 115","*COT 48"],
+ sub:[["Deriva a tribunal especial","Familia, Trabajo."],["Eleva la jerarquía","Juicios de Hacienda: Juez de Letras de comuna asiento de Corte. Ciertos delitos internacionales: Ministro de la Corte Suprema."]],
+ r:["cuantia","fuero","especiales","unipersonales"]},
+fuero:{t:"Elemento fuero", k:"Competencia absoluta", d:"Calidad de las personas. Eleva la jerarquía del tribunal para garantizar mayor independencia: es una garantía para quien litiga contra el aforado, no un beneficio para este.",
+ n:["COT 115","*COT 50","*COT 45"],
+ sub:[["Fuero mayor","El asunto sube a un Ministro de Corte de Apelaciones (hoy casi sin aplicación en el NPP)."],["Fuero menor","Sube a un Juez de Letras en 1ª instancia en casos que serían de única instancia."],["Fuero de los jueces","Por responsabilidad civil o penal ministerial, el conocimiento sube (Ministro o Presidente de Corte)."],["Casos donde NO aplica","Minas, posesorios, aguas, particiones, juicios sumarios, quiebras, asuntos no contenciosos y faltas penales."]],
+ r:["cuantia","materia","unipersonales","nocontencioso"]},
+prorroga:{t:"Prórroga de competencia", k:"Competencia relativa · 1er descarte civil", d:"Acuerdo de las partes que otorga competencia a un tribunal ordinario que naturalmente no la tiene, alterando el factor territorio.",
+ n:["*COT 181-187"],
+ sub:[["Requisitos estrictos",null,[["Materia","Negocios contenciosos civiles."],["Elemento","Solo el territorio."],["Tribunales","Ordinarios de igual jerarquía."],["Instancia","Solo primera instancia."]]],
+      ["Tipos",null,[["Expresa","En el contrato o acto posterior, designando con precisión el nuevo juez."],["Tácita del demandante","Por presentar la demanda (o medida prejudicial) ante ese tribunal."],["Tácita del demandado","Por hacer, tras apersonarse, cualquier gestión que no sea reclamar la incompetencia."]]],
+      ["Efecto relativo","Solo afecta a quienes la otorgaron (no a fiadores o codeudores)."]],
+ ojo:"No procede en asuntos no contenciosos ni en materia penal (orden público).",
+ r:["relcivil","absrel","caracjur"]},
+relcivil:{t:"Relativa: asuntos civiles contenciosos", k:"Descarte territorial", d:"Cuatro descartes sucesivos para determinar el tribunal específico dentro de la jerarquía.",
+ n:["COT 134","COT 135","COT 139"],
+ sub:[["1° Prórroga de competencia","¿Pactaron las partes otro tribunal?"],
+      ["2° Regla especial de territorio (Art. 139 y ss.)",null,[["Varios domicilios","Elige el demandante."],["Personas jurídicas","Domicilio del asiento; con sucursales, donde se celebró el contrato."],["Posesorias","Juez donde están los bienes."],["Alimentos","Domicilio del alimentante o alimentario, a elección del alimentario."],["Hereditarios","Último domicilio del difunto."]]],
+      ["3° Naturaleza de la acción",null,[["Inmueble","Lugar estipulado; si no, el demandante elige entre donde se contrajo la obligación o donde está el inmueble (Art. 135)."],["Mueble","Lugar estipulado; si no, domicilio del demandado."],["Mixta","Donde están los inmuebles."]]],
+      ["4° Regla residual","Domicilio del demandado (Art. 134 COT)."]],
+ r:["prorroga","relnc","relpenal","distribucion"]},
+relnc:{t:"Relativa: asuntos no contenciosos", k:"Descarte territorial", d:"No procede la prórroga: son normas de orden público.",
+ n:["*COT 148"],
+ sub:[["1° Regla especial",null,[["Sucesoria","Último domicilio del causante."],["Tutores y curadores","Domicilio del pupilo."],["Muerte presunta","Último domicilio del desaparecido."]]],["2° Regla general residual","Domicilio del solicitante o interesado."]],
+ r:["nocontencioso","relcivil"]},
+relpenal:{t:"Relativa: asuntos penales", k:"Descarte territorial", d:"Orden público total: tampoco procede prórroga.",
+ n:["COT 6","*COT 157"],
+ sub:[["Regla de oro","Tribunal del territorio donde se cometió el hecho (donde se dio inicio a la ejecución)."],["Delitos en el extranjero (Art. 6 COT)","Juzgado de Garantía y TOP de la jurisdicción de la Corte de Apelaciones de Santiago, según turno por auto acordado."],["Investigación conjunta (NPP)","Sigue conociendo el Juez de Garantía del lugar del primer hecho investigado."]],
+ r:["relcivil","jgarantia","top"]},
+incompetencia:{t:"Incompetencia: sanción y formas de alegarla", k:"Nulidad", d:"Si un tribunal actúa fuera de la competencia que la ley le entregó, su actuación adolece de nulidad.",
+ n:["CPR 7 inc. 3","CPC 83","CPC 84","CPC 303 N°1","CPC 768 N°1","CPC 775"],
+ sub:[["Según el tipo",null,[["Absoluta","Orden público: de oficio o a petición de parte, en cualquier estado del juicio."],["Relativa (civil)","Orden privado: solo a petición de parte; si no se alega a tiempo, opera la prórroga tácita."]]],
+      ["Formas de hacerla valer",null,[["De oficio","Si es absoluta (Arts. 83-84 CPC); el superior puede casar de oficio (Art. 775 CPC)."],["Vía incidental","Juicio ordinario: excepción dilatoria (Art. 303 N°1 CPC), o después incidente de nulidad. NPP: en la audiencia de preparación del juicio oral, nunca en el juicio oral."],["Casación en la forma","Art. 768 N°1 CPC; requiere preparación. Nunca casación en el fondo por competencia."]]]],
+ r:["absrel","cuestiones","legalidad"]},
+cuestiones:{t:"Cuestiones de competencia", k:"Parte vs. tribunal", d:"Una parte reclama a un tribunal que es incompetente, por dos vías incompatibles entre sí.",
+ n:["*CPC 101-112","CPC 303 N°1"],
+ sub:[["Vía declinatoria","Ante el tribunal que conoce, pidiéndole que se abstenga. Incidente de previo y especial pronunciamiento."],["Vía inhibitoria","Ante el tribunal que se cree competente, para que se dirija al que conoce y este se inhiba y remita los autos. Si se niega, surge una contienda."]],
+ r:["contiendas","incompetencia"], par:["declinh"]},
+contiendas:{t:"Contiendas de competencia", k:"Tribunal vs. tribunal", d:"Conflicto entre dos o más tribunales sobre cuál es competente.",
+ n:["*COT 190"],
+ sub:[["Clases",null,[["Positiva","Ambos se creen competentes."],["Negativa","Ninguno se cree competente."]]],
+      ["¿Quién resuelve entre ordinarios?",null,[["Superior común","Ese superior."],["Distinta jerarquía","El superior del de más alta jerarquía."],["Distintos superiores de igual jerarquía","El superior del tribunal que previno."]]]],
+ r:["cuestiones","conflictosjur","fiscalia"]},
+distribucion:{t:"Distribución de causas", k:"Arts. 175 y ss. COT", d:"Reglas que determinan qué tribunal específico conoce cuando, tras aplicar la competencia absoluta y relativa, hay dos o más jueces competentes en un mismo lugar.",
+ n:["COT 175","COT 178"],
+ sub:[["Naturaleza","No son reglas de competencia relativa: son medidas administrativas y económicas para repartir el trabajo."],
+      ["Civiles contenciosos",null,[["Sin asiento de Corte","Turno (semanal, por antigüedad)."],["Con asiento de Corte","Distribución por la Corte. Excepción (Art. 178 COT): gestiones previas o ejecuciones van al mismo tribunal."]]],
+      ["Civiles no contenciosos","Siempre turno (en Santiago, por auto acordado, igual pasan por distribución)."],
+      ["Penales","Procedimiento objetivo y general aprobado anualmente por el Comité de Jueces."]],
+ r:["relcivil","administradores"]},
+implicancias:{t:"Implicancias", k:"Competencia subjetiva · Art. 195 COT", d:"Inhabilidades gravísimas: el juez tiene un vínculo directo y fuerte con el caso.",
+ n:["COT 195"],
+ sub:[["Características","Orden público, irrenunciables, no se purgan. El juez debe declararlas de oficio. Fallar a sabiendas implicado es prevaricación."],
+      ["Causales clásicas",null,[["Interés","Ser parte o tener interés personal."],["Parentesco cercano","Cónyuge, línea recta o colateral hasta 2° grado con parte o abogado."],["Abogado previo","Haber sido abogado o apoderado de una parte en esa causa."],["Dictamen","Haber manifestado opinión sobre la cuestión pendiente."],["Penal","Haber sido fiscal o defensor, o juez de garantía en el mismo procedimiento."]]]],
+ r:["recusaciones","elementosjur","debidoproceso"], par:["implrec"]},
+recusaciones:{t:"Recusaciones", k:"Competencia subjetiva · Art. 196 COT", d:"Inhabilidades menos graves: vínculo más lejano, amistoso o de enemistad.",
+ n:["COT 196"],
+ sub:[["Características","Orden privado, renunciables (se purgan si la parte no reclama en 5 días). A petición de parte, aunque el juez puede declararlas. No constituyen delito."],
+      ["Causales clásicas",null,[["Parentesco lejano","Hasta 4° grado colateral."],["Deudor o acreedor","De alguna parte (salvo fisco o bancos, a menos que deba más del 10%)."],["Pleito pendiente","Con las partes."],["Beneficios","Haber recibido regalos de importancia."],["Amistad o enemistad","Íntima o manifiesta."],["Accionista","De la S.A. parte (salvo abierta y hasta 10%)."]]]],
+ r:["implicancias","integracion"], par:["implrec"]},
+
+/* ---------------- MÓDULO 5 ---------------- */
+ordinarios:{t:"Tribunales ordinarios", k:"Estructura piramidal", d:"Conocen de todos los asuntos judiciales que se promuevan en Chile, cualquiera sea su naturaleza o la calidad de las personas.",
+ n:["COT 5","CPR 76"],
+ sub:[["Corte Suprema","Cúspide: superintendencia directiva, correccional y económica."],["Cortes de Apelaciones","17; letradas, colegiadas y superiores de los de base."],["Unipersonales de excepción","Presidente CS, Ministro CS, Presidente CA Santiago, Ministro CA."],["Jueces de Letras","Base para la generalidad de materias."],["Juzgados de Garantía","Generalidad de asuntos penales en la investigación."],["Tribunales Orales en lo Penal","Colegiados; juicio oral en única instancia."]],
+ r:["cs","ca","unipersonales","jletras","jgarantia","top","especiales","arbitrales"]},
+especiales:{t:"Tribunales especiales", k:"Art. 5 COT", d:"Conocen materias específicas por su naturaleza o por la calidad de las personas.",
+ n:["COT 5","*Ley 19.968"],
+ sub:[["Forman parte del Poder Judicial","Juzgados de Familia, Letras del Trabajo, Cobranza Laboral y Previsional, Tribunales Militares en tiempo de paz (se rigen por el COT solo cuando sus leyes se remiten a él)."],
+      ["NO forman parte del Poder Judicial","Policía Local, Militares en tiempo de guerra, Contraloría (juicio de cuentas), TDLC, Director del SII, Director de Aduanas, Tribunal de Marcas, Alcaldes."]],
+ ojo:"Los que no forman parte del PJ no tienen dependencia económica ni imperio directo como los del Poder Judicial.",
+ r:["ordinarios","arbitrales","materia"]},
+arbitrales:{t:"Tribunales arbitrales", k:"Art. 222 COT", d:"Jueces nombrados por las partes o por la autoridad judicial en subsidio, para la resolución de un asunto litigioso.",
+ n:["COT 5","COT 222"],
+ r:["arbitros","arbclasesfallo","arbprocedencia"]},
+clasiftrib:{t:"Clasificaciones de los tribunales", k:"Árbol", d:"Los tribunales admiten diversas clasificaciones según el Art. 5 COT y la doctrina.",
+ n:["COT 5","*COT 21 A"],
+ sub:[["Órbita de competencia",null,[["Ordinarios","CS, CA, Unipersonales de excepción, JL, JG, TOP."],["Especiales","Dentro y fuera del Poder Judicial."],["Arbitrales","Nombrados por las partes o el juez en subsidio."]]],
+      ["Composición",null,[["Unipersonales","Un solo juez (JL, unipersonales de excepción). Los JG son colegiados en composición pero unipersonales en funcionamiento."],["Colegiados","CA, CS, TOP. Fallan en pleno o en sala."]]],
+      ["Preparación técnica",null,[["Legos","Arbitradores, algunos alcaldes de JPL, Comandante en Jefe en justicia militar."],["Jurados","Casi no hay; el Senado en acusación constitucional actúa como jurado."],["Letrados","Todos los jueces ordinarios."]]],
+      ["Estabilidad",null,[["Perpetuos","Hasta los 75 años (regla general)."],["Temporales","Árbitros; Ministros del TC (9 años)."]]],
+      ["Misión en el proceso",null,[["Instructor","Tramita para que otro falle (no existe en el NPP)."],["Sentenciador","Solo falla (TOP)."],["Mixto","Tramita y falla (JL en civil)."]]],
+      ["Otras",null,[["Asiento","Sedentarios vs. ambulantes (TOP excepcionalmente)."],["Jerarquía","Superiores (CS, CA) vs. inferiores."],["Resolución","De derecho vs. de equidad (arbitradores)."]]]],
+ r:["ordinarios","especiales","arbitrales","sedentariedad"]},
+cs:{t:"Corte Suprema", k:"Cúspide · Arts. 93-107 COT", d:"Tribunal ordinario, colegiado, letrado, de derecho y permanente, con superintendencia directiva, correccional y económica sobre todos los tribunales (salvo TC y TRICEL).",
+ n:["CPR 82","CPR 78","COT 93-107"],
+ sub:[["Composición","21 Ministros (Presidente dura 2 años), 1 Fiscal Judicial, 1 Secretario, 1 Prosecretario, 8 Relatores. 5 Ministros deben ser extraños a la administración de justicia."],
+      ["Funcionamiento",null,[["Pleno","Mínimo 11 miembros: disciplina, desafueros, amovilidad, reclamación de nacionalidad, informe de LOC, libertad condicional en presidio perpetuo calificado."],["Salas","No menos de 5 jueces, nunca mayoría de integrantes. Especializadas: 1ª Civil, 2ª Penal, 3ª Constitucional, 4ª Laboral/Previsional."]]],
+      ["Competencia exclusiva","Casación en el fondo, revisión y superintendencia."],
+      ["Competencia de las Salas","Casación de fondo, ciertas de forma, apelación de amparo y protección, revisión y queja."],
+      ["Diferencias con las CA","Sin sorteo: el Presidente asigna causas por especialidad y dicta solo los decretos de mera sustanciación. Sus fallos que resuelven recursos solo admiten aclaración, rectificación y enmienda."]],
+ r:["ca","nombramiento","autosacordados","integracion"]},
+ca:{t:"Cortes de Apelaciones", k:"Segunda instancia · Arts. 54-92 COT", d:"Tribunales ordinarios, colegiados, letrados, de derecho y permanentes, depositarios de la casi totalidad de la competencia de segunda instancia. Son 17.",
+ n:["COT 54-92","*CPR 20","*CPR 21"],
+ sub:[["Competencia",null,[["Única instancia","Casación en la forma, nulidad penal, queja, extradición activa."],["Primera instancia","Amparo, protección, querella de capítulos, desafueros, amovilidad."],["Segunda instancia","Apelaciones civiles, penales, de familia, del trabajo y contra el Juez de Garantía."]]],
+      ["Quórum",null,[["Pleno","Mayoría absoluta de sus miembros; asuntos disciplinarios, administrativos y económicos (y desafueros, amovilidad)."],["Salas","No menos de 3 jueces; asuntos jurisdiccionales."]]],
+      ["Funcionamiento extraordinario","Hay retardo si causas en tabla ÷ salas > 100: se forman más salas con fiscales o abogados integrantes (nunca mayoría de integrantes)."]],
+ r:["cs","cuentavista","vistacausa","relatores"]},
+unipersonales:{t:"Tribunales unipersonales de excepción", k:"Accidentales · Arts. 50-53 COT", d:"No son un tribunal separado: se designa a un Ministro o Presidente de Corte para conocer en 1ª instancia un asunto específico por fuero o materia.",
+ n:["COT 50","COT 51","COT 52","COT 53"],
+ sub:[["Ministro de CA (Art. 50)","Causas civiles con autoridades de fuero mayor; demandas civiles contra jueces de letras por responsabilidad ministerial."],
+      ["Presidente CA Santiago (Art. 51)","Demandas civiles contra miembros de la CS o su Fiscal; amovilidad de Ministros de la CS."],
+      ["Ministro de CS (Art. 52)","Delitos que afecten relaciones internacionales; extradición pasiva."],
+      ["Presidente CS (Art. 53)","Demandas civiles contra miembros de las CA; amovilidad de Ministros de CA; causas de presas."]],
+ ojo:"El Ministro en Visita solo reemplaza temporalmente al juez titular; el unipersonal de excepción ES el tribunal competente fijado por ley.",
+ r:["fuero","materia","ca","cs"]},
+jletras:{t:"Jueces de Letras", k:"Base del sistema · Arts. 28-48 COT", d:"Tribunales ordinarios, unipersonales, letrados, de derecho y permanentes, con territorio de una comuna o agrupación de comunas. Depositarios de la generalidad.",
+ n:["COT 28-48","*COT 45"],
+ sub:[["Competencia","Generalidad de asuntos civiles no derivados a especiales. Hoy casi netamente civil; ven causas penales antiguas y, sin JG en la comuna, asumen esa función (nunca la del TOP)."],
+      ["Única instancia","Causas civiles y comerciales hasta 10 UTM."],
+      ["Primera instancia","Más de 10 UTM; o menor cuantía con fuero menor; minas, hacienda (capital de provincia o asiento de Corte) y actos no contenciosos."]],
+ r:["cuantia","jgarantia","subrogacion","secretarios"], par:["base"]},
+jgarantia:{t:"Juzgados de Garantía", k:"Penal · Arts. 14-16 COT", d:"Tribunales ordinarios, letrados, de derecho y permanentes, creados para separar el juzgamiento (juez) de la investigación (fiscal).",
+ n:["COT 14","COT 15","COT 16"],
+ sub:[["Composición","Colegiados en composición, unipersonales en funcionamiento: un solo juez dirige la audiencia y falla."],
+      ["Territorio y jerarquía","Comuna o agrupación; superior: la CA respectiva."],
+      ["Competencia (Art. 14)",null,[["Única instancia","Faltas (simplificado o monitorio) y Ley de Alcoholes."],["Primera instancia","Procedimiento abreviado (apelable)."],["Funciones clave","Asegurar derechos del imputado, control de detención, formalización, ejecución de condenas."]]]],
+ r:["top","jletras","administradores","relpenal"], par:["base"]},
+top:{t:"Tribunales de Juicio Oral en lo Penal", k:"Penal · Arts. 17-21 COT", d:"Tribunales ordinarios, letrados y permanentes; colegiados en composición y en funcionamiento (3 a 27 jueces, salas de 3).",
+ n:["COT 17-21","COT 21 A"],
+ sub:[["Territorio","Agrupación de comunas. Sedentarios, pero pueden funcionar fuera de su asiento (Art. 21 A COT)."],
+      ["Competencia","Única instancia (sin apelación; solo nulidad): crímenes y simples delitos, incidentes del juicio oral, prisión preventiva de acusados a su disposición."],
+      ["Administración","Comité de Jueces presidido por un Juez Presidente."]],
+ r:["jgarantia","sedentariedad","administradores"], par:["base"]},
+cuentavista:{t:"«En cuenta» o «previa vista»", k:"Formas de resolver en colegiados", d:"Terminada la tramitación, el tribunal colegiado resuelve de una de dos maneras.",
+ n:["*CPC 162","*COT 68"],
+ sub:[["En cuenta («Dese cuenta»)","Exposición privada del Secretario o Relator, sin alegatos. Ej.: asuntos disciplinarios y resoluciones que no son sentencias definitivas."],["Previa vista («Autos en relación»)","Trámite público con alegatos. Ej.: sentencias definitivas apeladas, amparo, protección, queja."]],
+ r:["vistacausa","ca","relatores"]},
+vistacausa:{t:"Vista de la causa", k:"Trámite esencial · Arts. 162 y ss. CPC", d:"Cinco pasos consecutivos. Su omisión causa la nulidad del fallo por casación en la forma (Art. 768 N°9 CPC).",
+ n:["CPC 162","CPC 163","CPC 165","CPC 768 N°9"],
+ sub:[["1. Notificación de «autos en relación»","Normalmente por el estado diario; el expediente queda en estado de tabla."],
+      ["2. Fijación en tabla (Art. 163 CPC)","El Presidente forma la tabla el último día hábil de la semana. Preferencias: orden de no innovar, alimentos provisionales, quiebras; amparo y protección se agregan extraordinariamente."],
+      ["3. Anuncio e instalación","Quórum mínimo. Suspensión posible (Art. 165 CPC): falta de jueces, muerte del abogado, otra vista simultánea, común acuerdo o una vez por parte."],
+      ["4. La relación","Exposición oral y sistemática del Relator. Iniciada, ningún abogado entra a la sala."],
+      ["5. Los alegatos","Primero apelante, luego apelado; media hora cada uno. Prohibido leer defensas escritas; se puede dejar minuta."],
+      ["Después","Se falla de inmediato o queda en acuerdo (medida para mejor resolver o estudio de 15 a 30 días)."]],
+ r:["cuentavista","acuerdos","relatores","ca"]},
+acuerdos:{t:"Acuerdos de tribunales colegiados", k:"Arts. 72 y ss. COT", d:"La deliberación y votación de los tribunales colegiados.",
+ n:["COT 72"],
+ sub:[["Reglas",null,[["Secretos","Se adoptan por mayoría absoluta."],["Quiénes votan","Solo los presentes en la vista; si uno muere, enferma más de 30 días o es destituido, nueva vista (salvo mayoría igual)."],["Orden","Primero hechos, luego derecho; en orden inverso a la antigüedad (el Presidente vota al final)."]]],
+      ["Formalidades del fallo","Ministro redactor; votos disidentes y «prevenciones» (votaron con la mayoría por razones distintas)."]],
+ r:["discordia","vistacausa","publicidad"]},
+discordia:{t:"Discordia de votos", k:"Arts. 86 y ss. COT", d:"Si no hay mayoría absoluta durante el acuerdo, se genera discordia.",
+ n:["*COT 86"],
+ sub:[["Materia civil",null,[["Exclusión","Se vota cada opinión y se excluye la que reúna menos votos, hasta formar mayoría."],["Empate en la minoría","Se vota cuál excluir."],["Imposibilidad","Se llama a más Ministros (número impar) y se hace nueva vista."]]],["Materia penal (NPP)","Reglas del TOP, para evitar nuevas vistas."]],
+ r:["acuerdos","arbdesacuerdo"]},
+
+/* ---------------- MÓDULO 6: BASES ---------------- */
+legalidad:{t:"Legalidad", k:"Base · pregunta segura", d:"Se divide en tres niveles: orgánico, funcional y como garantía constitucional.",
+ n:["CPR 76","CPR 19 N°3","CPR 6","CPR 7","CPR 77"],
+ sub:[["A. Sentido orgánico",null,[["Creación","Solo la ley crea tribunales (Art. 76 CPR)."],["Preexistencia","Establecido antes del hecho; prohibición de comisiones especiales (Art. 19 N°3)."],["LOC","Organización y atribuciones por LOC (COT); se oye a la CS antes de modificarla."]]],
+      ["B. Sentido funcional",null,[["Competencia","Actuar dentro de su competencia; si no, nulidad (Arts. 6-7 CPR)."],["Aplicar la ley","Si fallan contra ley, casación en el fondo."]]],
+      ["C. Garantía constitucional",null,[["Defensa","Derecho a defensa jurídica."],["Proceso previo","Sentencia fundada en proceso legal previo."],["Irretroactividad penal","Salvo ley más favorable."]]]],
+ r:["debidoproceso","incompetencia","independencia"]},
+independencia:{t:"Independencia judicial", k:"Base", d:"Asegura que el juez falle según la ley, sin presiones. Tiene cuatro facetas.",
+ n:["CPR 76","COT 4","COT 8"],
+ sub:[["A. Orgánica (política)",null,[["Positiva","Solo los tribunales conocen, resuelven y ejecutan (Art. 76 CPR)."],["Negativa","El PJ no se inmiscuye en otros poderes (Art. 4 COT)."]]],
+      ["B. Funcional","Ejecutivo y Legislativo no revisan fallos, no reviven procesos ni se avocan causas. Facultad de imperio: órdenes directas a la fuerza pública sin que esta califique su legalidad."],
+      ["C. Personal",null,[["Inviolabilidad","No pueden ser detenidos sin orden de tribunal competente, salvo flagrancia."],["Inamovilidad","Permanecen durante su buen comportamiento."],["Inavocabilidad","Ningún tribunal quita una causa a otro (Art. 8 COT)."]]],
+      ["D. Frenos y contrapesos",null,[["PJ → Ejecutivo","Amparo, protección, demandas contra el Fisco."],["PJ → Legislativo","Desafuero, inaplicabilidad."],["Ejecutivo → PJ","Nombramientos, presupuesto, indultos."],["Legislativo → PJ","Acusación constitucional; aprobación de Ministros de la CS."]]]],
+ r:["inamovilidad","inavocabilidad","responsabilidad","nombramiento"]},
+inamovilidad:{t:"Inamovilidad", k:"Base · Art. 80 CPR", d:"Garantía de la independencia: el juez no puede ser privado de su cargo ni trasladado arbitrariamente. Permanece «durante su buen comportamiento» hasta los 75 años.",
+ n:["CPR 80","COT 278 bis"],
+ sub:[["Formas de poner término",null,[["Juicio de amovilidad","Procedimiento sumario por faltas graves."],["Calificación anual (Art. 278 bis COT)","Remoción por lista «Deficiente» o dos años seguidos en «Condicional»."],["Remoción por la CS (Art. 80 inc. 3 CPR)","Por mayoría del total de sus miembros, a petición del Presidente, de parte o de oficio."]]]],
+ r:["independencia","responsabilidad"]},
+responsabilidad:{t:"Responsabilidad", k:"Base · Art. 79 CPR", d:"Contrapartida del poder de los jueces: responden por sus actos u omisiones.",
+ n:["CPR 79","COT 13","CPR 52 N°2","COT 329","COT 330"],
+ sub:[["1. Común","Actos como particular; tribunal normal, sin alterar el fuero."],["2. Disciplinaria","Faltas internas; queja disciplinaria, recurso de queja o de oficio."],["3. Política","«Notable abandono de deberes»; solo tribunales superiores; acusa la Cámara y resuelve el Senado (Art. 52 N°2 CPR)."],["4. Ministerial","Cohecho, torcida administración de justicia, prevaricación. Requiere querella de capítulos previa."]],
+ ojo:"No se puede perseguir la responsabilidad ministerial mientras el juicio del agravio no termine por sentencia firme (Art. 329 COT). Plazo fatal: 6 meses (Art. 330 COT).",
+ r:["inamovilidad","fdisciplinarias","fuero"]},
+territorialidad:{t:"Territorialidad", k:"Base · Art. 7 COT", d:"Cada tribunal ejerce sus funciones solo dentro del territorio que la ley le asigna.",
+ n:["COT 7","CPC 403","CPC 71"],
+ sub:[["Excepciones",null,[["Inspección personal","El juez puede ir a ver un terreno fuera de su comuna (Art. 403 CPC)."],["Exhortos (aparente)","Delega una diligencia a otro tribunal."]]]],
+ r:["leyespacio","sedentariedad"]},
+jerarquia:{t:"Jerarquía o grado", k:"Base", d:"Estructura piramidal (base → CA → CS) que permite las instancias vía apelación y define quién aplica medidas disciplinarias.",
+ n:["COT 5","COT 110"],
+ r:["grado","fdisciplinarias","ordinarios"]},
+publicidad:{t:"Publicidad", k:"Base · Art. 9 COT", d:"Los actos de los tribunales son públicos, salvo excepciones legales: el secreto.",
+ n:["COT 9"],
+ sub:[["Secreto absoluto","Nadie ve el expediente. Ej.: acuerdos de tribunales colegiados."],["Secreto relativo","Terceros no, partes sí. Ej.: adopción, divorcio o nulidad con reserva."],["NPP","Investigación secreta para terceros, pública para imputado y querellante, salvo secreto temporal (máx. 40 días)."]],
+ r:["acuerdos"]},
+sedentariedad:{t:"Sedentariedad", k:"Base", d:"Los tribunales ejercen sus funciones en un lugar fijo y determinado.",
+ n:["COT 21 A"],
+ sub:[["Única excepción moderna","El TOP puede funcionar fuera de su ciudad asiento (Art. 21 A COT)."]],
+ r:["top","territorialidad"]},
+pasividad:{t:"Pasividad", k:"Base · Art. 10 COT", d:"Los tribunales no pueden ejercer su ministerio sino a petición de parte, salvo que la ley los faculte para proceder de oficio.",
+ n:["COT 10","CC 1683"],
+ sub:[["Vínculo dogmático","Principio dispositivo (impulso de las partes), opuesto al inquisitivo."],["Excepciones (de oficio)",null,[["Nulidad absoluta","Si aparece de manifiesto en el acto o contrato (Art. 1683 CC)."],["Incompetencia absoluta","Declarable de oficio."],["Nulidad procesal","O rechazar incidentes impertinentes."]]]],
+ ojo:"En el NPP el juez NUNCA investiga de oficio; el fiscal sí puede iniciar investigaciones de oficio.",
+ r:["accion","elementosjur","nocontencioso"]},
+competenciacomun:{t:"Competencia común", k:"Base", d:"Regla general: los jueces conocen toda clase de asuntos.",
+ n:["COT 5","*COT 45"],
+ sub:[["Excepciones","Especialización: JG, TOP, Familia, Letras del Trabajo. La CS funciona en salas especializadas."]],
+ r:["clasifcomp","jletras"]},
+inavocabilidad:{t:"Inavocabilidad", k:"Base · Art. 8 COT", d:"Ningún tribunal puede avocarse el conocimiento de causas pendientes ante otro tribunal.",
+ n:["COT 8"],
+ sub:[["Excepciones","El compromiso y la acumulación de autos."]],
+ r:["radicacion","independencia","compromiso"]},
+inexcusabilidad:{t:"Inexcusabilidad", k:"Base · Art. 76 inc. 2 CPR", d:"Reclamada su intervención en forma legal y en negocios de su competencia, el juez no puede excusarse de fallar, ni aun por falta de ley (falla en equidad).",
+ n:["CPR 76 inc. 2","*COT 10 inc. 2"],
+ r:["elementosjur","prevencion"]},
+gratuidad:{t:"Gratuidad", k:"Base", d:"Las partes no pagan el sueldo del juez, que es funcionario del Estado.",
+ n:["*CPR 19 N°3"],
+ sub:[["Igualdad de armas","Privilegio de pobreza, Corporaciones de Asistencia Judicial, abogados de turno y Defensoría Penal Pública."]],
+ r:["procuradores","abogados"]},
+autogeneracion:{t:"Autogeneración incompleta", k:"Base · Art. 78 CPR", d:"En el nombramiento de jueces intervienen el Poder Judicial (propone), el Ejecutivo (elige) y, en la Corte Suprema, el Senado (aprueba).",
+ n:["CPR 78"],
+ r:["nombramiento","independencia"]},
+subrogacion:{t:"Subrogación", k:"Continuatividad · Arts. 211 y ss. COT", d:"Reemplazo automático, por el solo ministerio de la ley, de un juez (o de un tribunal colegiado entero) impedido de ejercer sus funciones.",
+ n:["COT 211","COT 214"],
+ sub:[["Causales","Muerte, enfermedad, feriado, implicancia, recusación o inasistencia (Art. 214 COT)."],
+      ["Jueces de Letras",null,[["Regla 1","Secretario del mismo tribunal, si es abogado."],["Regla 2 (2 juzgados)","Secretario abogado del otro."],["Regla 3 (3 o más)","Juez del juzgado que sigue en número."],["Regla 4 (1 juzgado)","Defensor Público; si no, abogado de la terna de la Corte."]]],
+      ["Jueces de Garantía","Otro juez del mismo juzgado; si hay uno solo, el juez de letras de competencia común de la comuna."],
+      ["TOP","Juez del mismo TOP; luego de otro TOP de la jurisdicción; luego un juez de garantía que no haya intervenido."],
+      ["CA y CS (falta la mayoría o totalidad)",null,[["CA","Otra sala; si todos inhabilitados, la CA subrogante."],["CS","Ministros de la CA de Santiago por antigüedad."]]]],
+ r:["integracion","secretarios","defensores"], par:["subint"]},
+integracion:{t:"Integración", k:"Continuatividad", d:"Reemplazo legal de alguno de los ministros de un tribunal colegiado impedidos, para completar el quórum. Aplica cuando faltan uno o dos, no la mayoría.",
+ n:["*COT 215","*Ley 19.810"],
+ sub:[["Cortes de Apelaciones","1° Ministros no inhabilitados → 2° Fiscales → 3° Abogados integrantes."],["Corte Suprema","1° Ministros no inhabilitados → 2° Fiscal → 3° Abogados integrantes."],["Regla de oro (Ley 19.810)","Las salas no funcionan con mayoría de abogados integrantes."],["Recusación","Se puede recusar sin causa a un abogado integrante antes de la audiencia (pagando impuesto)."]],
+ r:["subrogacion","fiscalia","ca","cs"], par:["subint"]},
+nombramiento:{t:"Nombramiento de jueces", k:"Estatuto · Art. 78 CPR", d:"Sistema de autogeneración incompleta. Para asumir se requiere nombramiento y juramento (Art. 299 COT).",
+ n:["CPR 78","COT 299"],
+ sub:[["Ministros de la CS",null,[["Quina","La CS en pleno, en una votación (cada ministro vota por 3), forma nómina de 5."],["Vacante interna","Miembros del PJ; el ministro de CA más antiguo de la lista de méritos entra por derecho propio."],["Vacante externa","5 de 21; concurso público con abogados extraños a la administración de justicia."],["Elección y ratificación","El Presidente elige; el Senado aprueba por 2/3 de sus miembros en ejercicio. Si rechaza, nueva propuesta."]]],
+      ["Ministros de CA","Terna de la CS; el Presidente nombra, sin Senado."],
+      ["JL, JG y TOP","Terna de la CA respectiva; el Presidente nombra."],
+      ["Academia Judicial","Hoy se exige su curso para ingresar al escalafón."]],
+ r:["autogeneracion","cs","prohibiciones"]},
+prohibiciones:{t:"Prohibiciones de los jueces", k:"Estatuto", d:"Garantizan dedicación exclusiva e imparcialidad.",
+ n:["*COT 316-323"],
+ sub:[["Abogacía","No pueden ejercerla (salvo causas propias o de cónyuge, ascendientes o descendientes)."],["Arbitraje","No pueden ser árbitros ni aceptar compromisos."],["Opinión","No pueden anticipar opinión sobre asuntos que conocerán."],["Bienes litigiosos","No pueden adquirir cosas o derechos de juicios que conocen."],["Política","No felicitan ni censuran al Ejecutivo; no participan en actos partidistas."],["Remuneración","Incompatible con otra función fiscal remunerada, salvo docencia (máx. 12 horas semanales)."]],
+ r:["obligaciones","nombramiento","arbrequisitos"]},
+obligaciones:{t:"Obligaciones de los jueces", k:"Estatuto", d:"Deberes de residencia, asistencia y despacho.",
+ n:["*COT 311-315"],
+ sub:[["Residencia","En la ciudad asiento del tribunal."],["Asistencia","Diaria, mínimo 4 o 5 horas. La Ley 20.774 suprimió el feriado judicial de febrero: feriado anual de un mes a elección (no simultáneo juez y secretario)."],["Despacho diligente","En los plazos legales, por orden de ingreso."]],
+ r:["prohibiciones"]},
+
+/* ---------------- MÓDULO 7: ARBITRAJE ---------------- */
+arbitros:{t:"Jueces árbitros", k:"Concepto · Art. 222 COT", d:"Jueces nombrados por las partes, o por la autoridad judicial en subsidio, para la resolución de un asunto litigioso.",
+ n:["COT 222","*COT 223"],
+ ojo:"La sentencia arbitral NO es equivalente jurisdiccional: el árbitro ejerce jurisdicción.",
+ r:["arbclasesfallo","arbprocedencia","arbfuentes","equivalentes"], par:["arb"]},
+arbclasesfallo:{t:"Clases de árbitros", k:"Según forma de tramitar y fallar", d:"Cuadro para saber de memoria: de derecho, arbitrador y mixto.",
+ n:["*COT 223","CPC 632","CPC 639","CPC 640"],
+ sub:[["De derecho","Tramita según las reglas de los jueces ordinarios; falla con estricto arreglo a la ley. Debe ser abogado."],["Arbitrador (amigable componedor)","Tramita según lo que fijen las partes (si nada dicen, oír a las partes y agregar instrumentos); falla según prudencia y equidad, con límite en el orden público."],["Mixto","Tramita como arbitrador; falla con arreglo a la ley."]],
+ r:["arbtramite","arbrecursos","arbrequisitos"], par:["arb"]},
+arbprocedencia:{t:"Procedencia del arbitraje", k:"Clasificación", d:"Según la ley obligue, prohíba o permita el arbitraje.",
+ n:["COT 227","COT 229","COT 230"],
+ sub:[["Forzoso (Art. 227)","Liquidación de sociedad conyugal o colectiva, partición de bienes, juicio de cuentas, diferencias entre socios de S.A."],["Prohibido (Arts. 229-230)","Separación de bienes, alimentos, causas criminales, policía local, causas contra representante legal."],["Facultativo (regla general)","Todo lo demás; nace del compromiso o de la cláusula compromisoria."]],
+ r:["arbfuentes","compromiso","clausula"]},
+arbrequisitos:{t:"Requisitos y prohibiciones del árbitro", k:"Capacidad", d:"Quién puede y quién no puede ser árbitro.",
+ n:["*COT 225","*COT 226"],
+ sub:[["Positivos","Mayor de edad, libre disposición de bienes, saber leer y escribir. Solo el árbitro de derecho debe ser abogado."],["Negativos","Las partes que litigan (salvo partición), el juez de la causa, los notarios y el fiscal judicial."]],
+ r:["arbclasesfallo","prohibiciones"]},
+arbfuentes:{t:"Fuentes del arbitraje", k:"Origen", d:"De dónde nace un arbitraje.",
+ n:["COT 227","COT 232"],
+ sub:[["La ley","Obliga en el forzoso y permite en el facultativo."],["El testamento","El testador nombra al partidor (los herederos de común acuerdo pueden revocarlo)."],["La resolución judicial","Nombra en subsidio si no hay acuerdo."],["La voluntad de las partes","Compromiso o cláusula compromisoria."]],
+ r:["compromiso","clausula","arbprocedencia"]},
+compromiso:{t:"Compromiso", k:"Convención", d:"Convención por la cual las partes sustraen un asunto de la justicia ordinaria para entregarlo a uno o más árbitros designados en ese mismo acto.",
+ n:["*COT 234","*COT 235"],
+ sub:[["Elementos de la esencia","Individualización de partes, del árbitro y del conflicto."],["Elementos de la naturaleza","Facultades (si nada dicen: de derecho), lugar (donde se celebró), tiempo (2 años desde la aceptación), procedimiento (CPC)."],["Accidentales","Renuncia a recursos. Nunca a casación en la forma por incompetencia o ultra petita, ni a la queja."],["Formalidad","Solemne: por escrito."],["Extinción","Cumplimiento, mutuo acuerdo, muerte del árbitro o si las partes van de común acuerdo a la justicia ordinaria. La muerte de las partes no lo extingue."]],
+ r:["clausula","compromisario","radicacion","inavocabilidad"], par:["compcl"]},
+clausula:{t:"Cláusula compromisoria", k:"Contrato", d:"Contrato por el cual se sustrae un asunto para entregarlo a un árbitro que no se designa en ese instante, pero que las partes se obligan a nombrar después.",
+ n:["COT 232"],
+ sub:[["Objeto","Someterse a arbitraje y obligarse a nombrar al árbitro."],["Formalidad","Consensual (en la práctica consta en contratos)."],["Extinción","Mutuo acuerdo, cumplimiento o extinción de la obligación principal."]],
+ r:["compromiso","arbfuentes"], par:["compcl"]},
+compromisario:{t:"Contrato de compromisario", k:"Árbitro ↔ partes", d:"Contrato entre las partes y el árbitro: él se obliga a desempeñar el cargo y ellas a pagarle honorarios.",
+ n:["*COT 236"],
+ sub:[["Nacimiento","Desde que el árbitro acepta y jura desempeñarlo con fidelidad y rapidez. El juramento es esencial y no puede ser tácito."]],
+ r:["compromiso","arbdesarrollo"]},
+arbdesarrollo:{t:"Desarrollo del arbitraje", k:"Hitos", d:"Hitos ineludibles para que el arbitraje nazca a la vida procesal.",
+ n:["*COT 236"],
+ sub:[["1. Nombramiento","Facultativo: en el compromiso o vía tribunal en la cláusula. Forzoso: acuerdo o designación del juez (reglas de peritos)."],["2. Notificación y aceptación","Notificación personal; aceptación y juramento (requisito de validez; su omisión anula todo)."],["3. Primera resolución","Cita a primer comparendo para fijar partes, conflicto y procedimiento."],["4. Honorarios","Propuesta en el primer comparendo; si no se aceptan, los fija la justicia ordinaria."]],
+ r:["compromisario","arbtramite"]},
+arbtramite:{t:"Tramitación: derecho vs. arbitrador", k:"Paralelo", d:"Diferencias de tramitación entre árbitros de derecho y arbitradores.",
+ n:["CPC 632","CPC 639","CPC 640","CPC 170"],
+ sub:[["Notificaciones","Derecho: personal o cédula, nunca estado diario. Arbitrador: como acuerden (si nada, personal o cédula)."],["Ministro de fe","Derecho: obligatorio (Art. 632 CPC). Arbitrador: facultativo (Art. 639 CPC)."],["Sentencia","Derecho: Art. 170 CPC. Arbitrador: Art. 640 CPC + razones de prudencia y equidad."],["Imperio","Ambos restringido: piden auxilio a los tribunales ordinarios."]],
+ r:["arbclasesfallo","arbrecursos"], par:["arb"]},
+arbdesacuerdo:{t:"Desacuerdo entre árbitros", k:"Tribunal arbitral colegiado", d:"Si hay dos o más árbitros y no hay acuerdo para fallar.",
+ n:["*COT 237"],
+ sub:[["Con tercero en discordia","Se le llama para formar mayoría."],["Sin tercero en discordia",null,[["Procede apelación","Se eleva a la Corte para que resuelva."],["No procede (facultativo)","Termina el arbitraje: nuevo árbitro o justicia ordinaria."],["No procede (forzoso)","Deben nombrarse otros árbitros."]]]],
+ r:["discordia","arbrecursos"]},
+arbrecursos:{t:"Recursos contra sentencias arbitrales", k:"Régimen", d:"Qué recursos proceden según la clase de árbitro.",
+ n:["CPC 768","*COT 239"],
+ sub:[["Árbitro de derecho","Apelación (ante la CA), casación en la forma, casación en el fondo y queja, como un juez de letras."],["Árbitro arbitrador",null,[["Apelación","No procede, salvo tribunal arbitral de 2ª instancia pactado."],["Casación en el fondo","NUNCA."],["Casación en la forma","Solo por algunas causales del 768 CPC (ej.: faltar a trámites esenciales)."]]]],
+ r:["arbclasesfallo","arbtramite","compromiso"], par:["arb"]},
+
+/* ---------------- MÓDULO 8: AUXILIARES ---------------- */
+fiscalia:{t:"Fiscalía Judicial", k:"Ministerio Público Judicial · Art. 350 y ss. COT", d:"Institución cuya misión fundamental es representar ante los tribunales el interés general de la sociedad.",
+ n:["COT 354","*COT 350"],
+ sub:[["Composición","Un Fiscal Judicial en la CS y Fiscales Judiciales en cada CA (ya no en juzgados de letras)."],
+      ["Formas de intervenir (Art. 354)",null,[["Parte principal","Hoy casi sin aplicación (penal antiguo)."],["Tercero («Vista» obligatoria)","Contiendas de competencia, responsabilidad civil de jueces, estado civil, bienes de fundaciones de derecho público."],["Auxiliar del juez","Informe voluntario; además integran la Corte."]]]],
+ ojo:"No confundir con el Ministerio Público del nuevo sistema penal, que dirige la investigación.",
+ r:["integracion","contiendas","defensores"], par:["aux"]},
+defensores:{t:"Defensores Públicos", k:"Art. 365 y ss. COT", d:"Representan ante los tribunales los intereses de menores, incapaces, ausentes y fundaciones de beneficencia.",
+ n:["COT 365"],
+ sub:[["Requisitos","Abogado (los mismos del juez de letras)."],["Funciones",null,[["Informar","Dictamen o «Vista», obligatorio o facultativo."],["Representar","A quienes no tienen guardador."],["Velar","Fiscalizan a tutores y curadores."],["Subrogar","A los jueces de letras de su comuna."]]]],
+ r:["subrogacion","fiscalia"], par:["aux"]},
+relatores:{t:"Relatores", k:"Art. 372 y ss. COT", d:"Dan a conocer el contenido de los procesos a los tribunales colegiados (CA y CS). No actúan en los TOP.",
+ n:["COT 372"],
+ sub:[["Funciones",null,[["Cuenta diaria","A la Sala Tramitadora de solicitudes urgentes o de mero trámite."],["Aviso de integración","Si la sala difiere de lo anunciado, para que puedan recusar."],["Estado de relación","Revisan y certifican los expedientes."],["La relación","Exposición oral y sistemática; certifican ministros asistentes y abogados que alegaron."],["Denuncia","Avisan vicios de nulidad o abusos disciplinarios."]]]],
+ r:["vistacausa","cuentavista","ca"], par:["aux"]},
+secretarios:{t:"Secretarios", k:"Ministros de fe · Art. 379 y ss. COT", d:"Ministros de fe pública que autorizan las providencias y actos del tribunal y custodian los expedientes. En JG y TOP no hay: hay Administrador.",
+ n:["COT 379"],
+ sub:[["Funciones",null,[["Cuenta","Dan cuenta diaria de los escritos."],["Autorizar","Una resolución de juez de letras sin firma del secretario es nula."],["Libros","Depósitos, juramentos, libro de acuerdos."],["Mandatos","Autorizan mandatos judiciales."]]]],
+ r:["subrogacion","administradores","receptores"], par:["aux"]},
+administradores:{t:"Administradores de tribunales", k:"Art. 389 A COT", d:"Profesionales de gestión (no necesariamente abogados) que organizan la gestión administrativa de JG y TOP.",
+ n:["COT 389 A"],
+ sub:[["Funciones","Dirigir al personal, contabilidad, distribuir causas según el procedimiento aprobado y administrar salas de audiencia."]],
+ r:["jgarantia","top","distribucion","secretarios"], par:["aux"]},
+receptores:{t:"Receptores judiciales", k:"Ministros de fe · Art. 390 y ss. COT", d:"Ministros de fe que notifican decretos y resoluciones fuera de la oficina del secretario y realizan diligencias encomendadas. No requieren ser abogados.",
+ n:["COT 390"],
+ sub:[["Funciones",null,[["Notificar","Personal y por cédula."],["Prueba","Autorizan la testimonial y la absolución de posiciones."],["Juicio ejecutivo","Requerimientos de pago y embargos."]]]],
+ r:["secretarios","notarios"], par:["aux"]},
+procuradores:{t:"Procuradores del número", k:"Art. 394 y ss. COT", d:"Representan en juicio a las partes, como mandatario judicial especial. No requieren ser abogados (sufragio, aptitud, 25 años).",
+ n:["COT 394"],
+ sub:[["Funciones",null,[["Representar","Ante la CS solo se comparece por abogado o procurador del número."],["Límite absoluto","Nunca alegan ante las Cortes."],["Turno","Representan gratis a quienes tienen privilegio de pobreza."]]]],
+ r:["abogados","gratuidad"], par:["aux"]},
+notarios:{t:"Notarios", k:"Ministros de fe · Art. 399 y ss. COT", d:"Autorizan y guardan en su archivo los instrumentos que ante ellos se otorgan y dan copias. Deben ser abogados.",
+ n:["COT 399","COT 401","COT 403"],
+ sub:[["Funciones (Art. 401)","Instrumentos públicos, inventarios solemnes, protesto de letras, juntas de S.A., archivo cronológico."],
+      ["Escritura pública (Art. 403)",null,[["Concepto","Instrumento público otorgado con las solemnidades legales por el competente notario e incorporado en su protocolo."],["Requisitos","Notario competente en su territorio, protocolo, castellano, lugar, fecha, comparecientes, firma (plazo fatal de 60 días)."],["Protocolización","Agregar un documento al final del protocolo: fecha cierta frente a terceros y conservación."]]]],
+ r:["conservadores","archiveros","transaccion"], par:["aux"]},
+conservadores:{t:"Conservadores", k:"Ministros de fe · Art. 446 y ss. COT", d:"Ministros de fe a cargo de los registros conservatorios (Bienes Raíces, Comercio, Minas, etc.).",
+ n:["COT 446"],
+ sub:[["Registro CBR: 4 libros",null,[["Repertorio",""],["Registro de Propiedad",""],["Registro de Hipotecas y Gravámenes",""],["Registro de Interdicciones y Prohibiciones de Enajenar",""]]]],
+ r:["notarios","archiveros"], par:["aux"]},
+archiveros:{t:"Archiveros y consejos técnicos", k:"Auxiliares", d:"Archiveros: custodian procesos afinados, copiadores de sentencias y protocolos notariales de más de un año (abogados). Consejos técnicos: asesoran a jueces de Familia.",
+ n:["*COT 453","*COT 457"],
+ r:["notarios","especiales"], par:["aux"]},
+abogados:{t:"Abogados", k:"Arts. 520-529 COT", d:"Personas revestidas por la autoridad competente de la facultad de defender ante los tribunales los derechos de las partes litigantes (Art. 520 COT).",
+ n:["COT 520","COT 523"],
+ sub:[["Investidura","Pleno de la CS, en audiencia pública, previo juramento."],["Requisitos (Art. 523)",null,[["Edad","20 años."],["Grado","Licenciado en Ciencias Jurídicas."],["Antecedentes","Sin condena ni acusación por delito con pena aflictiva."],["Conducta","Buena conducta (información sumaria)."],["Práctica","6 meses en una CAJ u otra institución autorizada."]]],["Patrocinio","Mandato para la defensa en juicio. La defensa oral ante las Cortes es del abogado habilitado."]],
+ ojo:"¿Es auxiliar de la administración de justicia? NO: es coadyuvante indispensable, pero no funcionario judicial.",
+ r:["procuradores","gratuidad"]}
+};
+
+/* ---------- PARALELOS ---------- */
+const CMP = [
+ {id:"jc", t:"Jurisdicción vs. Competencia", d:"El cuadro que se dibuja mentalmente en el examen.", cols:[["Jurisdicción","jurisdiccion",["CPR 76","COT 1"]],["Competencia","competencia",["COT 108"]]], rows:[
+   ["Naturaleza","Poder-deber del Estado (Art. 76 CPR).","Grado o medida para ejercer ese poder (Art. 108 COT)."],
+   ["Clasificación","Una sola; no admite clasificaciones.","Múltiples: absoluta, relativa, civil, penal, etc."],
+   ["Prorrogabilidad","Improrrogable.","Prorrogable (solo territorio, civil contencioso, 1ª instancia)."],
+   ["Delegabilidad","Indelegable.","Delegable vía exhorto para diligencias puntuales."],
+   ["Relación","Un juez puede tener jurisdicción y no competencia.","Un juez no puede tener competencia sin jurisdicción."],
+   ["Sanción","Inexistencia procesal (o nulidad absoluta; excepción del 464 N°7 CPC).","Nulidad procesal (excepción dilatoria, vía declinatoria)."]]},
+ {id:"absrel", t:"Competencia absoluta vs. relativa", d:"Absoluta = jerarquía = orden público = de oficio. Relativa = territorio = orden privado = prórroga = a petición de parte.", cols:[["Absoluta","absrel",["COT 115"]],["Relativa","relcivil",["COT 134","COT 135"]]], rows:[
+   ["Determina","La jerarquía del tribunal en la pirámide.","El tribunal específico dentro de esa jerarquía."],
+   ["Elementos","Cuantía, materia, fuero (y tiempo en penal).","Territorio."],
+   ["Naturaleza","Orden público: irrenunciable e improrrogable.","Orden privado (civil, 1ª instancia): renunciable vía prórroga."],
+   ["Declaración","De oficio o a petición de parte.","Solo a petición de parte."],
+   ["Plazo","Sin plazo; en cualquier estado del juicio.","Con plazo: excepción dilatoria; si no, prórroga tácita."]]},
+ {id:"arb", t:"Árbitros de derecho vs. arbitradores (y mixtos)", d:"Forma de tramitar, forma de fallar, requisitos y recursos.", cols:[["De derecho","arbclasesfallo",["COT 222","CPC 632"]],["Arbitrador","arbclasesfallo",["CPC 639","CPC 640"]],["Mixto","arbclasesfallo",["*COT 223"]]], rows:[
+   ["Tramitación","Reglas de los jueces ordinarios según la acción.","Lo que fijen las partes; si nada, oír a las partes y agregar instrumentos.","Como arbitrador (flexible)."],
+   ["Fallo","Estricto arreglo a la ley.","Prudencia y equidad (límite: orden público).","Estricto arreglo a la ley."],
+   ["¿Abogado?","Sí, obligatorio.","No; puede ser lego.","Sí (falla en derecho)."],
+   ["Notificaciones","Personal o cédula; nunca estado diario.","Como acuerden; si nada, personal o cédula.","Como acuerden."],
+   ["Ministro de fe","Obligatorio (Art. 632 CPC).","Facultativo (Art. 639 CPC).","—"],
+   ["Sentencia","Requisitos del Art. 170 CPC.","Art. 640 CPC + razones de prudencia y equidad.","Art. 170 CPC."],
+   ["Imperio","Restringido: pide auxilio al tribunal ordinario.","Restringido, igual.","Restringido."],
+   ["Apelación","Procede, ante la CA.","No, salvo 2ª instancia arbitral pactada.","—"],
+   ["Casación en el fondo","Procede.","Nunca.","—"],
+   ["Casación en la forma","Procede.","Solo algunas causales del 768 CPC.","—"]]},
+ {id:"implrec", t:"Implicancias vs. Recusaciones", d:"Implicancia = orden público, no se purga. Recusación = orden privado, se purga.", cols:[["Implicancias","implicancias",["COT 195"]],["Recusaciones","recusaciones",["COT 196"]]], rows:[
+   ["Gravedad","Gravísimas: vínculo directo y fuerte.","Menos graves: vínculo lejano, amistad o enemistad."],
+   ["Naturaleza","Orden público, irrenunciables.","Orden privado, renunciables."],
+   ["Purga","No se purgan.","Se purgan si no se reclama en 5 días."],
+   ["Declaración","De oficio (deber del juez).","A petición de parte (el juez puede declararlas)."],
+   ["Si el juez falla","Prevaricación si lo hace a sabiendas.","No constituye delito."],
+   ["Parentesco","Hasta 2° grado colateral.","Hasta 4° grado colateral."]]},
+ {id:"bilateral", t:"Autocomposición bilateral", d:"Suelen preguntarse en paralelo: directa o indirecta, judicial o extrajudicial.", cols:[["Transacción","transaccion",["CC 2446"]],["Mediación","mediacion",["*Ley 19.968"]],["Avenimiento","avenimiento",["*CPC 434 N°3"]],["Conciliación","conciliacion",["CPC 267"]]], rows:[
+   ["Tipo","Extrajudicial directa.","Extrajudicial indirecta.","Judicial directa.","Judicial indirecta."],
+   ["Tercero","No.","Mediador que ayuda a negociar.","No (acuerdo presentado al juez).","El juez que conoce propone."],
+   ["Naturaleza","Contrato procesal; facultades especiales.","Confidencial y flexible.","Acto jurídico procesal bilateral.","Acto jurídico bilateral."],
+   ["Efecto","Cosa juzgada de última instancia.","Según la ley.","Termina el proceso; cosa juzgada.","Sentencia ejecutoriada (Art. 267 CPC)."]]},
+ {id:"func", t:"Jurisdicción vs. Legislación vs. Administración", d:"Diferencias formales y materiales entre las funciones del Estado.", cols:[["Jurisdiccional","jurisdiccion",["CPR 76"]],["Legislativa","funciones",["*CPR 63"]],["Administrativa","funciones",["*CPR 24"]]], rows:[
+   ["Manifestación","Sentencia.","Ley.","Acto administrativo."],
+   ["Efecto","Específico y relativo (Art. 3 CC).","General y abstracto.","Satisface necesidades públicas; mutable y revocable."],
+   ["Revisabilidad","Inmutable (cosa juzgada).","Derogable por otra ley.","Control judicial (amparo, protección, nulidad)."],
+   ["Motivación","Fundada (Art. 170 CPC).","Sin motivación estricta.","Solo si la ley lo exige."],
+   ["Imparcialidad","Decisión imparcial y desinteresada.","No aplica el concepto.","La Administración es parte interesada."]]},
+ {id:"compcl", t:"Compromiso vs. Cláusula compromisoria", d:"Las dos vías de la voluntad de las partes hacia el arbitraje.", cols:[["Compromiso","compromiso",["*COT 234"]],["Cláusula compromisoria","clausula",["COT 232"]]], rows:[
+   ["Definición","Convención que sustrae un asunto y lo entrega a árbitros designados en el mismo acto.","Contrato que sustrae un asunto para un árbitro que se nombrará después."],
+   ["Objeto","Nombramiento y sometimiento al árbitro.","Someterse y obligarse a nombrar al árbitro."],
+   ["Formalidad","Solemne (por escrito).","Consensual."],
+   ["Extinción","Cumplimiento, mutuo acuerdo, muerte del árbitro, vuelta de común acuerdo a la justicia ordinaria. No por muerte de las partes.","Mutuo acuerdo, cumplimiento o extinción de la obligación principal."]]},
+ {id:"subint", t:"Subrogación vs. Integración", d:"Las dos herramientas de la continuatividad.", cols:[["Subrogación","subrogacion",["COT 211","COT 214"]],["Integración","integracion",["*COT 215"]]], rows:[
+   ["Qué reemplaza","Un juez o un tribunal colegiado entero.","Uno o algunos ministros de un colegiado."],
+   ["Cuándo","Falta el juez, o la mayoría o totalidad del colegiado.","Faltan uno o dos, para completar quórum."],
+   ["Orden","Secretario → otro juzgado → defensor público (JL).","Ministros → fiscales → abogados integrantes."],
+   ["Límite","—","Nunca mayoría de abogados integrantes (Ley 19.810)."]]},
+ {id:"declinh", t:"Vía declinatoria vs. inhibitoria", d:"Dos vías incompatibles: si eliges una, no puedes usar la otra.", cols:[["Declinatoria","cuestiones",["CPC 303 N°1"]],["Inhibitoria","cuestiones",["*CPC 102"]]], rows:[
+   ["Ante quién","El tribunal que conoce el asunto.","El tribunal que se cree competente (y no conoce)."],
+   ["Qué se pide","Que se abstenga por incompetente.","Que se dirija al otro para que se inhiba y remita los autos."],
+   ["Tramitación","Incidente de previo y especial pronunciamiento.","Si el otro se niega, surge una contienda de competencia."]]},
+ {id:"base", t:"Juez de Letras vs. Garantía vs. TOP", d:"Los tres tribunales de base, comparados.", cols:[["Juez de Letras","jletras",["COT 28-48"]],["Juzgado de Garantía","jgarantia",["COT 14"]],["TOP","top",["COT 17-21"]]], rows:[
+   ["Composición","Unipersonal.","Colegiado en composición.","Colegiado (3 a 27 jueces)."],
+   ["Funcionamiento","Unipersonal.","Unipersonal.","Colegiado en salas de 3."],
+   ["Materia","Generalidad civil.","Penal: investigación y faltas.","Penal: juicio oral."],
+   ["Instancia","Única (≤10 UTM) o primera.","Única (faltas) o primera (abreviado).","Única (solo nulidad)."],
+   ["Misión","Mixto: tramita y falla.","Garante de derechos del imputado.","Sentenciador."],
+   ["Ministro de fe","Secretario.","Administrador (no hay secretario).","Administrador (no hay secretario)."]]},
+ {id:"aux", t:"Auxiliares: quién hace qué", d:"Funciones, requisito de título y norma de cada auxiliar.", cols:[["Función central","fiscalia",[]],["¿Abogado?","fiscalia",[]],["Norma","fiscalia",[]]], rowHead:true, rows:[
+   ["Fiscalía Judicial","Representar el interés general de la sociedad; emitir «Vista».","Sí.","Art. 350 y ss., 354 COT"],
+   ["Defensores Públicos","Intereses de menores, incapaces, ausentes y fundaciones.","Sí.","Art. 365 COT"],
+   ["Relatores","Hacer la relación ante CA y CS.","Sí.","Art. 372 COT"],
+   ["Secretarios","Ministros de fe: autorizar resoluciones, custodiar expedientes.","Sí.","Art. 379 COT"],
+   ["Administradores","Gestión de JG y TOP.","No necesariamente.","Art. 389 A COT"],
+   ["Receptores","Notificar fuera del tribunal, embargar, autorizar testimonial.","No.","Art. 390 COT"],
+   ["Procuradores del número","Representar a las partes; nunca alegar.","No.","Art. 394 COT"],
+   ["Notarios","Autorizar y guardar instrumentos; escritura pública.","Sí.","Arts. 399, 401, 403 COT"],
+   ["Conservadores","Llevar los registros conservatorios.","—","Art. 446 COT"],
+   ["Archiveros","Custodiar procesos afinados y protocolos antiguos.","Sí.","*Art. 453 COT"]]}
+];
+
+/* ---------- FLUJO DE DESCARTE (tribunal competente) ---------- */
+const FLOW = {
+ start:"a1",
+ a1:{lbl:"1 · Arbitraje", q:"¿La materia es de arbitraje FORZOSO?", hint:"Partición, liquidación de sociedad conyugal o colectiva, juicio de cuentas, diferencias entre socios de S.A.", n:["COT 227"], node:"arbprocedencia", opts:[["Sí","r_arbforzoso"],["No","a2"]]},
+ a2:{lbl:"1 · Arbitraje", q:"¿La materia es de arbitraje PROHIBIDO?", hint:"Separación de bienes, alimentos, causas criminales, policía local, causas contra representante legal.", n:["COT 229","COT 230"], node:"arbprocedencia", opts:[["Sí: queda fuera del arbitraje","b1"],["No","a3"]]},
+ a3:{lbl:"1 · Arbitraje facultativo", q:"¿Existe compromiso o cláusula compromisoria?", hint:"Si las partes pactaron arbitraje, el asunto sale de la justicia ordinaria.", n:["COT 232"], node:"compromiso", opts:[["Sí","r_arbfac"],["No","b1"]]},
+ b1:{lbl:"2 · Tribunal especial", q:"¿La ley fijó un tribunal especial para esta materia?", hint:"Familia, Letras del Trabajo, Cobranza, Militares, Policía Local, TDLC, etc.", n:["COT 5"], node:"especiales", opts:[["Sí","r_especial"],["No: va a la justicia ordinaria","c1"]]},
+ c1:{lbl:"3 · Competencia absoluta", q:"Determina la jerarquía: ¿qué elemento es decisivo?", hint:"Cuantía, materia, fuero (y tiempo en penal). Orden público.", n:["COT 115"], node:"absrel", opts:[["Fuero o materia eleva el asunto","c1b"],["Cuantía / regla general","d0"]]},
+ c1b:{lbl:"3 · Competencia absoluta", q:"El fuero o la materia elevan la jerarquía.", hint:"Fuero mayor → Ministro de CA. Fuero menor → JL en 1ª instancia. Delitos internacionales → Ministro de la CS. Hacienda → JL de asiento de Corte.", n:["COT 50-53","COT 115"], node:"fuero", opts:[["Continuar con la competencia relativa","d0"]]},
+ d0:{lbl:"4 · Competencia relativa", q:"¿Qué tipo de asunto es?", hint:"El territorio define el tribunal específico dentro de la jerarquía.", n:["COT 134"], node:"relcivil", opts:[["Civil contencioso","d1"],["Civil no contencioso","n1"],["Penal","p1"]]},
+ d1:{lbl:"4a · Civil contencioso · 1er descarte", q:"¿Hay prórroga de competencia (expresa o tácita)?", hint:"Solo territorio, entre ordinarios de igual jerarquía, en 1ª instancia.", n:["*COT 181-187"], node:"prorroga", opts:[["Sí","r_prorroga"],["No","d2"]]},
+ d2:{lbl:"4a · 2° descarte", q:"¿Hay una regla especial de territorio?", hint:"Varios domicilios, personas jurídicas, posesorias, alimentos, hereditarios.", n:["COT 139"], node:"relcivil", opts:[["Sí","r_especialterr"],["No","d3"]]},
+ d3:{lbl:"4a · 3er descarte", q:"¿Cuál es la naturaleza de la acción deducida?", hint:"Se mira primero el lugar estipulado por las partes.", n:["COT 135"], node:"relcivil", opts:[["Inmueble","r_inmueble"],["Mueble","r_mueble"],["Mixta","r_mixta"],["No se puede determinar","r_residual"]]},
+ n1:{lbl:"4b · Civil no contencioso", q:"¿Hay una regla especial?", hint:"No procede prórroga (orden público).", n:["*COT 148"], node:"relnc", opts:[["Sucesoria","r_nc_suc"],["Tutores / curadores","r_nc_tut"],["Muerte presunta","r_nc_mp"],["Ninguna","r_nc_res"]]},
+ p1:{lbl:"4c · Penal", q:"¿Dónde se cometió el hecho?", hint:"Se considera cometido donde se dio inicio a la ejecución. No procede prórroga.", n:["COT 6"], node:"relpenal", opts:[["En Chile","r_p_chile"],["En el extranjero (Art. 6 COT)","r_p_ext"],["Varias comunas, investigación conjunta","r_p_conj"]]},
+ r_arbforzoso:{res:"Tribunal arbitral (arbitraje forzoso)", txt:"Las partes acuerdan el árbitro; si no, lo designa el juez ordinario.", n:["COT 227"], node:"arbdesarrollo"},
+ r_arbfac:{res:"Tribunal arbitral (arbitraje facultativo)", txt:"El árbitro designado en el compromiso, o el que se nombre en cumplimiento de la cláusula compromisoria.", n:["COT 222","COT 232"], node:"compromiso"},
+ r_especial:{res:"Tribunal especial", txt:"Se aplica la ley especial respectiva; el COT rige solo cuando esa ley se remite a él.", n:["COT 5"], node:"especiales"},
+ r_prorroga:{res:"El tribunal prorrogado", txt:"Surte efecto solo entre quienes la otorgaron.", n:["*COT 181-187"], node:"prorroga"},
+ r_especialterr:{res:"El tribunal de la regla especial", txt:"Ej.: alimentos → domicilio del alimentante o del alimentario, a elección de este; hereditarios → último domicilio del difunto.", n:["COT 139"], node:"relcivil"},
+ r_inmueble:{res:"Lugar estipulado; si no, a elección del demandante", txt:"Lugar donde se contrajo la obligación o donde está el inmueble (competencia acumulativa: previene el primero).", n:["COT 135"], node:"prevencion"},
+ r_mueble:{res:"Lugar estipulado; si no, domicilio del demandado", txt:"Acción mueble.", n:["*COT 138"], node:"relcivil"},
+ r_mixta:{res:"Lugar donde están los inmuebles", txt:"Acción mixta.", n:["*COT 137"], node:"relcivil"},
+ r_residual:{res:"Domicilio del demandado", txt:"Regla residual general.", n:["COT 134"], node:"relcivil"},
+ r_nc_suc:{res:"Juez del último domicilio del causante", txt:"", n:["*COT 148"], node:"relnc"},
+ r_nc_tut:{res:"Juez del domicilio del pupilo", txt:"", n:["*COT 150"], node:"relnc"},
+ r_nc_mp:{res:"Juez del último domicilio del desaparecido", txt:"", n:["*COT 151"], node:"relnc"},
+ r_nc_res:{res:"Domicilio del solicitante o interesado", txt:"Regla general residual.", n:["*COT 134"], node:"relnc"},
+ r_p_chile:{res:"Tribunal del territorio donde se cometió el hecho", txt:"Regla de oro penal.", n:["*COT 157"], node:"relpenal"},
+ r_p_ext:{res:"JG y TOP de la jurisdicción de la CA de Santiago", txt:"Según turno fijado por auto acordado.", n:["COT 6"], node:"relpenal"},
+ r_p_conj:{res:"JG del lugar del primer hecho investigado", txt:"Cuando el MP agrupa investigaciones de distintas comunas.", n:["*COT 159"], node:"relpenal"}
+};
+const AFTER = "Luego: reglas generales (radicación, grado, extensión, prevención, ejecución) y, si hay varios jueces competentes en el mismo lugar, distribución de causas o turno.";
+
+const PROC = [
+ ["Asuntos contenciosos civiles",["Procedimiento especial, si la ley lo establece.","Procedimiento sumario, si la naturaleza exige tramitación rápida.","Procedimiento ordinario: regla residual (Art. 3 CPC)."],["CPC 3"]],
+ ["Asuntos no contenciosos civiles",["Procedimiento especial.","Procedimiento general del Libro IV, Título I del CPC."],["CPC 817"]],
+ ["Asuntos penales (nuevo sistema)",["Faltas: monitorio (solo multa) o simplificado.","Crímenes y simples delitos de acción pública: abreviado, simplificado o juicio oral (regla general)."],["*NCPP 388"]]
+];
+
+const KEYS = [
+ ["Jurisdicción vs. Competencia","la jurisdicción es el poder-deber y no se clasifica ni delega; la competencia es la medida de ese poder.","jc"],
+ ["Absoluta vs. Relativa","Absoluta = jerarquía = orden público = de oficio. Relativa = territorio = orden privado (civil) = prórroga = a petición de parte.","absrel"],
+ ["Equivalentes jurisdiccionales","transacción, avenimiento, conciliación y sentencia extranjera con exequatur. El árbitro no es equivalente.","equivalentes"],
+ ["Implicancias vs. Recusaciones","implicancia = orden público, no se purga; recusación = orden privado, se purga.","implrec"],
+ ["Árbitros","de derecho: falla y tramita en derecho; arbitrador: falla en equidad y tramita como fijen las partes.","arb"]
+];
+
+/* =========================================================
+   LÓGICA
+   ========================================================= */
+const CODES = [["CPR","Constitución Política"],["COT","Código Orgánico de Tribunales"],["CPC","Código de Procedimiento Civil"],["CC","Código Civil"],["NCPP","Código Procesal Penal"],["OTH","Otras leyes (LERL, Ley 19.968, Ley 19.810)"]];
+const LABEL = {CPR:"CPR",COT:"COT",CPC:"CPC",CC:"CC",NCPP:"CPP",OTH:"Otras"};
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store = { get(k,d){ try{ const v = localStorage.getItem("dpo:"+k); return v==null?d:JSON.parse(v);}catch(e){return d;} }, set(k,v){ try{ localStorage.setItem("dpo:"+k, JSON.stringify(v)); }catch(e){} } };
+
+function parseNorm(s){
+  const x = s.startsWith("*"); if (x) s = s.slice(1);
+  const i = s.indexOf(" "); let code = s.slice(0,i), art = s.slice(i+1);
+  let cls = ["CPR","COT","CPC","CC","NCPP"].includes(code) ? code : "OTH";
+  let show = code === "NCPP" ? "CPP" : code;
+  if (cls === "OTH") { show = code; }
+  return {x, code, cls, show, art};
+}
+function tag(s){
+  const p = parseNorm(s);
+  const title = p.x ? "Referencia complementaria (no citada en el apunte)" : "Citado en el apunte";
+  const prefix = p.cls === "OTH" ? "" : "Art. ";
+  return `<span class="tag c-${p.cls}${p.x?" x":""}" title="${title}"><b>${esc(p.show)}</b>${esc(prefix+p.art)}</span>`;
+}
+function codesOf(id){ return new Set((N[id].n||[]).map(s => parseNorm(s).cls)); }
+const chev = `<svg class="chev" viewBox="0 0 24 24" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>`;
+
+const state = { tab: store.get("tab","mapa"), sel: null, q:"", codes: new Set(), open: store.get("open", ["m1","m3","m4"]), cmp: store.get("cmp","jc"), path:["a1"], ans:[] };
+
+/* filters */
+function renderFilters(){
+  const f = $("#filters");
+  f.innerHTML = `<span>Resaltar norma</span>` + CODES.map(([c,name]) => `<button class="fbtn c-${c}" data-code="${c}" aria-pressed="${state.codes.has(c)}" title="${esc(name)}">${LABEL[c]}</button>`).join("");
+}
+$("#filters").addEventListener("click", e => {
+  const b = e.target.closest(".fbtn"); if (!b) return;
+  const c = b.dataset.code; state.codes.has(c) ? state.codes.delete(c) : state.codes.add(c);
+  renderFilters(); if (state.tab === "mapa") renderMain();
+});
+
+/* tabs */
+const TABS = [["mapa","Mapa conceptual"],["piramide","Tribunales"],["descarte","Reglas de descarte"],["paralelos","Paralelos"],["autores","Doctrina"]];
+function renderTabs(){
+  $("#tabs").innerHTML = TABS.map(([id,t]) => `<button class="tab" role="tab" data-tab="${id}" aria-selected="${state.tab===id}">${t}</button>`).join("");
+}
+$("#tabs").addEventListener("click", e => {
+  const b = e.target.closest(".tab"); if (!b) return;
+  state.tab = b.dataset.tab; store.set("tab", state.tab); renderTabs(); renderMain(); window.scrollTo({top:0});
+});
+
+function matches(id){
+  const q = state.q.trim().toLowerCase(); if (!q) return true;
+  const n = N[id];
+  const hay = [n.t, n.k, n.d, (n.n||[]).join(" "), (n.doc||[]).map(d=>d.join(" ")).join(" "), JSON.stringify(n.sub||[]), n.ojo||""].join(" ").toLowerCase();
+  return q.split(/\s+/).every(w => hay.includes(w));
+}
+function cardHTML(id){
+  const n = N[id]; const dim = state.codes.size && ![...codesOf(id)].some(c => state.codes.has(c));
+  return `<button class="card${state.sel===id?" on":""}${dim?" dim":""}" data-id="${id}"><span class="k">${esc(n.k)}</span><span class="t">${esc(n.t)}</span><span class="d">${esc(n.d)}</span><span class="tags">${(n.n||[]).slice(0,4).map(tag).join("")}</span></button>`;
+}
+
+/* ---------- MAPA ---------- */
+function renderMapa(){
+  const searching = state.q.trim().length > 0;
+  let html = `<p class="lede">Ocho módulos siguen el orden del apunte. Abre un módulo, toca un concepto y el panel muestra su definición, doctrina, normas y subclasificaciones. Las etiquetas de color indican el cuerpo legal; las punteadas son referencias complementarias que no cita el apunte.</p>`;
+  if (!searching) html += `<section class="keys"><h2>Repaso de oro</h2><ol>${KEYS.map(k => `<li><b>${esc(k[0])}:</b> ${esc(k[1])} <button class="link" data-cmp="${k[2]}">${CMP.some(c=>c.id===k[2])?"Ver paralelo":"Ver ficha"}</button></li>`).join("")}</ol></section>
+    <div class="bar"><button class="ghost" data-act="expand">Expandir todo</button><button class="ghost" data-act="collapse">Colapsar todo</button></div>`;
+  let any = false;
+  for (const m of MODS){
+    const groups = m.groups.map(([gt, ids]) => { const v = ids.filter(matches); return v.length ? `<div class="grp"><h3>${esc(gt)}</h3><div class="cards">${v.map(cardHTML).join("")}</div></div>` : ""; }).join("");
+    if (!groups) continue; any = true;
+    const open = searching || state.open.includes(m.id);
+    const count = m.groups.reduce((a,g)=>a+g[1].length,0);
+    html += `<details class="mod" data-mod="${m.id}"${open?" open":""}><summary><span class="mod-no">${esc(m.no)}</span><span class="mod-t"><h2>${esc(m.t)}</h2><p>${esc(m.d)} · ${count} conceptos</p></span>${chev}</summary><div class="mod-body">${groups}</div></details>`;
+  }
+  if (!any) html += `<div class="empty">Ningún concepto coincide con «${esc(state.q)}». Prueba con un artículo (ej. «108») o un autor (ej. «Couture»).</div>`;
+  return html;
+}
+
+/* ---------- PIRÁMIDE ---------- */
+function renderPiramide(){
+  const B = (id, b, s, cls="") => `<button class="blk ${cls}${state.sel===id?" on":""}" data-id="${id}"><b>${b}</b><small>${s}</small></button>`;
+  return `<p class="lede">Estructura del Art. 5 COT. La pirámide muestra los tribunales ordinarios de arriba (Corte Suprema) hacia la base; a la derecha, los especiales y arbitrales. Toca cualquier bloque para ver su ficha.</p>
+  <section class="pyr">
+    <div class="tiers">
+      <span class="axis">Tribunales ordinarios · Poder Judicial</span>
+      <div class="tier" style="max-width:260px">${B("cs","Corte Suprema","21 ministros · superintendencia")}</div>
+      <div class="tier" style="max-width:420px">${B("ca","Cortes de Apelaciones","17 · segunda instancia")}${B("unipersonales","Unipersonales de excepción","accidentales · fuero o materia","acc")}</div>
+      <div class="tier">${B("jletras","Jueces de Letras","civil · unipersonales")}${B("jgarantia","Juzgados de Garantía","penal · investigación")}${B("top","Juicio Oral en lo Penal","penal · salas de 3")}</div>
+      <span class="axis">↑ apelación · ↓ superintendencia y disciplina</span>
+    </div>
+    <div class="side-col">
+      <div class="box"><h3>Especiales · parte del PJ</h3><div class="mini">${["Familia","Letras del Trabajo","Cobranza Laboral y Previsional","Militares (paz)"].map(x=>`<button data-id="especiales">${x}</button>`).join("")}</div></div>
+      <div class="box"><h3>Especiales · fuera del PJ</h3><div class="mini">${["Policía Local","Militares (guerra)","Contraloría","TDLC","Director SII","Director Aduanas","Tribunal de Marcas","Alcaldes"].map(x=>`<button class="no" data-id="especiales">${x}</button>`).join("")}</div></div>
+      <div class="box"><h3>Arbitrales · Art. 222 COT</h3><div class="mini">${[["De derecho","arbclasesfallo"],["Arbitrador","arbclasesfallo"],["Mixto","arbclasesfallo"]].map(([x,i])=>`<button data-id="${i}">${x}</button>`).join("")}</div></div>
+    </div>
+  </section>
+  <h2 class="sectitle">Clasificaciones de los tribunales</h2>
+  <div class="classes">${N.clasiftrib.sub.map(([t,,ch]) => `<div class="box"><h3>${esc(t)}</h3>${(ch||[]).map(([a,b])=>`<div><b>${esc(a)}.</b> <span style="color:var(--muted)">${esc(b)}</span></div>`).join("")}</div>`).join("")}</div>
+  <h2 class="sectitle">Tramitación en tribunales colegiados</h2>
+  <div class="cards">${["cuentavista","vistacausa","acuerdos","discordia","subrogacion","integracion"].map(cardHTML).join("")}</div>`;
+}
+
+/* ---------- DESCARTE ---------- */
+function renderDescarte(){
+  let steps = "";
+  state.path.forEach((key, i) => {
+    const s = FLOW[key]; const done = i < state.path.length - 1;
+    if (s.res){
+      steps += `<div class="step res"><span class="n">✓</span><div class="sbox"><span class="lbl">Tribunal competente</span><span class="q">${esc(s.res)}</span>${s.txt?`<span class="ans">${esc(s.txt)}</span>`:""}<span class="tags">${s.n.map(tag).join("")}</span><span class="ans">${esc(AFTER)}</span><div class="opts"><button class="link" data-id="${s.node}">Ver ficha</button><button class="link" data-id="distribucion">Distribución de causas</button><button class="link" data-flow="reset">Reiniciar</button></div></div></div>`;
+      return;
+    }
+    const a = state.ans[i];
+    steps += `<div class="step ${done?"done":"cur"}"><span class="n">${i+1}</span><div class="sbox"><span class="lbl">${esc(s.lbl)}</span><span class="q">${esc(s.q)}</span>${done?`<span class="ans">Respuesta: <b>${esc(a)}</b> · <button class="link" data-flow="back" data-i="${i}">cambiar</button></span>`:`<span class="ans">${esc(s.hint)}</span><span class="tags">${s.n.map(tag).join("")}</span><div class="opts">${s.opts.map(([t,to])=>`<button class="opt" data-flow="go" data-to="${to}" data-t="${esc(t)}">${esc(t)}</button>`).join("")}</div><button class="link" data-id="${s.node}">Ver ficha del concepto</button>`}</div></div>`;
+  });
+  const ov = `<div class="overview">
+    <div class="ov"><h3>1. ¿Hay arbitraje?</h3><ol><li>Forzoso → árbitro.</li><li>Prohibido → sigue al paso 2.</li><li>Facultativo con compromiso o cláusula → árbitro.</li></ol><div class="tags">${["COT 227","COT 229","COT 230"].map(tag).join("")}</div></div>
+    <div class="ov"><h3>2. ¿Hay tribunal especial?</h3><ol><li>Familia, Trabajo, Policía Local, etc.</li></ol><div class="tags">${tag("COT 5")}</div></div>
+    <div class="ov"><h3>3. Tribunal ordinario: competencia absoluta</h3><ol><li>Cuantía, materia, fuero (tiempo en penal).</li><li>Fija la jerarquía: la «altura» del tribunal.</li></ol><div class="tags">${tag("COT 115")}</div></div>
+    <div class="ov"><h3>4. Competencia relativa (territorio)</h3><ol><li>Civil contencioso: prórroga → regla especial → naturaleza de la acción → domicilio del demandado.</li><li>No contencioso: regla especial → domicilio del solicitante.</li><li>Penal: lugar del hecho.</li></ol><div class="tags">${["COT 134","COT 135","COT 139"].map(tag).join("")}</div></div>
+    <div class="ov"><h3>5. Varios competentes en el mismo lugar</h3><ol><li>Distribución de causas (asiento de Corte) o turno.</li></ol><div class="tags">${["COT 175","COT 178"].map(tag).join("")}</div></div>
+  </div>`;
+  return `<p class="lede">Las reglas de descarte van de lo especial a lo general. Responde cada pregunta: el flujo te lleva al tribunal competente y muestra la norma que respalda cada paso.</p>
+  <div class="flowgrid"><section><h2 class="sectitle" style="margin-bottom:12px">Simulador: tribunal competente</h2><div class="flow">${steps}</div></section>
+  <aside><h2 class="sectitle" style="margin-bottom:12px">Secuencia completa</h2>${ov}</aside></div>
+  <h2 class="sectitle">Descarte del procedimiento aplicable</h2>
+  <div class="proc">${PROC.map(([t,st,n]) => `<div class="ov"><h3>${esc(t)}</h3><ol>${st.map(s=>`<li>${esc(s)}</li>`).join("")}</ol><div class="tags">${n.map(tag).join("")}</div></div>`).join("")}</div>`;
+}
+function flowAct(b){
+  const a = b.dataset.flow;
+  if (a === "reset"){ state.path=["a1"]; state.ans=[]; }
+  else if (a === "back"){ const i=+b.dataset.i; state.path=state.path.slice(0,i+1); state.ans=state.ans.slice(0,i); }
+  else if (a === "go"){ state.ans.push(b.dataset.t); state.path.push(b.dataset.to); const last = FLOW[b.dataset.to]; if (last.node && !window.matchMedia("(max-width:1060px)").matches){ state.sel = last.node; renderPanel(); } }
+  renderMain();
+}
+
+/* ---------- PARALELOS ---------- */
+function renderParalelos(){
+  const c = CMP.find(x => x.id === state.cmp) || CMP[0];
+  const head = c.rowHead
+    ? `<tr><th>Auxiliar</th>${c.cols.map(([t])=>`<th style="cursor:default">${esc(t)}</th>`).join("")}</tr>`
+    : `<tr><th>Criterio</th>${c.cols.map(([t,id,n])=>`<th data-id="${id}" title="Abrir ficha">${esc(t)}<div class="tags">${n.map(tag).join("")}</div></th>`).join("")}</tr>`;
+  return `<p class="lede">Los paralelos que más se preguntan, lado a lado. Toca el encabezado de una columna para abrir la ficha del concepto.</p>
+  <div class="cmpnav">${CMP.map(x=>`<button data-cmpsel="${x.id}" aria-pressed="${x.id===c.id}">${esc(x.t)}</button>`).join("")}</div>
+  <section class="cmp"><div class="cmp-h"><h2>${esc(c.t)}</h2><p>${esc(c.d)}</p></div>
+  <div class="tblw"><table><thead>${head}</thead><tbody>${c.rows.map(r=>`<tr><th scope="row">${esc(r[0])}</th>${r.slice(1).map(v=>`<td>${esc(v)}</td>`).join("")}</tr>`).join("")}</tbody></table></div></section>`;
+}
+
+/* ---------- AUTORES ---------- */
+function authorsIndex(){
+  const map = new Map();
+  for (const [id,n] of Object.entries(N)) for (const [a,q] of (n.doc||[])) {
+    if (a.startsWith("Concepto legal") || a.startsWith("Crítica")) continue;
+    if (!map.has(a)) map.set(a, []); map.get(a).push([id,q]);
+  }
+  return map;
+}
+function renderAutores(){
+  const m = authorsIndex();
+  const order = ["Francisco Hoyos","Eduardo Couture","Gimeno Sendra","Jaime Guasp","Fernando Alessandri","Mario Mosquera","Piero Calamandrei","Cristián Maturana / Juan Colombo"];
+  const keys = [...m.keys()].sort((a,b)=>(order.indexOf(a)+99)%99-(order.indexOf(b)+99)%99);
+  return `<p class="lede">Cada autor que cita el apunte, con su definición o aporte y el concepto al que se vincula. Toca el concepto para abrir la ficha completa.</p>
+  <div class="authors">${keys.map(a => `<article class="author"><span class="role">Doctrina</span><h3>${esc(a)}</h3>${m.get(a).map(([id,q])=>`<blockquote>“${esc(q)}”</blockquote><div><button class="chip" data-id="${id}">${esc(N[id].t)}</button></div>`).join("")}</article>`).join("")}
+  <article class="author"><span class="role">Concepto legal vs. doctrina</span><h3>La definición del Art. 108 COT</h3><blockquote>“${esc(N.competencia.doc[0][1])}”</blockquote><p style="margin:0;font-size:.9rem;color:var(--muted)">${esc(N.competencia.doc[1][1])} Concepto correcto: esfera, grado o medida establecida por el legislador para que cada tribunal ejerza jurisdicción.</p><div><button class="chip" data-id="competencia">Competencia</button></div></article></div>`;
+}
+
+function renderMain(){
+  const r = {mapa:renderMapa, piramide:renderPiramide, descarte:renderDescarte, paralelos:renderParalelos, autores:renderAutores}[state.tab] || renderMapa;
+  $("#main").innerHTML = r();
+}
+
+/* ---------- PANEL ---------- */
+function subHTML(list, depth=0){
+  return `<div class="subs">${list.map(([t,d,ch]) => {
+    if (ch && ch.length) return `<details class="sub"${depth===0 && list.length<=3?" open":""}><summary>${esc(t)}${chev}</summary><div class="sb">${d?`<p>${esc(d)}</p>`:""}${subHTML(ch, depth+1)}</div></details>`;
+    return `<div class="leaf"><b>${esc(t)}</b>${d?esc(d):""}</div>`;
+  }).join("")}</div>`;
+}
+function normNote(s){
+  const p = parseNorm(s);
+  return `<div class="nitem">${tag(s)}<span class="note">${p.x ? "Complementaria: no citada en el apunte." : ({CPR:"Constitución Política de la República",COT:"Código Orgánico de Tribunales",CPC:"Código de Procedimiento Civil",CC:"Código Civil",NCPP:"Código Procesal Penal"}[p.cls] || ({LERL:"Ley sobre Efecto Retroactivo de las Leyes"}[p.code] || "Ley especial"))}</span></div>`;
+}
+function renderPanel(){
+  const p = $("#panel"); const id = state.sel;
+  if (!id || !N[id]){
+    p.classList.remove("open"); $("#scrim").classList.remove("open");
+    p.innerHTML = `<div class="p-empty"><h2>Selecciona un concepto</h2><p>Aquí verás su definición, la doctrina asociada, los artículos que lo sustentan, sus subclasificaciones y las conexiones con otras piezas del sistema.</p><div class="legend">${CODES.map(([c,name])=>`<div><span class="tag c-${c}"><b>${LABEL[c]}</b></span>${esc(name)}</div>`).join("")}<div><span class="tag c-COT x"><b>COT</b>Art. …</span>Borde punteado: referencia complementaria</div></div></div>`;
+    return;
+  }
+  const n = N[id];
+  const pars = CMP.filter(c => (n.par||[]).includes(c.id));
+  const rel = (n.r||[]).filter(x => N[x]);
+  const back = Object.keys(N).filter(k => k!==id && (N[k].r||[]).includes(id) && !rel.includes(k));
+  p.innerHTML = `<div class="p-head"><div class="row"><span class="k">${esc(n.k)}</span><button class="x-btn" data-close aria-label="Cerrar panel"><svg viewBox="0 0 24 24" stroke-width="2.4"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><h2>${esc(n.t)}</h2><div class="tags">${(n.n||[]).map(tag).join("")}</div></div>
+  <div class="p-body">
+    <section class="p-sec"><h3>Definición</h3><p class="def">${esc(n.d)}</p></section>
+    ${n.doc?`<section class="p-sec"><h3>Doctrina</h3>${n.doc.map(([a,q])=>`<figure class="quote"><p>“${esc(q)}”</p><cite>${esc(a)}</cite></figure>`).join("")}</section>`:""}
+    <section class="p-sec"><h3>Respaldo normativo</h3><div class="nlist">${(n.n||[]).map(normNote).join("")}</div></section>
+    ${n.sub?`<section class="p-sec"><h3>Subclasificaciones y contenido</h3>${subHTML(n.sub)}</section>`:""}
+    ${n.ojo?`<section class="p-sec"><div class="ojo"><b>Ojo en el examen.</b> ${esc(n.ojo)}</div></section>`:""}
+    ${pars.length?`<section class="p-sec"><h3>Paralelos</h3><div class="chips">${pars.map(c=>`<button class="chip par" data-cmp="${c.id}">${esc(c.t)}</button>`).join("")}</div></section>`:""}
+    ${rel.length||back.length?`<section class="p-sec"><h3>Se conecta con</h3><div class="chips">${rel.concat(back.slice(0,6)).map(x=>`<button class="chip" data-id="${x}">${esc(N[x].t)}</button>`).join("")}</div></section>`:""}
+  </div>`;
+  p.scrollTop = 0;
+  if (window.matchMedia("(max-width:1060px)").matches){ p.classList.add("open"); $("#scrim").classList.add("open"); }
+}
+function select(id){
+  state.sel = id; renderPanel();
+  document.querySelectorAll(".card.on,.blk.on").forEach(e=>e.classList.remove("on"));
+  document.querySelectorAll(`[data-id="${id}"].card,[data-id="${id}"].blk`).forEach(e=>e.classList.add("on"));
+  try{ history.replaceState(null,"","#"+id); }catch(e){}
+}
+function closePanel(){
+  state.sel = null; renderPanel();
+  document.querySelectorAll(".card.on,.blk.on").forEach(e=>e.classList.remove("on"));
+  try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){}
+}
+
+/* ---------- EVENTOS ---------- */
+document.addEventListener("click", e => {
+  const t = e.target;
+  const fl = t.closest("[data-flow]"); if (fl){ flowAct(fl); return; }
+  const cm = t.closest("[data-cmp]");
+  if (cm){ const k = cm.dataset.cmp; if (CMP.some(c=>c.id===k)){ state.cmp=k; store.set("cmp",k); state.tab="paralelos"; store.set("tab","paralelos"); renderTabs(); renderMain(); window.scrollTo({top:0}); } else if (N[k]) select(k); return; }
+  const cs = t.closest("[data-cmpsel]"); if (cs){ state.cmp = cs.dataset.cmpsel; store.set("cmp",state.cmp); renderMain(); return; }
+  const idb = t.closest("[data-id]"); if (idb && N[idb.dataset.id]){ select(idb.dataset.id); return; }
+  if (t.closest("[data-close]") || t.id === "scrim"){ closePanel(); return; }
+  const act = t.closest("[data-act]");
+  if (act){ state.open = act.dataset.act==="expand" ? MODS.map(m=>m.id) : []; store.set("open",state.open); renderMain(); }
+});
+document.addEventListener("toggle", e => {
+  const d = e.target; if (!d.matches || !d.matches("details.mod") || state.q.trim()) return;
+  const id = d.dataset.mod; const set = new Set(state.open);
+  d.open ? set.add(id) : set.delete(id); state.open=[...set]; store.set("open",state.open);
+}, true);
+document.addEventListener("keydown", e => { if (e.key === "Escape" && state.sel) closePanel(); });
+let qt; $("#q").addEventListener("input", e => { clearTimeout(qt); qt = setTimeout(()=>{ state.q = e.target.value; if (state.tab!=="mapa"){ state.tab="mapa"; renderTabs(); } renderMain(); }, 120); });
+
+/* ---------- INICIO ---------- */
+renderFilters(); renderTabs(); renderMain();
+const h = (location.hash||"").slice(1);
+if (N[h]) { state.sel = h; }
+else if (!window.matchMedia("(max-width:1060px)").matches) { state.sel = "jurisdiccion"; }
+renderPanel();
+if (state.sel) document.querySelectorAll(`[data-id="${state.sel}"].card`).forEach(e=>e.classList.add("on"));
+</script>
