@@ -5,25 +5,12 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
 <style>
 :root{
+  color-scheme:light;
   --paper:#F4EEDF; --surface:#FAF6EC; --sunk:#ECE4D1; --ink:#2B2A26; --muted:#6F6857; --faint:#A39B88; --line:#DDD3BD;
   --blue:#2F5A8C; --blue-soft:#E2E3DD; --red:#A23A26; --red-soft:#F2DDCF; --on-accent:#FBF7EE;
   --cpr:#A23A26; --cpr-bg:#F2DDCF; --cot:#2F5A8C; --cot-bg:#DFE2DF; --cpc:#3A6A4A; --cpc-bg:#DDE8D6;
   --cc:#674592; --cc-bg:#E8DDE6; --pp:#86560F; --pp-bg:#F0E0C2; --oth:#5E5A50; --oth-bg:#E8E1D0;
   --serif:"Instrument Serif","Iowan Old Style",Georgia,serif; --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
-}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  color-scheme:dark;
-  --paper:#1B1915; --surface:#23201B; --sunk:#141310; --ink:#E9E3D6; --muted:#A79F8E; --faint:#6F685B; --line:#38332B;
-  --blue:#93B0D6; --blue-soft:#2A2E33; --red:#E3826C; --red-soft:#3A201B; --on-accent:#1B1915;
-  --cpr:#E3826C; --cpr-bg:#3A201B; --cot:#93B0D6; --cot-bg:#2A2E33; --cpc:#8CC7A2; --cpc-bg:#172A1F;
-  --cc:#C3A7E8; --cc-bg:#2A2138; --pp:#E5BD78; --pp-bg:#322612; --oth:#BDB5A4; --oth-bg:#2C2922;
-}}
-:root[data-theme="dark"]{
-  color-scheme:dark;
-  --paper:#1B1915; --surface:#23201B; --sunk:#141310; --ink:#E9E3D6; --muted:#A79F8E; --faint:#6F685B; --line:#38332B;
-  --blue:#93B0D6; --blue-soft:#2A2E33; --red:#E3826C; --red-soft:#3A201B; --on-accent:#1B1915;
-  --cpr:#E3826C; --cpr-bg:#3A201B; --cot:#93B0D6; --cot-bg:#2A2E33; --cpc:#8CC7A2; --cpc-bg:#172A1F;
-  --cc:#C3A7E8; --cc-bg:#2A2138; --pp:#E5BD78; --pp-bg:#322612; --oth:#BDB5A4; --oth-bg:#2C2922;
 }
 *{box-sizing:border-box}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;margin:0}
@@ -177,7 +164,17 @@ details[open]>summary .chev{transform:rotate(180deg)}
 .legend{display:flex;flex-direction:column;gap:6px;font-size:.84rem;color:var(--muted)}
 .legend div{display:flex;gap:10px;align-items:center}
 .mob-list{display:none}
-.scrim{display:none}
+.modal{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:calc(env(safe-area-inset-top,0px) + 24px) 16px calc(env(safe-area-inset-bottom,0px) + 24px);background:rgba(58,50,36,.42);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .22s}
+.modal.open{opacity:1;pointer-events:auto}
+.dialog{width:min(760px,100%);max-height:100%;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px;box-shadow:0 24px 64px rgba(58,50,36,.28);transform:translateY(14px) scale(.98);transition:transform .26s cubic-bezier(.2,.8,.3,1)}
+.modal.open .dialog{transform:none}
+.dialog .p-head{padding:22px 28px 16px}
+.dialog .p-head h2{font-size:2.6rem}
+.dialog .p-body{padding:4px 28px 8px}
+.dialog .def{font-size:1.42rem}
+.d-foot{position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:12px 28px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.d-foot .eyebrow{font-size:.6rem}
+@media (max-width:520px){.modal{padding:12px 8px}.dialog .p-head,.dialog .p-body,.d-foot{padding-left:18px;padding-right:18px}.dialog .p-head h2{font-size:2rem}.d-foot .eyebrow{display:none}}
 
 /* ---------- other views ---------- */
 .card{background:var(--surface);border:1px solid var(--line);border-radius:6px}
@@ -247,10 +244,7 @@ tbody tr:last-child td,tbody tr:last-child th{border-bottom:0}
 
 @media (max-width:1100px){
   .layout{grid-template-columns:minmax(0,1fr)}
-  .panel{position:fixed;left:0;right:0;bottom:0;top:auto;max-height:84vh;border-radius:12px 12px 0 0;z-index:50;transform:translateY(105%);transition:transform .28s;padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:0 -12px 40px rgba(0,0,0,.2)}
-  .panel.open{transform:none}
-  .scrim{display:block;position:fixed;inset:0;background:rgba(8,10,16,.45);z-index:45;opacity:0;pointer-events:none;transition:opacity .2s}
-  .scrim.open{opacity:1;pointer-events:auto}
+  .panel{display:none}
   .mob-list{display:block}
   #radial{max-height:none}
 }
@@ -292,7 +286,7 @@ tbody tr:last-child td,tbody tr:last-child th{border-bottom:0}
     <aside class="panel" id="panel" aria-live="polite"></aside>
   </div>
 </div>
-<div class="scrim" id="scrim"></div>
+<div class="modal" id="modal" aria-hidden="true"><div class="dialog" id="dialog" role="dialog" aria-modal="true" aria-label="Ficha del concepto"></div></div>
 
 <script>
 const MODS = [
@@ -1225,7 +1219,7 @@ function isRel(a,b){ return (N[a].r||[]).includes(b) || (N[b].r||[]).includes(a)
 function renderExplorar(){
   if (state.sel && MOD_OF[state.sel] !== state.mod){ state.mod = MOD_OF[state.sel]; store.set("mod",state.mod); }
   const m = MODS.find(x=>x.id===state.mod);
-  return `<p class="lede">Elige un <em>tema</em> en el anillo y sus conceptos se despliegan alrededor. Toca un concepto para abrir su definición, doctrina y normas; sus conexiones se marcan en azul.</p>
+  return `<p class="lede">Elige un <em>tema</em> en el anillo y sus conceptos se despliegan alrededor. Toca un concepto y se abre una ventana con su definición, doctrina y normas; sus conexiones quedan marcadas en azul.</p>
   <section class="stage"><div class="stage-meta"><span class="eyebrow">Derecho Procesal Orgánico</span><span class="eyebrow">8 temas · ${Object.keys(N).length} conceptos</span></div>
     <svg id="radial" viewBox="0 0 1100 1100" role="group" aria-label="Mapa radial de temas">${staticLayer()}</svg>
     <div class="hint"><span><i></i>Concepto</span><span><i class="s"></i>Seleccionado</span><span><i class="r"></i>Conectado</span><span>Los arcos exteriores agrupan subtemas</span></div>
@@ -1279,21 +1273,23 @@ function normNote(s){
 }
 const closeBtn = `<button class="x-btn" data-close aria-label="Cerrar"><svg viewBox="0 0 24 24" stroke-width="2.4"><path d="M6 6l12 12M18 6 6 18"/></svg></button>`;
 function renderPanel(){
-  const p = $("#panel"), id = state.sel;
-  if (!id){
-    p.classList.remove("open"); $("#scrim").classList.remove("open");
-    if (state.tab === "explorar"){
-      const m = MODS.find(x=>x.id===state.mod);
-      p.innerHTML = `<div class="p-head"><span class="eyebrow">Tema ${esc(m.no)} · ${modIds(m).length} conceptos</span><h2>${esc(m.t)}</h2></div><div class="p-body"><section class="p-sec"><p class="mod-desc">${esc(m.d)}</p></section><section class="p-sec">${moduleBody(m)}</section></div>`;
-    } else {
-      p.innerHTML = `<div class="p-head"><span class="eyebrow">Ficha</span><h2>Selecciona un concepto</h2></div><div class="p-body"><section class="p-sec"><p class="mod-desc">Aquí verás su definición, doctrina, artículos, subclasificaciones y conexiones.</p></section><section class="p-sec"><div class="legend">${CODES.map(([c,name])=>`<div><span class="tag c-${c}"><b>${LABEL[c]}</b></span>${esc(name)}</div>`).join("")}<div><span class="tag c-COT x"><b>COT</b>Art. …</span>Borde punteado: referencia complementaria</div></div></section></div>`;
-    }
-    return;
+  const p = $("#panel");
+  if (state.tab === "explorar"){
+    const m = MODS.find(x=>x.id===state.mod);
+    p.innerHTML = `<div class="p-head"><span class="eyebrow">Tema ${esc(m.no)} · ${modIds(m).length} conceptos</span><h2>${esc(m.t)}</h2></div><div class="p-body"><section class="p-sec"><p class="mod-desc">${esc(m.d)}</p></section><section class="p-sec">${moduleBody(m)}</section></div>`;
+  } else {
+    p.innerHTML = `<div class="p-head"><span class="eyebrow">Leyenda</span><h2>Normas por color</h2></div><div class="p-body"><section class="p-sec"><p class="mod-desc">Toca cualquier concepto para abrir su ficha en una ventana.</p></section><section class="p-sec"><div class="legend">${CODES.map(([c,name])=>`<div><span class="tag c-${c}"><b>${LABEL[c]}</b></span>${esc(name)}</div>`).join("")}<div><span class="tag c-COT x"><b>COT</b>Art. …</span>Borde punteado: referencia complementaria</div></div></section></div>`;
   }
-  const n = N[id], mod = MODS.find(x=>x.id===MOD_OF[id]);
+  renderModal();
+}
+function renderModal(){
+  const box = $("#modal"), dlg = $("#dialog"), id = state.sel;
+  if (!id){ box.classList.remove("open"); box.setAttribute("aria-hidden","true"); document.body.style.overflow = ""; return; }
+  const n = N[id], mod = MODS.find(x=>x.id===MOD_OF[id]), list = modIds(mod), i = list.indexOf(id);
+  const prev = list[(i-1+list.length)%list.length], next = list[(i+1)%list.length];
   const pars = CMP.filter(c => (n.par||[]).includes(c.id));
   const rel = [...new Set((n.r||[]).concat(Object.keys(N).filter(k => k!==id && (N[k].r||[]).includes(id))))].filter(x => N[x]).slice(0,12);
-  p.innerHTML = `<div class="p-head"><div class="p-top"><button class="back" data-mod="${mod.id}" data-back>← ${esc(MODNAME[mod.id])}</button>${closeBtn}</div><span class="eyebrow">${esc(n.k)}</span><h2>${esc(n.t)}</h2><div class="tags">${(n.n||[]).map(tag).join("")}</div></div>
+  dlg.innerHTML = `<div class="p-head"><div class="p-top"><button class="back" data-mod="${mod.id}" data-back>← Tema: ${esc(MODNAME[mod.id])}</button>${closeBtn}</div><span class="eyebrow">${esc(n.k)}</span><h2>${esc(n.t)}</h2><div class="tags">${(n.n||[]).map(tag).join("")}</div></div>
   <div class="p-body">
     <section class="p-sec"><span class="eyebrow">Definición</span><p class="def">${esc(n.d)}</p></section>
     ${n.doc?`<section class="p-sec"><span class="eyebrow">Doctrina</span>${n.doc.map(([a,q])=>`<figure class="quote"><p>“${esc(q)}”</p><cite>${esc(a)}</cite></figure>`).join("")}</section>`:""}
@@ -1302,9 +1298,12 @@ function renderPanel(){
     ${n.ojo?`<section class="p-sec"><div class="ojo"><b>Ojo en el examen</b>${esc(n.ojo)}</div></section>`:""}
     ${pars.length?`<section class="p-sec"><span class="eyebrow">Paralelos</span><div class="chips">${pars.map(c=>`<button class="chip par" data-cmp="${c.id}">${esc(c.t)}</button>`).join("")}</div></section>`:""}
     ${rel.length?`<section class="p-sec"><span class="eyebrow">Se conecta con</span><div class="chips">${rel.map(x=>`<button class="chip" data-id="${x}">${esc(N[x].t)}${MOD_OF[x]!==MOD_OF[id]?`<small>${MODNAME[MOD_OF[x]]}</small>`:""}</button>`).join("")}</div></section>`:""}
-  </div>`;
-  p.scrollTop = 0;
-  if (mobile()){ p.classList.add("open"); $("#scrim").classList.add("open"); }
+  </div>
+  <div class="d-foot"><button class="ghost" data-id="${prev}">← ${esc(short(prev))}</button><span class="eyebrow">${i+1} / ${list.length}</span><button class="ghost" data-id="${next}">${esc(short(next))} →</button></div>`;
+  dlg.scrollTop = 0;
+  const wasOpen = box.classList.contains("open");
+  box.classList.add("open"); box.setAttribute("aria-hidden","false"); document.body.style.overflow = "hidden";
+  if (!wasOpen) setTimeout(() => { const c = dlg.querySelector("[data-close]"); if (c) c.focus({preventScroll:true}); }, 30);
 }
 function select(id){
   if (!N[id]) return;
@@ -1378,7 +1377,7 @@ function flowAct(b){
   const a = b.dataset.flow;
   if (a === "reset"){ state.path=["a1"]; state.ans=[]; }
   else if (a === "back"){ const i=+b.dataset.i; state.path=state.path.slice(0,i+1); state.ans=state.ans.slice(0,i); }
-  else if (a === "go"){ state.ans.push(b.dataset.t); state.path.push(b.dataset.to); const last = FLOW[b.dataset.to]; if (last.node && !mobile()){ state.sel = last.node; renderPanel(); } }
+  else if (a === "go"){ state.ans.push(b.dataset.t); state.path.push(b.dataset.to); const last = FLOW[b.dataset.to]; }
   renderMain();
 }
 
@@ -1423,17 +1422,21 @@ document.addEventListener("click", e => {
   const tb = t.closest("[data-tab]"); if (tb){ setTab(tb.dataset.tab); return; }
   const fb = t.closest(".fbtn"); if (fb){ const c = fb.dataset.code; state.codes.has(c) ? state.codes.delete(c) : state.codes.add(c); renderFilters(); if (state.tab==="explorar") refreshRadial(); renderPanel(); return; }
   const fl = t.closest("[data-flow]"); if (fl){ flowAct(fl); return; }
-  const cm = t.closest("[data-cmp]"); if (cm){ state.cmp = cm.dataset.cmp; store.set("cmp",state.cmp); if (mobile()) closePanel(); setTab("paralelos"); return; }
+  const cm = t.closest("[data-cmp]"); if (cm){ state.cmp = cm.dataset.cmp; store.set("cmp",state.cmp); state.sel = null; setTab("paralelos"); return; }
   const cs = t.closest("[data-cmpsel]"); if (cs){ state.cmp = cs.dataset.cmpsel; store.set("cmp",state.cmp); renderMain(); return; }
   const back = t.closest("[data-back]"); if (back){ state.sel = null; if (state.tab!=="explorar"){ setTab("explorar"); } setMod(back.dataset.mod); markSelection(); return; }
   const idb = t.closest("[data-id]"); if (idb && N[idb.dataset.id]){ select(idb.dataset.id); return; }
-  if (t.closest("[data-close]") || t.id === "scrim"){ closePanel(); return; }
+  if (t.closest("[data-close]") || t.id === "modal"){ closePanel(); return; }
   if (t.closest("#center")){ state.sel = null; renderPanel(); markSelection(); return; }
   const md = t.closest("[data-mod]"); if (md){ setMod(md.dataset.mod); if (md.classList.contains("ghost") && mobile()) document.querySelector(".mob-list")?.scrollIntoView({behavior:"smooth",block:"start"}); return; }
 });
 document.addEventListener("keydown", e => {
   if (e.key === "Escape"){ if (!$("#results").hidden){ $("#results").hidden = true; return; } if (state.sel) closePanel(); return; }
   if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches(".sector,.cn,#center")){ e.preventDefault(); e.target.dispatchEvent(new MouseEvent("click",{bubbles:true})); }
+  if (state.sel && (e.key==="ArrowRight"||e.key==="ArrowLeft")){
+    const list = modIds(MODS.find(x=>x.id===MOD_OF[state.sel])), i = list.indexOf(state.sel);
+    select(list[(i+(e.key==="ArrowRight"?1:list.length-1))%list.length]); return;
+  }
   if (state.tab==="explorar" && (e.key==="ArrowRight"||e.key==="ArrowLeft") && !e.target.matches("input")){
     const i = MODS.findIndex(m=>m.id===state.mod); setMod(MODS[(i+(e.key==="ArrowRight"?1:7))%8].id);
   }
