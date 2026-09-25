@@ -99,6 +99,11 @@ h1,h2,h3{margin:0;text-wrap:balance;font-weight:400}
 .cn.rel text{fill:var(--blue)}
 .cn.sel .dot{fill:var(--red);stroke:var(--red);r:8}
 .cn.sel text{fill:var(--red);font-weight:600}
+.cn.x .dot{stroke-dasharray:2.2 2.2;fill:var(--paper)}
+.cn.x text{font-style:italic;font-weight:400;fill:var(--muted)}
+.garc.x{stroke-dasharray:2 4;opacity:.7}
+.cn.x.sel text{fill:var(--red)}
+.cn.x.rel text{fill:var(--blue)}
 .cn.dim{opacity:.22!important;animation:none}
 .links path{fill:none;stroke:var(--blue);stroke-width:1.3;opacity:.7;stroke-dasharray:600;stroke-dashoffset:600;animation:draw .8s ease-out forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
@@ -108,6 +113,10 @@ h1,h2,h3{margin:0;text-wrap:balance;font-weight:400}
 .hint i{display:inline-block;width:10px;height:10px;border-radius:50%;border:1.2px solid var(--ink);background:var(--surface)}
 .hint i.s{background:var(--red);border-color:var(--red)}
 .hint i.r{background:var(--blue-soft);border-color:var(--blue)}
+.hint i.x{border-style:dashed;background:var(--paper)}
+.citem.x .d{border-style:dashed}
+.citem.x .ct{font-style:italic;font-weight:400}
+.citem .home{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;color:var(--muted);margin-left:6px;font-style:normal}
 .mnav{display:flex;gap:6px;flex-wrap:wrap}
 .mbtn{border:1px solid var(--line);background:var(--surface);border-radius:3px;padding:6px 10px;cursor:pointer;display:flex;gap:8px;align-items:baseline}
 .mbtn small{font-family:var(--mono);font-size:.64rem;color:var(--muted);letter-spacing:.08em}
@@ -318,10 +327,11 @@ const MODS = [
    ["Incompetencia y conflictos", ["incompetencia","cuestiones","contiendas","distribucion"]],
    ["Competencia subjetiva", ["implicancias","recusaciones"]]
  ]},
- {id:"m5", no:"III · XXI · XXV–XXVIII", t:"Tribunales", d:"Estructura piramidal, clasificaciones, tribunales ordinarios en particular y tramitación en los colegiados.", groups:[
+ {id:"m5", no:"III–IV · XXI · XXV–XXVIII", t:"Tribunales", d:"Estructura piramidal, clasificaciones, tribunales ordinarios en particular y tramitación en los colegiados.", groups:[
    ["Estructura (Art. 5 COT)", ["ordinarios","especiales","arbitrales","clasiftrib"]],
    ["Ordinarios en particular", ["cs","ca","unipersonales","jletras","jgarantia","top"]],
-   ["Tramitación en tribunales colegiados", ["cuentavista","vistacausa","acuerdos","discordia"]]
+   ["Tramitación en tribunales colegiados", ["cuentavista","vistacausa","acuerdos","discordia"]],
+   ["Reglas de descarte (IV)", ["descarte","procedimiento"]]
  ]},
  {id:"m6", no:"XXII–XXIV", t:"Bases de la jurisdicción y estatuto del juez", d:"Los principios que sostienen el ejercicio de la jurisdicción, su continuidad y el régimen de los jueces.", groups:[
    ["Bases orgánicas", ["legalidad","independencia","inamovilidad","responsabilidad","territorialidad","jerarquia","publicidad","sedentariedad","pasividad","competenciacomun","inavocabilidad","inexcusabilidad","gratuidad","autogeneracion"]],
@@ -334,7 +344,7 @@ const MODS = [
    ["Tramitación y recursos", ["arbtramite","arbdesacuerdo","arbrecursos"]]
  ]},
  {id:"m8", no:"XXXII–XXXIII", t:"Auxiliares de la administración de justicia", d:"Quién asiste al tribunal y qué hace cada uno. Y por qué el abogado no es auxiliar.", groups:[
-   ["Auxiliares (Art. 5 COT)", ["fiscalia","defensores","relatores","secretarios","administradores","receptores","procuradores","notarios","conservadores","archiveros"]],
+   ["Auxiliares (Art. 5 COT)", ["fiscalia","defensores","relatores","secretarios","administradores","receptores","procuradores","notarios","escritura","conservadores","archiveros"]],
    ["Profesión", ["abogados"]]
  ]}
 ];
@@ -915,7 +925,29 @@ abogados:{t:"Abogados", k:"Arts. 520-529 COT", d:"Personas revestidas por la aut
  n:["COT 520","COT 523"],
  sub:[["Investidura","Pleno de la CS, en audiencia pública, previo juramento."],["Requisitos (Art. 523)",null,[["Edad","20 años."],["Grado","Licenciado en Ciencias Jurídicas."],["Antecedentes","Sin condena ni acusación por delito con pena aflictiva."],["Conducta","Buena conducta (información sumaria)."],["Práctica","6 meses en una CAJ u otra institución autorizada."]]],["Patrocinio","Mandato para la defensa en juicio. La defensa oral ante las Cortes es del abogado habilitado."]],
  ojo:"¿Es auxiliar de la administración de justicia? NO: es coadyuvante indispensable, pero no funcionario judicial.",
- r:["procuradores","gratuidad"]}
+ r:["procuradores","gratuidad"]},
+/* ---------------- AGREGADOS: punto IV y escritura pública ---------------- */
+descarte:{t:"Reglas de descarte: tribunal competente", k:"Punto IV · flujo lógico", d:"Para saber cómo y dónde tramitar un asunto, el sistema procesal usa reglas de descarte: se va de lo especial a lo general.",
+ n:["COT 5","COT 227","COT 115","COT 134"],
+ sub:[["1. ¿Existe arbitraje?","¿Es materia de arbitraje prohibido, obligatorio (forzoso) o hay un pacto (compromiso o cláusula) de arbitraje facultativo?"],
+      ["2. ¿Tribunal especial?","Si no hay arbitraje: ¿la ley fijó un tribunal especial (ej.: Familia, Trabajo, Policía Local)?"],
+      ["3. Tribunal ordinario",null,[["Competencia absoluta (jerarquía)","Determina la «altura» del tribunal según cuantía, materia, fuero y tiempo (en materia penal)."],["Competencia relativa (territorio)","Determina cuál tribunal específico de esa jerarquía lo ve (ej.: ¿Juez de Letras de Santiago o de Valparaíso?)."]]],
+      ["4. Varios competentes en el mismo lugar","Distribución de causas o turno (Arts. 175 y ss. COT)."]],
+ ojo:"Puedes recorrer este flujo paso a paso, con sus normas, en la pestaña «Descarte».",
+ r:["arbprocedencia","especiales","absrel","relcivil","distribucion","procedimiento"]},
+procedimiento:{t:"Procedimiento aplicable", k:"Punto IV · descarte del procedimiento", d:"Fijado el tribunal, el procedimiento también se determina por descarte: primero el especial y, al final, el general o residual.",
+ n:["CPC 3","CPC 817","*NCPP 388"],
+ sub:[["Asuntos contenciosos civiles",null,[["1° Procedimiento especial","Si la ley lo dicta para ese caso."],["2° Procedimiento sumario","Si por su naturaleza requiere tramitación rápida."],["3° Procedimiento ordinario","Regla residual de aplicación general (Art. 3 CPC). Más de 500 UTM: ordinario de mayor cuantía."]]],
+      ["Asuntos no contenciosos civiles",null,[["1° Procedimiento especial",""],["2° Procedimiento general","Libro IV, Título I del CPC."]]],
+      ["Asuntos penales (nuevo sistema)",null,[["Faltas","Procedimiento monitorio (solo multa) o simplificado."],["Crímenes y simples delitos de acción pública","Abreviado, simplificado o juicio oral (regla general)."]]]],
+ r:["descarte","cuantia","nocontencioso","jgarantia"]},
+escritura:{t:"Escritura pública", k:"Fijo de examen · Art. 403 COT", d:"Instrumento público o auténtico otorgado con las solemnidades que fija la ley, por el competente notario, e incorporado en su protocolo o registro público.",
+ n:["COT 403"],
+ sub:[["Requisitos de validez",null,[["Notario competente","En su territorio; si no, es nula o vale solo como instrumento privado."],["Protocolo","Incorporada al protocolo."],["Forma","En castellano, con lugar, fecha e identidad de los comparecientes."],["Firma","Firmada por las partes dentro del plazo fatal de 60 días desde la anotación en el repertorio."]]],
+      ["Protocolización","Agregar materialmente un documento al final del protocolo de un notario. Da fecha cierta respecto de terceros y sirve para conservarlo."]],
+ ojo:"Si las partes no firman dentro de 60 días desde la anotación en el repertorio, no hay escritura pública.",
+ r:["notarios","transaccion","leytiempo","archiveros"]}
+
 };
 
 /* ---------- PARALELOS ---------- */
@@ -1069,10 +1101,23 @@ const SHORT = {
   fiscalia:"Fiscalía Judicial", defensores:"Defensores Públicos", receptores:"Receptores", notarios:"Notarios", conservadores:"Conservadores",
   relatores:"Relatores", secretarios:"Secretarios", abogados:"Abogados", inamovilidad:"Inamovilidad", responsabilidad:"Responsabilidad",
   territorialidad:"Territorialidad", sedentariedad:"Sedentariedad", inavocabilidad:"Inavocabilidad", inexcusabilidad:"Inexcusabilidad",
+  descarte:"Reglas de descarte", procedimiento:"Procedimiento aplicable", escritura:"Escritura pública",
   subrogacion:"Subrogación", integracion:"Integración", nombramiento:"Nombramiento", conciliacion:"Conciliación"
 };
 const MODNAME = {m1:"CONFLICTO",m2:"PROCESO",m3:"JURISDICCIÓN",m4:"COMPETENCIA",m5:"TRIBUNALES",m6:"BASES",m7:"ARBITRAJE",m8:"AUXILIARES"};
 const short = id => SHORT[id] || N[id].t;
+/* Conceptos que el apunte estudia dentro de cada tema pero cuya ficha vive en otro */
+const CROSS = {
+  m1:["proceso","jurisdiccion","equivalentes","arbitros"],
+  m2:["jurisdiccion","legalidad","territorialidad","feconomicas","independencia"],
+  m3:["transaccion","conciliacion","avenimiento","competencia","arbitros","inexcusabilidad","independencia","autosacordados"],
+  m4:["descarte","especiales","jletras","inavocabilidad","inexcusabilidad","compromiso","fiscalia","jerarquia","nocontencioso"],
+  m5:["arbitros","nombramiento","subrogacion","integracion","relatores","secretarios","administradores","fuero","materia","competenciacomun"],
+  m6:["cs","limitesjur","fdisciplinarias","grado","radicacion","prevencion","top","debidoproceso","incompetencia","arbrequisitos"],
+  m7:["arbitrales","equivalentes","radicacion","inavocabilidad","prohibiciones","ca"],
+  m8:["vistacausa","cuentavista","subrogacion","integracion","gratuidad","distribucion","implicancias","jgarantia","top"]
+};
+const crossOf = mid => (CROSS[mid]||[]).filter(id => N[id] && MOD_OF[id] !== mid);
 const MOD_OF = {}; MODS.forEach(m => m.groups.forEach(g => g[1].forEach(id => MOD_OF[id] = m.id)));
 const modIds = m => m.groups.flatMap(g => g[1]);
 
@@ -1176,32 +1221,34 @@ function centerLayer(){
   return `<text class="cs" x="${C}" y="${C-30}">TEMA ${esc(m.no)}</text>
     <text class="ct" x="${C}" y="${C+11}">${esc(name)}</text>
     <line x1="${C-22}" y1="${C+28}" x2="${C+22}" y2="${C+28}" stroke="var(--red)" stroke-width="1.2"/>
-    <text class="cs" x="${C}" y="${C+48}">${modIds(m).length} CONCEPTOS</text>`;
+    <text class="cs" x="${C}" y="${C+48}">${modIds(m).length} CONCEPTOS</text>${crossOf(m.id).length?`<text class="cs" x="${C}" y="${C+66}">+${crossOf(m.id).length} DERIVADOS</text>`:""}`;
 }
 function dynLayer(){
   const m = MODS.find(x=>x.id===state.mod), mi = MODS.indexOf(m);
-  const ids = modIds(m), n = ids.length;
-  const GAP = 3.2, groups = m.groups.length, step = (360 - GAP*groups) / n;
+  const cross = crossOf(m.id);
+  const allGroups = cross.length ? m.groups.concat([["Desde otros temas", cross, true]]) : m.groups;
+  const ids = allGroups.flatMap(g => g[1]), n = ids.length;
+  const GAP = 3.2, groups = allGroups.length, step = (360 - GAP*groups) / n;
   const angle = {}; // el anillo de conceptos arranca opuesto al sector elegido, así el centro de la lista queda junto a él
   let a = (mi*45 - 90) - 180 + step/2, k = 0;
   let garcs = "", nodes = "", fan = "";
-  m.groups.forEach(([gt, gids]) => {
+  allGroups.forEach(([gt, gids, isX]) => {
     const g0 = a - step/2 + .6;
     gids.forEach(id => {
       angle[id] = a;
       const [x,y] = P(R_N, a), [dx,dy] = [f((C-x)*.25), f((C-y)*.25)];
       const norm = ((a % 360) + 360) % 360, left = norm > 90 && norm < 270;
       const rot = left ? norm + 180 : norm, [lx,ly] = P(R_L, a);
-      const cls = ["cn"]; if (state.sel===id) cls.push("sel"); else if (state.sel && isRel(state.sel,id)) cls.push("rel"); if (!passes(id)) cls.push("dim");
+      const cls = ["cn"]; if (isX) cls.push("x"); if (state.sel===id) cls.push("sel"); else if (state.sel && isRel(state.sel,id)) cls.push("rel"); if (!passes(id)) cls.push("dim");
       nodes += `<g class="${cls.join(" ")}" data-id="${id}" tabindex="0" role="button" aria-label="${esc(N[id].t)}" style="--i:${k};--dx:${dx}px;--dy:${dy}px">
         <circle class="hit" cx="${f(x)}" cy="${f(y)}" r="14"/><circle class="dot" cx="${f(x)}" cy="${f(y)}" r="5.5"/>
-        <text x="${f(lx)}" y="${f(ly)}" dy="4.3" text-anchor="${left?"end":"start"}" transform="rotate(${f(rot)} ${f(lx)} ${f(ly)})">${esc(short(id))}</text></g>`;
+        <text x="${f(lx)}" y="${f(ly)}" dy="4.3" text-anchor="${left?"end":"start"}" transform="rotate(${f(rot)} ${f(lx)} ${f(ly)})">${esc(short(id))}${isX?` · ${MODNAME[MOD_OF[id]].charAt(0)+MODNAME[MOD_OF[id]].slice(1).toLowerCase()}`:""}</text></g>`;
       const [fx,fy] = P(R_N-9, a), [ex,ey] = P(R_S1+30, a);
       fan += `<line x1="${f(ex)}" y1="${f(ey)}" x2="${f(fx)}" y2="${f(fy)}" style="--i:${k}"/>`;
       a += step; k++;
     });
     const g1 = a - step/2 - .6;
-    garcs += `<path class="garc" d="${arcPath(R_G, g0, g1)}"/>`;
+    garcs += `<path class="garc${isX?" x":""}" d="${arcPath(R_G, g0, g1)}"/>`;
     a += GAP;
   });
   let links = "";
@@ -1218,12 +1265,12 @@ function dynLayer(){
 }
 function isRel(a,b){ return (N[a].r||[]).includes(b) || (N[b].r||[]).includes(a); }
 function renderExplorar(){
-  if (state.sel && MOD_OF[state.sel] !== state.mod){ state.mod = MOD_OF[state.sel]; store.set("mod",state.mod); }
+  if (state.sel && MOD_OF[state.sel] !== state.mod && !crossOf(state.mod).includes(state.sel)){ state.mod = MOD_OF[state.sel]; store.set("mod",state.mod); }
   const m = MODS.find(x=>x.id===state.mod);
   return `<p class="lede">Elige un <em>tema</em> en el anillo y sus conceptos se despliegan alrededor. Toca un concepto y se abre una ventana con su definición, doctrina y normas; sus conexiones quedan marcadas en azul.</p>
   <section class="stage"><div class="stage-meta"><span class="eyebrow">Derecho Procesal Orgánico</span><span class="eyebrow">8 temas · ${Object.keys(N).length} conceptos</span></div>
     <svg id="radial" viewBox="0 0 1200 1200" role="group" aria-label="Mapa radial de temas">${staticLayer()}</svg>
-    <div class="hint"><span><i></i>Concepto</span><span><i class="s"></i>Seleccionado</span><span><i class="r"></i>Conectado</span><span>Los arcos exteriores agrupan subtemas</span></div>
+    <div class="hint"><span><i></i>Concepto</span><span><i class="s"></i>Seleccionado</span><span><i class="r"></i>Conectado</span><span><i class="x"></i>Derivado de otro tema</span><span>Los arcos exteriores agrupan subtemas</span></div>
   </section>
   <div class="mnav">${MODS.map((x,i)=>`<button class="mbtn" data-mod="${x.id}" aria-pressed="${x.id===state.mod}"><small>${String(i+1).padStart(2,"0")}</small>${esc(MODNAME[x.id].charAt(0)+MODNAME[x.id].slice(1).toLowerCase())}</button>`).join("")}</div>
   <section class="mob-list card" style="padding:16px 18px">${moduleBody(m)}</section>`;
@@ -1249,7 +1296,7 @@ function markSelection(){
 function setMod(id){
   if (!MODS.some(m=>m.id===id)) return;
   const changed = state.mod !== id; state.mod = id; store.set("mod", id);
-  if (state.sel && MOD_OF[state.sel] !== id) state.sel = null;
+  if (state.sel && MOD_OF[state.sel] !== id && !crossOf(id).includes(state.sel)) state.sel = null;
   if (changed || !document.querySelector("#dyn .cn")) refreshRadial(); else markSelection();
   renderPanel();
 }
@@ -1259,7 +1306,9 @@ function setMod(id){
    ========================================================= */
 function moduleBody(m){
   const i = MODS.indexOf(m);
-  return `<div class="glist">${m.groups.map(([gt,ids]) => `<div class="gname">${esc(gt)}</div>` + ids.map(id => `<button class="citem" data-id="${id}"${passes(id)?"":` style="opacity:.35"`}><span class="d"></span><span><span class="ct">${esc(N[id].t)}</span><span class="tags">${(N[id].n||[]).slice(0,3).map(tag).join("")}</span></span></button>`).join("")).join("")}</div>
+  const cross = crossOf(m.id);
+  const xhtml = cross.length ? `<div class="gname">Desde otros temas</div>` + cross.map(id => `<button class="citem x" data-id="${id}"><span class="d"></span><span><span class="ct">${esc(N[id].t)}<span class="home">${MODNAME[MOD_OF[id]]}</span></span></span></button>`).join("") : "";
+  return `<div class="glist">${m.groups.map(([gt,ids]) => `<div class="gname">${esc(gt)}</div>` + ids.map(id => `<button class="citem" data-id="${id}"${passes(id)?"":` style="opacity:.35"`}><span class="d"></span><span><span class="ct">${esc(N[id].t)}</span><span class="tags">${(N[id].n||[]).slice(0,3).map(tag).join("")}</span></span></button>`).join("")).join("")}${xhtml}</div>
   <div class="pager"><button class="ghost" data-mod="${MODS[(i+7)%8].id}">← ${esc(MODNAME[MODS[(i+7)%8].id])}</button><button class="ghost" data-mod="${MODS[(i+1)%8].id}">${esc(MODNAME[MODS[(i+1)%8].id])} →</button></div>`;
 }
 function subHTML(list, depth=0){
@@ -1277,7 +1326,7 @@ function renderPanel(){
   const p = $("#panel");
   if (state.tab === "explorar"){
     const m = MODS.find(x=>x.id===state.mod);
-    p.innerHTML = `<div class="p-head"><span class="eyebrow">Tema ${esc(m.no)} · ${modIds(m).length} conceptos</span><h2>${esc(m.t)}</h2></div><div class="p-body"><section class="p-sec"><p class="mod-desc">${esc(m.d)}</p></section><section class="p-sec">${moduleBody(m)}</section></div>`;
+    p.innerHTML = `<div class="p-head"><span class="eyebrow">Tema ${esc(m.no)} · ${modIds(m).length} conceptos · +${crossOf(m.id).length} derivados</span><h2>${esc(m.t)}</h2></div><div class="p-body"><section class="p-sec"><p class="mod-desc">${esc(m.d)}</p></section><section class="p-sec">${moduleBody(m)}</section></div>`;
   } else {
     p.innerHTML = `<div class="p-head"><span class="eyebrow">Leyenda</span><h2>Normas por color</h2></div><div class="p-body"><section class="p-sec"><p class="mod-desc">Toca cualquier concepto para abrir su ficha en una ventana.</p></section><section class="p-sec"><div class="legend">${CODES.map(([c,name])=>`<div><span class="tag c-${c}"><b>${LABEL[c]}</b></span>${esc(name)}</div>`).join("")}<div><span class="tag c-COT x"><b>COT</b>Art. …</span>Borde punteado: referencia complementaria</div></div></section></div>`;
   }
@@ -1297,6 +1346,7 @@ function renderModal(){
     <section class="p-sec"><span class="eyebrow">Respaldo normativo</span><div class="nlist">${(n.n||[]).map(normNote).join("")}</div></section>
     ${n.sub?`<section class="p-sec"><span class="eyebrow">Subclasificaciones y contenido</span>${subHTML(n.sub)}</section>`:""}
     ${n.ojo?`<section class="p-sec"><div class="ojo"><b>Ojo en el examen</b>${esc(n.ojo)}</div></section>`:""}
+    ${(()=>{ const also = MODS.filter(x => crossOf(x.id).includes(id)); return also.length ? `<section class="p-sec"><span class="eyebrow">Ficha del tema ${esc(MODNAME[mod.id])} · también se estudia en</span><div class="chips">${also.map(x=>`<button class="chip" data-mod="${x.id}" data-back>${esc(x.t)}</button>`).join("")}</div></section>` : ""; })()}
     ${pars.length?`<section class="p-sec"><span class="eyebrow">Paralelos</span><div class="chips">${pars.map(c=>`<button class="chip par" data-cmp="${c.id}">${esc(c.t)}</button>`).join("")}</div></section>`:""}
     ${rel.length?`<section class="p-sec"><span class="eyebrow">Se conecta con</span><div class="chips">${rel.map(x=>`<button class="chip" data-id="${x}">${esc(N[x].t)}${MOD_OF[x]!==MOD_OF[id]?`<small>${MODNAME[MOD_OF[x]]}</small>`:""}</button>`).join("")}</div></section>`:""}
   </div>
@@ -1311,7 +1361,7 @@ function select(id){
   state.sel = id;
   try{ history.replaceState(null,"","#"+id); }catch(e){}
   if (state.tab === "explorar"){
-    if (MOD_OF[id] !== state.mod){ state.mod = MOD_OF[id]; store.set("mod",state.mod); refreshRadial(); }
+    if (MOD_OF[id] !== state.mod && !crossOf(state.mod).includes(id)){ state.mod = MOD_OF[id]; store.set("mod",state.mod); refreshRadial(); }
     else markSelection();
   }
   renderPanel();
