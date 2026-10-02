@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ERP Pyme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<div class="app">
+  <aside class="lateral">
+    <div class="marca">
+      <span class="sello" aria-hidden="true">ERP</span>
+      <div id="empresa" class="empresa"></div>
+    </div>
+    <nav id="nav" class="nav" aria-label="Áreas de la empresa"></nav>
+    <p class="pie-lateral">Prototipo · marco legal Chile · datos guardados en este navegador</p>
+  </aside>
+  <main id="vista" class="vista" tabindex="-1"></main>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<script src="nucleo.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
