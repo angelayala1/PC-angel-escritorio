@@ -15,6 +15,10 @@ erp-pyme/
 └── pruebas.js   pruebas del núcleo:  node pruebas.js
 ```
 
+## Procesos por área
+
+`flujos.html` dibuja, para cada área, sus procesos estándar: tareas de personas, lo que hace el sistema, decisiones y traspasos a otras áreas, más el recorrido completo de una venta y el calendario mensual de obligaciones (Previred día 13, F29 día 20).
+
 ## Cómo conversan los módulos
 
 Un único modelo de datos y un bus de eventos. Ningún asiento contable se escribe a mano: todos nacen de una operación.

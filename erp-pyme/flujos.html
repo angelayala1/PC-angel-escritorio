@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flujos ERP Pyme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Concepto: mismo lenguaje del ERP. Un carril general arriba y, por área, procesos dibujados como diagramas de flujo verticales. */
+:root {
+  --bg: #f2f4f7; --surface: #ffffff; --surface-2: #f7f8fb; --ink: #18202e; --muted: #5a6476; --line: #c9d0dc; --line-soft: #dde2ea;
+  --accent: #2b45a6; --accent-soft: #e7ebf8; --bad: #b3261e; --bad-soft: #fbe5e3;
+  --m-comercial: #0d7480; --m-finanzas: #2b45a6; --m-marketing: #a1336f; --m-rrhh: #6a4cb0; --m-produccion: #85670f; --m-direccion: #3b4558;
+  --f-display: 'Archivo', 'Arial Narrow', system-ui, sans-serif;
+  --f-body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11151d; --surface: #181d27; --surface-2: #1d2330; --ink: #e6e9ef; --muted: #9aa3b3; --line: #3a4252; --line-soft: #2b3240;
+    --accent: #8aa0f0; --accent-soft: #232c48; --bad: #f2867d; --bad-soft: #3d1c1a;
+    --m-comercial: #4fc3cf; --m-finanzas: #8aa0f0; --m-marketing: #e57fb6; --m-rrhh: #b49bf0; --m-produccion: #d9b44a; --m-direccion: #aab4c6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11151d; --surface: #181d27; --surface-2: #1d2330; --ink: #e6e9ef; --muted: #9aa3b3; --line: #3a4252; --line-soft: #2b3240;
+  --accent: #8aa0f0; --accent-soft: #232c48; --bad: #f2867d; --bad-soft: #3d1c1a;
+  --m-comercial: #4fc3cf; --m-finanzas: #8aa0f0; --m-marketing: #e57fb6; --m-rrhh: #b49bf0; --m-produccion: #d9b44a; --m-direccion: #aab4c6;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 var(--f-body); }
+.pagina { max-width: 1240px; margin: 0 auto; padding-inline: clamp(16px, 3vw, 40px); padding-block: 32px 64px; display: flex; flex-direction: column; gap: 28px; }
+h1, h2, h3 { font-family: var(--f-display); font-stretch: 85%; margin: 0; text-wrap: balance; }
+h1 { font-size: 2.2rem; font-weight: 780; letter-spacing: -0.01em; }
+h2 { font-size: 1.45rem; font-weight: 720; }
+h3 { font-size: 1.05rem; font-weight: 700; }
+p { margin: 0; }
+.lead { color: var(--muted); max-width: 68ch; margin-top: 6px; }
+.eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Leyenda */
+.leyenda { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; font-size: 0.85rem; color: var(--muted); }
+.leyenda span { display: inline-flex; align-items: center; gap: 8px; }
+.mini { display: inline-block; width: 34px; height: 18px; border: 1.5px solid var(--ink); border-radius: 3px; background: var(--surface); }
+.mini.inicio { border-radius: 9px; background: var(--ink); }
+.mini.auto { border-style: dashed; border-color: var(--accent); background: var(--accent-soft); }
+.mini.decision { border: 0; background: var(--ink); clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0 50%); }
+
+/* Carril general */
+.bloque { background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r); padding: 20px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.carril-wrap { overflow-x: auto; }
+.carril { display: block; width: 100%; min-width: 1080px; height: auto; color: var(--muted); }
+.carril .lane-bg { fill: var(--surface-2); }
+.carril .lane-sep { stroke: var(--line-soft); stroke-width: 1; }
+.carril .lane-t { font: 600 13px var(--f-body); fill: currentColor; }
+.carril .nodo rect { fill: var(--surface); stroke-width: 1.5; }
+.carril .nodo text { font: 500 13px var(--f-body); fill: var(--ink); text-anchor: middle; }
+.carril .arista { fill: none; stroke: currentColor; stroke-width: 1.4; }
+.carril .arista-t { font: 11.5px var(--f-body); fill: currentColor; text-anchor: end; }
+.carril .arista-t.centro { text-anchor: middle; }
+.carril .marca { fill: currentColor; }
+.l-marketing { stroke: var(--m-marketing); } .l-comercial { stroke: var(--m-comercial); } .l-produccion { stroke: var(--m-produccion); }
+.l-finanzas { stroke: var(--m-finanzas); } .l-direccion { stroke: var(--m-direccion); } .l-rrhh { stroke: var(--m-rrhh); }
+figcaption { color: var(--muted); font-size: 0.86rem; max-width: 80ch; }
+figure { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+
+/* Calendario */
+.calendario { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.hito { border-left: 3px solid var(--line); padding: 4px 0 4px 12px; display: flex; flex-direction: column; gap: 2px; }
+.hito b { font-family: var(--f-mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+.hito small { color: var(--muted); }
+
+/* Pestañas de área */
+.areas { display: flex; gap: 6px; flex-wrap: wrap; }
+.areas button { border: 1.5px solid var(--line-soft); background: var(--surface); padding: 7px 14px; border-radius: 20px; cursor: pointer; font: 600 0.9rem var(--f-body); color: var(--muted); }
+.areas button:hover { color: var(--ink); border-color: var(--line); }
+.areas button[aria-selected="true"] { color: var(--surface); }
+.areas button.a-comercial[aria-selected="true"] { background: var(--m-comercial); border-color: var(--m-comercial); }
+.areas button.a-finanzas[aria-selected="true"] { background: var(--m-finanzas); border-color: var(--m-finanzas); }
+.areas button.a-marketing[aria-selected="true"] { background: var(--m-marketing); border-color: var(--m-marketing); }
+.areas button.a-rrhh[aria-selected="true"] { background: var(--m-rrhh); border-color: var(--m-rrhh); }
+.areas button.a-produccion[aria-selected="true"] { background: var(--m-produccion); border-color: var(--m-produccion); }
+.areas button.a-direccion[aria-selected="true"] { background: var(--m-direccion); border-color: var(--m-direccion); }
+
+.ficha { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px 24px; border-top: 3px solid var(--area); padding-top: 16px; }
+.ficha div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.procesos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
+.proceso { background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r); padding: 18px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.proceso header { display: flex; flex-direction: column; gap: 6px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-block; font-size: 0.74rem; padding: 1px 9px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line-soft); color: var(--muted); white-space: nowrap; }
+.chip.freq { color: var(--area); border-color: var(--area); background: transparent; font-weight: 600; }
+
+/* Diagrama de flujo vertical */
+.flujo { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.paso { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); column-gap: 26px; padding-bottom: 22px; }
+.paso:last-child { padding-bottom: 0; }
+/* conector vertical con punta de flecha hacia el paso siguiente */
+.paso:not(:last-child)::after { content: ''; position: absolute; left: calc((100% - 26px) * 0.5556 / 2); bottom: 3px; height: 19px; border-left: 1.5px solid var(--line); }
+.paso:not(:last-child)::before { content: ''; position: absolute; left: calc((100% - 26px) * 0.5556 / 2 - 4.5px); bottom: 0; border: 5px solid transparent; border-top: 6px solid var(--line); border-bottom: 0; }
+.caja { grid-column: 1; border: 1.5px solid var(--ink); border-radius: 4px; padding: 8px 12px; background: var(--surface); display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.caja .txt { font-weight: 500; }
+.caja small { color: var(--muted); font-size: 0.8rem; line-height: 1.4; }
+.inicio .caja, .fin .caja { border-radius: 22px; background: var(--ink); border-color: var(--ink); color: var(--surface); text-align: center; }
+.inicio .caja small, .fin .caja small { color: inherit; opacity: 0.75; }
+.auto .caja { border-style: dashed; border-color: var(--accent); background: var(--accent-soft); }
+.auto .caja .txt::before { content: 'Sistema · '; color: var(--accent); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.decision .caja { border: 0; background: var(--ink); color: var(--surface); text-align: center; padding: 10px 26px; clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 16px 100%, 0 50%); }
+.decision .si-no { font-size: 0.76rem; opacity: 0.8; }
+.entrega { display: flex; flex-wrap: wrap; gap: 4px; }
+.entrega span { font-size: 0.72rem; font-weight: 600; padding: 0 7px; border-radius: 3px; border: 1px solid currentColor; }
+.entrega span::before { content: '→ '; }
+.c-comercial { color: var(--m-comercial); } .c-finanzas { color: var(--m-finanzas); } .c-marketing { color: var(--m-marketing); }
+.c-rrhh { color: var(--m-rrhh); } .c-produccion { color: var(--m-produccion); } .c-direccion { color: var(--m-direccion); }
+.decision .entrega span, .inicio .entrega span, .fin .entrega span { color: inherit; }
+.decision .caja { justify-content: center; }
+/* rama lateral de una decisión */
+.rama { grid-column: 2; align-self: center; position: relative; border: 1.5px solid var(--line); border-radius: 4px; padding: 7px 10px; font-size: 0.85rem; background: var(--surface-2); display: flex; flex-direction: column; gap: 4px; }
+.rama::before { content: ''; position: absolute; left: -26px; top: 50%; width: 21px; border-top: 1.5px solid var(--line); }
+.rama::after { content: ''; position: absolute; left: -6px; top: calc(50% - 4.25px); border: 5px solid transparent; border-left: 6px solid var(--line); border-right: 0; }
+.rama b { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.rama.alerta { border-color: var(--bad); background: var(--bad-soft); }
+.nota-ley { font-size: 0.8rem; color: var(--muted); border-top: 1px dashed var(--line-soft); padding-top: 10px; }
+
+@media (max-width: 900px) { .procesos { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 520px) {
+  h1 { font-size: 1.7rem; }
+  .paso { grid-template-columns: minmax(0, 1fr); }
+  .paso:not(:last-child)::after { left: 50%; }
+  .paso:not(:last-child)::before { left: calc(50% - 4.5px); }
+  .rama { grid-column: 1; margin: 8px 0 0 24px; }
+  .rama::before { left: -18px; top: -9px; width: 0; height: calc(50% + 9px); border-top: 0; border-left: 1.5px solid var(--line); border-bottom: 1.5px solid var(--line); width: 14px; }
+  .rama::after { display: none; }
+  .bloque, .proceso { padding: 14px; }
+}
+</style>
+</head>
+<body>
+<div class="pagina">
+  <header>
+    <p class="eyebrow">ERP Pyme · procesos estándar</p>
+    <h1>Qué hace cada área y cómo lo hace</h1>
+    <p class="lead">Cada proceso muestra las tareas de las personas, lo que el sistema hace solo, las decisiones y el momento en que el trabajo pasa a otra área. Es la base común: cada empresa ajusta responsables, plazos y montos, pero no se salta pasos.</p>
+  </header>
+
+  <div class="leyenda" aria-label="Leyenda">
+    <span><i class="mini inicio"></i> Inicio o fin</span>
+    <span><i class="mini"></i> Tarea de una persona</span>
+    <span><i class="mini auto"></i> Lo hace el sistema</span>
+    <span><i class="mini decision"></i> Decisión</span>
+    <span><span class="entrega"><span class="c-finanzas">Área</span></span> Pasa información a otra área</span>
+  </div>
+
+  <section class="bloque">
+    <header><h2>Del pedido al cobro</h2><p class="lead">El recorrido de una venta muestra cómo una sola operación mueve a cinco áreas.</p></header>
+    <figure>
+      <div class="carril-wrap" id="carril"></div>
+      <figcaption>Comercial emite la factura una vez. A partir de ahí el sistema rebaja el stock, contabiliza la venta y su IVA y agenda la postventa. Cuando Finanzas registra el cobro, el ingreso llega al retorno de la campaña y al panel de Dirección.</figcaption>
+    </figure>
+  </section>
+
+  <section class="bloque">
+    <header><h2>Calendario mensual de obligaciones</h2><p class="lead">Fechas que marcan el ritmo de los procesos recurrentes. Las legales vienen del SII y de Previred.</p></header>
+    <div class="calendario" id="calendario"></div>
+  </section>
+
+  <section class="seccion-areas" aria-label="Procesos por área">
+    <div class="areas" role="tablist" id="areas"></div>
+  </section>
+  <div id="area" role="tabpanel" style="display:flex;flex-direction:column;gap:20px"></div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  // --- Contenido: procesos estándar por área ---------------------------------
+  // Tipos de paso: inicio | tarea | auto (sistema) | decision | fin
+  // a: áreas que reciben información · rama: salida lateral de una decisión
+  const AREAS = [
+    {
+      id: 'comercial', nombre: 'Comercial',
+      responsable: 'Ventas y atención al cliente',
+      proposito: 'Vender, comprar a proveedores y cuidar al cliente antes y después de la venta.',
+      indicadores: 'Ventas netas, tickets fuera de plazo, clientes nuevos por campaña',
+      procesos: [
+        {
+          nombre: 'Venta', frecuencia: 'Diaria', pantalla: 'Comercial › Ventas',
+          pasos: [
+            { t: 'inicio', x: 'Cliente pide cotización o compra' },
+            { t: 'tarea', x: 'Buscar o registrar al cliente', d: 'RUT, contacto, campaña por la que llegó y consentimiento de datos', a: ['marketing'] },
+            { t: 'decision', x: '¿Hay stock suficiente?', rama: { b: 'No', x: 'Pedir producción o compra y avisar plazo al cliente', a: ['produccion'] } },
+            { t: 'decision', x: '¿El cliente es empresa con RUT?', d: 'Sí: factura · No: boleta' },
+            { t: 'tarea', x: 'Emitir factura o boleta' },
+            { t: 'auto', x: 'Folio, IVA, asiento contable y rebaja de stock', a: ['finanzas', 'produccion'] },
+            { t: 'auto', x: 'Agenda seguimiento postventa a los N días' },
+            { t: 'fin', x: 'Despacho o entrega', d: 'Si hay crédito, el cobro queda en Finanzas', a: ['finanzas'] },
+          ],
+        },
+        {
+          nombre: 'Compra a proveedores', frecuencia: 'Semanal', pantalla: 'Comercial › Compras',
+          pasos: [
+            { t: 'inicio', x: 'Alerta de stock bajo o necesidad de gasto' },
+            { t: 'tarea', x: 'Cotizar con 2 o 3 proveedores' },
+            { t: 'decision', x: '¿Supera el monto que exige aprobación?', rama: { b: 'Sí', x: 'Dirección aprueba antes de comprar', a: ['direccion'] } },
+            { t: 'tarea', x: 'Recibir mercadería y revisar factura contra lo recibido' },
+            { t: 'tarea', x: 'Registrar factura con su destino', d: 'Inventario, gasto de marketing (con campaña) o gasto general' },
+            { t: 'auto', x: 'Stock y costo promedio, IVA crédito y cuenta por pagar', a: ['produccion', 'finanzas', 'marketing'] },
+            { t: 'fin', x: 'Pago al vencimiento', a: ['finanzas'] },
+          ],
+        },
+        {
+          nombre: 'Atención y postventa', frecuencia: 'Diaria', pantalla: 'Comercial › Atención y postventa',
+          pasos: [
+            { t: 'inicio', x: 'Cliente consulta, reclama o pide garantía' },
+            { t: 'tarea', x: 'Abrir ticket con tipo y documento de venta' },
+            { t: 'auto', x: 'Fija plazo de respuesta según el tipo', d: 'En garantías verifica los 6 meses de la Ley 19.496' },
+            { t: 'tarea', x: 'Gestionar la solución dentro del plazo' },
+            { t: 'decision', x: '¿Corresponde devolver dinero o producto?', rama: { b: 'Sí', x: 'Emitir nota de crédito: revierte stock, venta e IVA', a: ['finanzas', 'produccion'] } },
+            { t: 'tarea', x: 'Cerrar el ticket y registrar la solución' },
+            { t: 'fin', x: 'Seguimiento de satisfacción', d: 'Los reclamos fuera de plazo suben como alerta crítica', a: ['direccion'] },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'finanzas', nombre: 'Finanzas',
+      responsable: 'Administración y contador',
+      proposito: 'Cobrar, pagar, cumplir con el SII y entregar a Dirección números confiables.',
+      indicadores: 'Caja, cuentas por cobrar vencidas, IVA a pagar, resultado del mes',
+      procesos: [
+        {
+          nombre: 'Cobranza', frecuencia: 'Semanal', pantalla: 'Finanzas › Cobros y pagos',
+          pasos: [
+            { t: 'inicio', x: 'Revisar cuentas por cobrar' },
+            { t: 'decision', x: '¿Hay facturas vencidas?', rama: { b: 'Sí', x: 'Contactar al cliente. Sobre 30 días se suspende el crédito', a: ['comercial'] } },
+            { t: 'tarea', x: 'Registrar cada cobro recibido' },
+            { t: 'auto', x: 'Actualiza caja y saldo del cliente', a: ['direccion'] },
+            { t: 'fin', x: 'Cartera al día' },
+          ],
+        },
+        {
+          nombre: 'Pago a proveedores', frecuencia: 'Semanal', pantalla: 'Finanzas › Cobros y pagos',
+          pasos: [
+            { t: 'inicio', x: 'Revisar pagos que vencen en los próximos 7 días' },
+            { t: 'tarea', x: 'Validar factura contra la recepción' },
+            { t: 'decision', x: '¿Alcanza la caja?', rama: { b: 'No', x: 'Priorizar pagos con Dirección', a: ['direccion'] } },
+            { t: 'tarea', x: 'Pagar y registrar el pago' },
+            { t: 'fin', x: 'Proveedor pagado' },
+          ],
+        },
+        {
+          nombre: 'Cierre mensual e impuestos', frecuencia: 'Mensual · días 1 al 20', pantalla: 'Finanzas › IVA y F29 · Balance',
+          pasos: [
+            { t: 'inicio', x: 'Termina el mes' },
+            { t: 'tarea', x: 'Conciliar banco con el libro', d: 'Cada movimiento del banco debe tener su asiento' },
+            { t: 'tarea', x: 'Revisar libros de compras y ventas' },
+            { t: 'auto', x: 'Calcula IVA débito menos crédito' },
+            { t: 'tarea', x: 'Pagar cotizaciones en Previred', d: 'Día 13, con las liquidaciones de RR.HH.', a: ['rrhh'] },
+            { t: 'tarea', x: 'Declarar y pagar el F29 en sii.cl', d: 'Día 20 (facturador electrónico)' },
+            { t: 'auto', x: 'Balance y resultado del mes' },
+            { t: 'fin', x: 'Informe mensual a Dirección', a: ['direccion'] },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'marketing', nombre: 'Marketing',
+      responsable: 'Encargado de marketing o dueño',
+      proposito: 'Atraer y retener clientes, midiendo cuánto vende cada peso invertido.',
+      indicadores: 'Costo por cliente, ventas atribuidas, retorno por campaña',
+      procesos: [
+        {
+          nombre: 'Campaña', frecuencia: 'Por campaña', pantalla: 'Marketing › Campañas',
+          pasos: [
+            { t: 'inicio', x: 'Objetivo comercial del mes', d: 'Ej.: 20 clientes nuevos o vender un producto con stock alto', a: [] },
+            { t: 'tarea', x: 'Definir canal, presupuesto y fechas' },
+            { t: 'decision', x: '¿Presupuesto aprobado?', rama: { b: 'No', x: 'Ajustar alcance con Dirección', a: ['direccion'] } },
+            { t: 'tarea', x: 'Armar la audiencia' },
+            { t: 'auto', x: 'Excluye clientes sin consentimiento de datos', d: 'Ley 21.719' },
+            { t: 'tarea', x: 'Ejecutar y registrar cada gasto como compra de marketing', a: ['finanzas'] },
+            { t: 'tarea', x: 'Marcar la campaña de origen en cada cliente nuevo', a: ['comercial'] },
+            { t: 'auto', x: 'Calcula costo por cliente y retorno' },
+            { t: 'fin', x: 'Repetir, ajustar o cortar la campaña', a: ['direccion'] },
+          ],
+        },
+        {
+          nombre: 'Fidelización', frecuencia: 'Mensual', pantalla: 'Marketing › Audiencias',
+          pasos: [
+            { t: 'inicio', x: 'Revisar clientes sin compras' },
+            { t: 'tarea', x: 'Segmentar por inactividad de 30 o 90 días' },
+            { t: 'tarea', x: 'Enviar oferta o recordatorio' },
+            { t: 'auto', x: 'Las compras de vuelta se miden solas', a: ['comercial'] },
+            { t: 'fin', x: 'Evaluar qué segmento respondió mejor' },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'rrhh', nombre: 'Recursos Humanos',
+      responsable: 'Encargado de personas o dueño, con apoyo del contador',
+      proposito: 'Contratar y pagar bien y a tiempo, y cuidar el bienestar y la seguridad de las personas.',
+      indicadores: 'Contratos al día, costo de nómina sobre ventas, capacitaciones realizadas',
+      procesos: [
+        {
+          nombre: 'Contratación', frecuencia: 'Por ingreso', pantalla: 'RR.HH. › Trabajadores',
+          pasos: [
+            { t: 'inicio', x: 'Se necesita un cargo', d: 'Aprobado por Dirección', a: [] },
+            { t: 'tarea', x: 'Perfil, publicación y selección' },
+            { t: 'tarea', x: 'Ingresar trabajador con los datos mínimos del contrato', d: 'Art. 10 del Código del Trabajo' },
+            { t: 'auto', x: 'Valida jornada máxima y sueldo mínimo', d: '42 h semanales desde abril de 2026' },
+            { t: 'decision', x: '¿Contrato firmado dentro de 15 días?', rama: { b: 'No', x: 'Alerta crítica en el panel de Dirección', a: ['direccion'], alerta: true } },
+            { t: 'tarea', x: 'Inducción', d: 'Reglamento interno, protocolo Ley Karin, riesgos del puesto' },
+            { t: 'fin', x: 'Alta en mutual y Previred', a: ['finanzas'] },
+          ],
+        },
+        {
+          nombre: 'Remuneraciones', frecuencia: 'Mensual', pantalla: 'RR.HH. › Liquidaciones',
+          pasos: [
+            { t: 'inicio', x: 'Cierre de asistencia y horas extra' },
+            { t: 'tarea', x: 'Calcular la liquidación de cada trabajador' },
+            { t: 'auto', x: 'Gratificación, AFP, salud, cesantía e impuesto' },
+            { t: 'tarea', x: 'Revisar y emitir' },
+            { t: 'auto', x: 'Asiento de remuneraciones y cotizaciones por pagar', a: ['finanzas'] },
+            { t: 'tarea', x: 'Pagar sueldos', d: 'Las cotizaciones se pagan el día 13 del mes siguiente', a: ['finanzas'] },
+            { t: 'fin', x: 'Entregar la liquidación firmada' },
+          ],
+        },
+        {
+          nombre: 'Término de plazo fijo', frecuencia: 'Por alerta', pantalla: 'Dirección › Alertas',
+          pasos: [
+            { t: 'inicio', x: 'Alerta: el contrato vence en 15 días' },
+            { t: 'decision', x: '¿Se mantiene al trabajador?', rama: { b: 'No', x: 'Carta de aviso de término y finiquito' } },
+            { t: 'decision', x: '¿Sería la segunda renovación?', rama: { b: 'Sí', x: 'Pasa a indefinido por ley', alerta: true } },
+            { t: 'tarea', x: 'Renovar y actualizar la fecha de término' },
+            { t: 'fin', x: 'Contrato actualizado' },
+          ],
+        },
+        {
+          nombre: 'Denuncia Ley Karin', frecuencia: 'Por denuncia', pantalla: 'RR.HH. › Bienestar y Ley Karin',
+          pasos: [
+            { t: 'inicio', x: 'Se recibe una denuncia' },
+            { t: 'tarea', x: 'Adoptar medidas de resguardo inmediatas', d: 'Por ejemplo, separar espacios o turnos' },
+            { t: 'decision', x: '¿La empresa investiga?', rama: { b: 'No', x: 'Derivar a la Inspección del Trabajo' } },
+            { t: 'auto', x: 'Plazo de investigación de 30 días con alertas' },
+            { t: 'tarea', x: 'Investigar con reserva y emitir informe' },
+            { t: 'fin', x: 'Aplicar medidas y cerrar', a: ['direccion'] },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'produccion', nombre: 'Producción e inventario',
+      responsable: 'Jefe de producción o bodega',
+      proposito: 'Tener el producto correcto, en la cantidad correcta, al menor costo.',
+      indicadores: 'Productos bajo mínimo, órdenes terminadas, valor del inventario',
+      procesos: [
+        {
+          nombre: 'Planificación y producción', frecuencia: 'Semanal', pantalla: 'Producción › Órdenes de producción',
+          pasos: [
+            { t: 'inicio', x: 'Pedidos y productos bajo el mínimo', a: [] },
+            { t: 'tarea', x: 'Definir qué y cuánto producir' },
+            { t: 'decision', x: '¿Alcanzan los insumos según la receta?', rama: { b: 'No', x: 'Solicitar compra de insumos', a: ['comercial'] } },
+            { t: 'tarea', x: 'Crear la orden de producción' },
+            { t: 'tarea', x: 'Producir y controlar calidad', d: 'Registrar lote y vencimiento' },
+            { t: 'auto', x: 'Al terminar: descuenta insumos, suma producto y recalcula costo', a: ['finanzas'] },
+            { t: 'fin', x: 'Producto disponible para la venta', a: ['comercial'] },
+          ],
+        },
+        {
+          nombre: 'Control de inventario', frecuencia: 'Mensual', pantalla: 'Producción › Inventario',
+          pasos: [
+            { t: 'inicio', x: 'Conteo físico de bodega' },
+            { t: 'tarea', x: 'Comparar con el stock del sistema' },
+            { t: 'decision', x: '¿Hay diferencias?', rama: { b: 'Sí', x: 'Ajustar con justificación: merma, vencimiento o error', a: ['finanzas'] } },
+            { t: 'tarea', x: 'Revisar stocks mínimos y vencimientos próximos' },
+            { t: 'fin', x: 'Inventario cuadrado' },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'direccion', nombre: 'Dirección',
+      responsable: 'Dueño o gerente',
+      proposito: 'Decidir con información completa y asegurar que la empresa cumpla la ley.',
+      indicadores: 'Resultado, caja, alertas críticas abiertas, metas por área',
+      procesos: [
+        {
+          nombre: 'Revisión semanal', frecuencia: 'Cada lunes', pantalla: 'Dirección',
+          pasos: [
+            { t: 'inicio', x: 'Abrir el panel de dirección' },
+            { t: 'tarea', x: 'Revisar ventas, margen, caja y cuentas por cobrar' },
+            { t: 'tarea', x: 'Resolver primero las alertas críticas', d: 'Contratos, reclamos fuera de plazo, caja negativa' },
+            { t: 'decision', x: '¿Algún indicador está fuera de meta?', rama: { b: 'Sí', x: 'Asignar responsable y plazo al área', a: ['comercial', 'finanzas', 'rrhh', 'produccion', 'marketing'] } },
+            { t: 'fin', x: 'Prioridades de la semana' },
+          ],
+        },
+        {
+          nombre: 'Cierre y planificación mensual', frecuencia: 'Mensual · después del día 20', pantalla: 'Dirección · Configuración',
+          pasos: [
+            { t: 'inicio', x: 'Recibe el cierre de Finanzas' },
+            { t: 'tarea', x: 'Comparar resultado con el presupuesto' },
+            { t: 'tarea', x: 'Revisar retorno de campañas y costo de nómina' },
+            { t: 'tarea', x: 'Aprobar presupuesto, contrataciones y compras mayores', a: ['marketing', 'rrhh', 'comercial'] },
+            { t: 'tarea', x: 'Actualizar parámetros legales si cambiaron', d: 'Ingreso mínimo, UF, UTM, tasas' },
+            { t: 'fin', x: 'Metas del mes siguiente por área', a: ['comercial', 'marketing', 'produccion'] },
+          ],
+        },
+      ],
+    },
+  ];
+
+  const NOMBRE = { comercial: 'Comercial', finanzas: 'Finanzas', marketing: 'Marketing', rrhh: 'RR.HH.', produccion: 'Producción', direccion: 'Dirección' };
+
+  const CALENDARIO = [
+    ['Días 1–5', 'Cierre contable', 'Conciliación bancaria y revisión de libros', 'finanzas'],
+    ['Cada lunes', 'Revisión de dirección', 'Panel, alertas y prioridades', 'direccion'],
+    ['Último día hábil', 'Pago de sueldos', 'Liquidaciones emitidas y firmadas', 'rrhh'],
+    ['Día 13', 'Cotizaciones en Previred', 'AFP, salud, cesantía, SIS, mutual', 'rrhh'],
+    ['Día 20', 'F29 en el SII', 'IVA e impuesto único del mes anterior', 'finanzas'],
+    ['Fin de mes', 'Conteo de inventario', 'Ajustes por merma o vencimiento', 'produccion'],
+  ];
+
+  // --- Utilidades --------------------------------------------------------------
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const entrega = (a) => (a && a.length ? `<span class="entrega">${a.map((m) => `<span class="c-${m}">${NOMBRE[m]}</span>`).join('')}</span>` : '');
+
+  // --- Carril general (SVG) ----------------------------------------------------
+  function carril() {
+    const lanes = ['marketing', 'comercial', 'produccion', 'finanzas', 'direccion'];
+    const LW = 104, CW = 176, NW = 132, NH = 46, LH = 72, TOP = 6;
+    const nodos = {
+      cap: [0, 'marketing', ['Campaña', 'capta cliente']],
+      reg: [1, 'comercial', ['Registra cliente', 'y su origen']],
+      fac: [2, 'comercial', ['Emite factura']],
+      stk: [3, 'produccion', ['Rebaja stock', 'o produce']],
+      asi: [3, 'finanzas', ['Asiento venta', 'e IVA débito']],
+      pos: [4, 'comercial', ['Seguimiento', 'postventa']],
+      cob: [5, 'finanzas', ['Registra cobro']],
+      roi: [6, 'marketing', ['Retorno de', 'la campaña']],
+      pan: [6, 'direccion', ['Panel y', 'alertas']],
+    };
+    const aristas = [['cap', 'reg', 'cliente nuevo'], ['reg', 'fac', 'pedido'], ['fac', 'stk', 'cantidades'], ['fac', 'asi', 'montos'], ['fac', 'pos', 'a los N días'], ['asi', 'cob', 'al vencer'], ['cob', 'roi', 'venta pagada'], ['cob', 'pan', 'caja']];
+    const W = LW + 7 * CW, H = TOP * 2 + lanes.length * LH;
+    const pos = (k) => { const [c, l] = nodos[k]; return { x: LW + c * CW + (CW - NW) / 2, y: TOP + lanes.indexOf(l) * LH + (LH - NH) / 2 }; };
+    let s = `<svg class="carril" viewBox="0 0 ${W} ${H}" role="img" aria-label="Recorrido de una venta: Marketing capta al cliente, Comercial lo registra y emite la factura, Producción rebaja stock, Finanzas contabiliza y cobra, y el resultado vuelve a Marketing y Dirección">
+      <defs><marker id="punta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="marca" d="M0 0 L10 5 L0 10 z"/></marker></defs>`;
+    lanes.forEach((l, i) => {
+      const y = TOP + i * LH;
+      if (i % 2 === 0) s += `<rect class="lane-bg" x="0" y="${y}" width="${W}" height="${LH}"/>`;
+      s += `<line class="lane-sep" x1="0" y1="${y + LH}" x2="${W}" y2="${y + LH}"/><text class="lane-t" x="12" y="${y + LH / 2 + 4}">${NOMBRE[l]}</text>`;
+    });
+    for (const [a, b, t] of aristas) {
+      const p = pos(a), q = pos(b);
+      const x1 = p.x + NW, y1 = p.y + NH / 2, x2 = q.x - 2, y2 = q.y + NH / 2;
+      const xm = x1 + (CW - NW) / 2;
+      const d = y1 === y2 ? `M${x1} ${y1} H${x2}` : `M${x1} ${y1} H${xm} V${y2} H${x2}`;
+      // etiqueta: centrada sobre tramos rectos; a la izquierda del codo en los que cambian de carril
+      const etiqueta = y1 === y2 ? `<text class="arista-t centro" x="${(x1 + x2) / 2}" y="${y1 - 7}">${t}</text>` : `<text class="arista-t" x="${xm - 6}" y="${y2 - 7}">${t}</text>`;
+      s += `<path class="arista" d="${d}" marker-end="url(#punta)"/>${etiqueta}`;
+    }
+    for (const [k, [, l, lineas]] of Object.entries(nodos)) {
+      const p = pos(k);
+      s += `<g class="nodo"><rect class="l-${l}" x="${p.x}" y="${p.y}" width="${NW}" height="${NH}" rx="4"/>${lineas.map((t, i) => `<text x="${p.x + NW / 2}" y="${p.y + NH / 2 + 4.5 + (i - (lineas.length - 1) / 2) * 15}">${t}</text>`).join('')}</g>`;
+    }
+    return s + '</svg>';
+  }
+
+  // --- Procesos por área -------------------------------------------------------
+  function paso(p) {
+    const caja = `<div class="caja"><span class="txt">${esc(p.x)}</span>${p.d ? `<small${p.t === 'decision' ? ' class="si-no"' : ''}>${esc(p.d)}</small>` : ''}${entrega(p.a)}</div>`;
+    const rama = p.rama ? `<div class="rama${p.rama.alerta ? ' alerta' : ''}"><b>${esc(p.rama.b)}</b><span>${esc(p.rama.x)}</span>${entrega(p.rama.a)}</div>` : '';
+    return `<li class="paso ${p.t}">${caja}${rama}</li>`;
+  }
+
+  function area(a) {
+    return `<div class="ficha" style="--area: var(--m-${a.id})">
+        <div><span class="eyebrow">Responsable</span><b>${esc(a.responsable)}</b></div>
+        <div><span class="eyebrow">Para qué existe</span><span>${esc(a.proposito)}</span></div>
+        <div><span class="eyebrow">Cómo se mide</span><span>${esc(a.indicadores)}</span></div>
+      </div>
+      <div class="procesos">${a.procesos.map((pr) => `<article class="proceso" style="--area: var(--m-${a.id})">
+        <header><h3>${esc(pr.nombre)}</h3><div class="meta"><span class="chip freq">${esc(pr.frecuencia)}</span><span class="chip">En el ERP: ${esc(pr.pantalla)}</span></div></header>
+        <ol class="flujo">${pr.pasos.map(paso).join('')}</ol>
+      </article>`).join('')}</div>`;
+  }
+
+  let actual = 'comercial';
+  function mostrar(id) {
+    if (!AREAS.some((a) => a.id === id)) id = 'comercial';
+    actual = id;
+    document.getElementById('areas').innerHTML = AREAS.map((a) => `<button type="button" role="tab" id="tab-${a.id}" class="a-${a.id}" aria-selected="${a.id === id}" data-area="${a.id}">${esc(a.nombre)}</button>`).join('');
+    document.getElementById('area').innerHTML = area(AREAS.find((a) => a.id === id));
+  }
+
+  document.getElementById('carril').innerHTML = carril();
+  document.getElementById('calendario').innerHTML = CALENDARIO.map(([dia, t, d, m]) => `<div class="hito" style="border-left-color: var(--m-${m})"><b>${dia}</b><span>${t}</span><small>${d}</small></div>`).join('');
+  document.getElementById('areas').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-area]');
+    if (!b) return;
+    mostrar(b.dataset.area);
+    try { history.replaceState(null, '', '#' + b.dataset.area); } catch (err) { /* sin historial */ }
+  });
+  mostrar(location.hash.slice(1));
+})();
+</script>
+</body>
+</html>
