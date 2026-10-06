@@ -12,7 +12,10 @@ erp-pyme/
 ├── app.js       interfaz: vistas, formularios y tablas genéricos
 ├── index.html   página
 ├── estilos.css  estilos (tema claro/oscuro, móvil)
-└── pruebas.js   pruebas del núcleo:  node pruebas.js
+├── pruebas.js   pruebas del núcleo:  node pruebas.js
+├── flujos.html  diagramas de flujo de los procesos de cada área
+├── BRIEF-INVESTIGACION.md     encargo de investigación entregado a Gemini
+└── ANALISIS-INVESTIGACION.md  revisión del informe: errores, correcciones y lo incorporado
 ```
 
 ## Procesos por área
@@ -46,13 +49,14 @@ Un único modelo de datos y un bus de eventos. Ningún asiento contable se escri
 
 ## Cumplimiento legal incorporado (referencial)
 
-- **Tributario (SII):** validación de RUT, IVA 19 %, factura exige cliente con RUT, libro de ventas y compras, resumen para el F29 con fecha de vencimiento.
-- **Laboral (Código del Trabajo):** datos mínimos del contrato (art. 10), plazo para escriturarlo (15 días / 5 días), jornada máxima (42 h desde abril 2026, Ley 21.561), ingreso mínimo proporcional, plazo fijo con tope de 1 año y aviso de conversión a indefinido, gratificación legal, liquidación con AFP, salud, seguro de cesantía, impuesto único, SIS, mutual y aporte de la reforma previsional.
+- **Tributario (SII):** validación de RUT, IVA 19 %, factura exige cliente con RUT, libro de ventas y compras, propuesta de F29 (IVA, retención de honorarios al 15,25 %, impuesto único y PPM), plazo de 8 días para aceptar o reclamar facturas recibidas, régimen Pro Pyme y gastos personales del dueño separados como retiros.
+- **Laboral (Código del Trabajo):** datos mínimos del contrato (art. 10), plazo para escriturarlo (15 días / 5 días), jornada máxima (42 h desde abril 2026, Ley 21.561), ingreso mínimo proporcional, plazo fijo con tope de 1 año y aviso de conversión a indefinido, gratificación legal, liquidación con AFP, salud, seguro de cesantía, impuesto único, mutual y aporte de la reforma previsional (3,5 % desde agosto de 2026, con el SIS incluido); topes imponibles de 90 UF (AFP y salud) y 135,2 UF (cesantía). Avisa antes de cruzar umbrales por tamaño: libro de remuneraciones electrónico (5), reglamento interno (10), sala cuna (20 trabajadoras), comité paritario (más de 25).
 - **Ley Karin (21.643):** canal de denuncias con plazo de investigación de 30 días, sin datos personales en la bitácora.
-- **Consumidor (Ley 19.496):** garantía legal de 6 meses verificada al abrir un ticket de garantía; plazos de respuesta por tipo de solicitud.
-- **Datos personales (Ley 21.719):** consentimiento por cliente; quienes no lo dieron quedan fuera de las campañas.
+- **Consumidor (Ley 19.496):** garantía legal de 6 meses y retracto de 10 días verificados al abrir el ticket; plazos de respuesta por tipo de solicitud.
+- **Datos personales (Ley 21.719, desde el 1 de diciembre de 2026):** consentimiento con fecha y medio, solicitud de no contactar y supresión de datos; quienes no consintieron quedan fuera de las campañas.
+- **Pago a 30 días (Ley 21.131):** orden de compra obligatoria para los clientes que la exigen y aviso opcional de interés por mora.
 
-> Las tasas y montos son **referenciales** (oct-2026) y se editan en *Configuración → Parámetros legales*. Antes de uso real hay que validarlos con contador/abogado, Previred y el SII. El prototipo **no** emite DTE ante el SII ni declara impuestos.
+> Las tasas y montos se revisaron en octubre de 2026 (ver `ANALISIS-INVESTIGACION.md`) y se editan en *Configuración → Parámetros legales*, donde cada uno muestra su fuente y si falta confirmarlo. Antes de uso real hay que validarlos con contador/abogado, Previred y el SII. El prototipo **no** emite DTE ante el SII ni declara impuestos.
 
 ## Siguientes pasos sugeridos
 

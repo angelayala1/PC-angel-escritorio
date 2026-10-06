@@ -63,12 +63,15 @@
     '2103': 'Remuneraciones por pagar',
     '2104': 'Cotizaciones previsionales por pagar',
     '2105': 'Impuesto único por pagar',
+    '2106': 'Retenciones de honorarios por pagar',
     '3101': 'Capital',
+    '3102': 'Retiros del dueño',
     '4101': 'Ventas',
     '5101': 'Costo de ventas',
     '5201': 'Remuneraciones',
     '5202': 'Gastos de marketing',
     '5203': 'Gastos generales',
+    '5204': 'Honorarios',
   };
 
   const MODULOS = {
@@ -91,7 +94,8 @@
 
   const LIMITE_CAMPOS_PERSONALIZADOS = 8;
 
-  // Parámetros legales referenciales (editables en Configuración)
+  // Parámetros legales referenciales (editables en Configuración).
+  // Revisados contra el informe de investigación (oct-2026) y fuentes oficiales: ver LEGAL_META.
   const LEGAL_POR_DEFECTO = {
     iva: 0.19,
     diaVencimientoF29: 20, // facturador electrónico
@@ -99,22 +103,69 @@
     jornadaMaximaSemanal: 42, // Ley 21.561: 42 h desde abr-2026, 40 h desde abr-2028
     valorUF: 39500,
     valorUTM: 69000,
-    topeImponibleUF: 87.8,
+    topeImponibleUF: 90, // AFP, salud y mutual (desde feb-2026)
+    topeCesantiaUF: 135.2, // seguro de cesantía (desde feb-2026)
     tasaAFP: 0.10,
     tasaSalud: 0.07,
     cesantiaTrabajadorIndefinido: 0.006,
     cesantiaEmpleadorIndefinido: 0.024,
     cesantiaEmpleadorPlazoFijo: 0.03,
-    sis: 0.0153,
+    sis: 0, // desde ago-2026 va incluido en el aporte de la reforma (2,5 % de ese 3,5 %)
     mutualBase: 0.0093,
-    aporteEmpleadorReforma: 0.035, // Ley 21.735, gradual; verificar tasa vigente
+    aporteEmpleadorReforma: 0.035, // Ley 21.735: 3,5 % ago-2026 → 8,5 % en ago-2033
+    retencionHonorarios: 0.1525, // 2026
+    ppmTasa: 0.00125, // Pro Pyme General, ingresos < 50.000 UF (rebaja transitoria)
+    diasReclamoFactura: 8, // días corridos para reclamar una factura recibida
     diasEscrituraContrato: 15,
     diasEscrituraContratoCorto: 5,
     mesesGarantiaLegal: 6, // Ley 19.496
+    diasRetracto: 10, // compras a distancia
     diasInvestigacionKarin: 30, // Ley 21.643
   };
 
-  // Impuesto Único de Segunda Categoría (tramos en UTM: hasta, tasa, rebaja)
+  // De dónde sale cada parámetro y si está confirmado. Se muestra en Configuración.
+  const LEGAL_META = {
+    iva: { estado: 'confirmado', fuente: 'SII' },
+    diaVencimientoF29: { estado: 'confirmado', fuente: 'SII' },
+    ingresoMinimo: { estado: 'confirmado', fuente: 'gob.cl', nota: 'Vigente desde el 1 de enero de 2026' },
+    jornadaMaximaSemanal: { estado: 'confirmado', fuente: 'Ley 21.561', nota: '40 h desde abril de 2028' },
+    valorUF: { estado: 'actualizar', fuente: 'Banco Central / SII', nota: 'Cambia todos los días' },
+    valorUTM: { estado: 'actualizar', fuente: 'SII', nota: 'Cambia cada mes' },
+    topeImponibleUF: { estado: 'confirmado', fuente: 'Superintendencia de Pensiones', nota: '90 UF desde febrero de 2026; se reajusta cada año' },
+    topeCesantiaUF: { estado: 'confirmado', fuente: 'Superintendencia de Pensiones', nota: '135,2 UF desde febrero de 2026' },
+    tasaAFP: { estado: 'confirmado', fuente: 'Superintendencia de Pensiones' },
+    tasaSalud: { estado: 'confirmado', fuente: 'Ley' },
+    cesantiaTrabajadorIndefinido: { estado: 'confirmado', fuente: 'Superintendencia de Pensiones' },
+    cesantiaEmpleadorIndefinido: { estado: 'confirmado', fuente: 'Superintendencia de Pensiones' },
+    cesantiaEmpleadorPlazoFijo: { estado: 'confirmado', fuente: 'Superintendencia de Pensiones' },
+    sis: { estado: 'confirmado', fuente: 'Ley 21.735', nota: 'Desde agosto de 2026 va dentro del aporte de la reforma; antes era 1,62 %' },
+    mutualBase: { estado: 'verificar', fuente: 'SUSESO', nota: '0,90 % básica + 0,03 % extraordinaria; se suma la adicional por riesgo' },
+    aporteEmpleadorReforma: { estado: 'confirmado', fuente: 'Ley 21.735', nota: '3,5 % desde agosto de 2026; 4,25 % en agosto de 2027; llega a 8,5 % en 2033' },
+    retencionHonorarios: { estado: 'confirmado', fuente: 'SII', nota: 'Sube cada año hasta 17 % en 2028' },
+    ppmTasa: { estado: 'verificar', fuente: 'SII, circular 53/2025', nota: 'Depende del régimen tributario y de las ventas del año anterior' },
+    diasReclamoFactura: { estado: 'confirmado', fuente: 'SII, Ley 19.983' },
+    diasEscrituraContrato: { estado: 'confirmado', fuente: 'Código del Trabajo, art. 9' },
+    diasEscrituraContratoCorto: { estado: 'confirmado', fuente: 'Código del Trabajo, art. 9' },
+    mesesGarantiaLegal: { estado: 'confirmado', fuente: 'Ley 19.496 y Ley 21.398' },
+    diasRetracto: { estado: 'confirmado', fuente: 'Ley 19.496' },
+    diasInvestigacionKarin: { estado: 'verificar', fuente: 'Ley 21.643', nota: 'Confirmar si son días hábiles o corridos; el sistema avisa con días corridos' },
+  };
+
+  // Obligaciones que se activan al crecer (umbral >= valor). Fuente: investigación oct-2026.
+  const UMBRALES = [
+    { medida: 'trabajadores', umbral: 5, area: 'rrhh', obligacion: 'Libro de Remuneraciones Electrónico mensual (Dirección del Trabajo)' },
+    { medida: 'trabajadores', umbral: 10, area: 'rrhh', obligacion: 'Reglamento Interno de Orden, Higiene y Seguridad' },
+    { medida: 'trabajadoras', umbral: 20, area: 'rrhh', obligacion: 'Sala cuna para las trabajadoras' },
+    { medida: 'trabajadores', umbral: 26, area: 'rrhh', obligacion: 'Comité Paritario de Higiene y Seguridad (más de 25)' },
+    { medida: 'trabajadores', umbral: 100, area: 'rrhh', obligacion: 'Ley de Inclusión Laboral: 1 % de la dotación' },
+    { medida: 'trabajadores', umbral: 101, area: 'rrhh', obligacion: 'Departamento de Prevención de Riesgos (más de 100)' },
+    { medida: 'ventasUF', umbral: 2400, area: 'direccion', obligacion: 'Deja de ser microempresa y pasa a pequeña' },
+    { medida: 'ventasUF', umbral: 25000, area: 'direccion', obligacion: 'Pasa a mediana empresa' },
+    { medida: 'ventasUF', umbral: 50000, area: 'finanzas', obligacion: 'Sube la tasa de PPM en Pro Pyme General (verificar con contador)' },
+    { medida: 'ventasUF', umbral: 75000, area: 'finanzas', obligacion: 'Riesgo de salir del régimen Pro Pyme (promedio de 3 años)' },
+  ];
+
+    // Impuesto Único de Segunda Categoría (tramos en UTM: hasta, tasa, rebaja)
   const TRAMOS_IUSC = [
     [13.5, 0, 0], [30, 0.04, 0.54], [50, 0.08, 1.74], [70, 0.135, 4.49],
     [90, 0.23, 11.14], [120, 0.304, 17.80], [310, 0.35, 23.32], [Infinity, 0.40, 38.82],
@@ -175,7 +226,9 @@
       { id: 'TER-3', tipo: 'cliente', rut: rutDesdeNumero(78999111), nombre: 'Minimarket Don Pepe', email: 'pepe@minimarket.cl', telefono: '', origenCampanaId: '', consentimientoDatos: false, extra: { canal: 'Distribuidor' } },
       { id: 'TER-4', tipo: 'proveedor', rut: rutDesdeNumero(96500400), nombre: 'Molinos del Sur S.A.', email: 'ventas@molinosdelsur.cl', telefono: '', origenCampanaId: '', consentimientoDatos: true, extra: {} },
       { id: 'TER-5', tipo: 'proveedor', rut: rutDesdeNumero(76111222), nombre: 'Agencia Digital Pixel', email: 'hola@pixel.cl', telefono: '', origenCampanaId: '', consentimientoDatos: true, extra: {} },
+      { id: 'TER-6', tipo: 'proveedor', rut: rutDesdeNumero(13579246), nombre: 'Ana Soto (contadora)', email: 'ana.soto@correo.cl', telefono: '', origenCampanaId: '', consentimientoDatos: true, extra: {} },
     ];
+    base.terceros.forEach((t) => Object.assign(t, { exigeOC: t.id === 'TER-1', bajaComunicaciones: false, fechaConsentimiento: t.consentimientoDatos ? sumarDias(h, -90) : '', medioConsentimiento: t.consentimientoDatos ? 'Formulario en tienda' : '' }));
     base.productos = [
       { id: 'PRO-1', sku: 'HAR-25', nombre: 'Harina (saco 25 kg)', tipo: 'insumo', precioNeto: 0, costo: 18000, stock: 12, stockMinimo: 5, extra: {} },
       { id: 'PRO-2', sku: 'LEV-1', nombre: 'Levadura (kg)', tipo: 'insumo', precioNeto: 0, costo: 4500, stock: 6, stockMinimo: 3, extra: {} },
@@ -185,15 +238,15 @@
     ];
     base.recetas = { 'PRO-3': [{ productoId: 'PRO-1', cantidad: 0.02 }, { productoId: 'PRO-2', cantidad: 0.005 }] };
     base.empleados = [
-      { id: 'EMP-1', rut: rutDesdeNumero(16789123), nombre: 'Juan Pérez', cargo: 'Maestro panadero', fechaIngreso: sumarDias(h, -400), tipoContrato: 'indefinido', fechaTermino: '', renovaciones: 0, fechaFirmaContrato: sumarDias(h, -398), sueldoBase: 750000, jornadaSemanal: 42, afp: 'Modelo', salud: 'Fonasa', colacion: 40000, movilizacion: 30000, extra: { manipulador: 'Sí' } },
-      { id: 'EMP-2', rut: rutDesdeNumero(19876543), nombre: 'Camila Rojas', cargo: 'Vendedora', fechaIngreso: sumarDias(h, -75), tipoContrato: 'plazo_fijo', fechaTermino: sumarDias(h, 10), renovaciones: 1, fechaFirmaContrato: sumarDias(h, -74), sueldoBase: 560000, jornadaSemanal: 42, afp: 'Habitat', salud: 'Fonasa', colacion: 30000, movilizacion: 25000, extra: { manipulador: 'Sí' } },
-      { id: 'EMP-3', rut: rutDesdeNumero(20111333), nombre: 'Diego Muñoz', cargo: 'Ayudante de producción', fechaIngreso: sumarDias(h, -20), tipoContrato: 'indefinido', fechaTermino: '', renovaciones: 0, fechaFirmaContrato: '', sueldoBase: 539000, jornadaSemanal: 42, afp: 'Uno', salud: 'Fonasa', colacion: 30000, movilizacion: 25000, extra: { manipulador: 'No' } },
+      { id: 'EMP-1', rut: rutDesdeNumero(16789123), nombre: 'Juan Pérez', cargo: 'Maestro panadero', fechaIngreso: sumarDias(h, -400), tipoContrato: 'indefinido', fechaTermino: '', renovaciones: 0, fechaFirmaContrato: sumarDias(h, -398), sueldoBase: 750000, jornadaSemanal: 42, afp: 'Modelo', salud: 'Fonasa', sexo: 'M', colacion: 40000, movilizacion: 30000, extra: { manipulador: 'Sí' } },
+      { id: 'EMP-2', rut: rutDesdeNumero(19876543), nombre: 'Camila Rojas', cargo: 'Vendedora', fechaIngreso: sumarDias(h, -75), tipoContrato: 'plazo_fijo', fechaTermino: sumarDias(h, 10), renovaciones: 1, fechaFirmaContrato: sumarDias(h, -74), sueldoBase: 560000, jornadaSemanal: 42, afp: 'Habitat', salud: 'Fonasa', sexo: 'F', colacion: 30000, movilizacion: 25000, extra: { manipulador: 'Sí' } },
+      { id: 'EMP-3', rut: rutDesdeNumero(20111333), nombre: 'Diego Muñoz', cargo: 'Ayudante de producción', fechaIngreso: sumarDias(h, -20), tipoContrato: 'indefinido', fechaTermino: '', renovaciones: 0, fechaFirmaContrato: '', sueldoBase: 539000, jornadaSemanal: 42, afp: 'Uno', salud: 'Fonasa', sexo: 'M', colacion: 30000, movilizacion: 25000, extra: { manipulador: 'No' } },
     ];
     base.bienestar = [
       { id: 'BIE-1', empleadoId: 'EMP-3', tipo: 'capacitacion', fecha: sumarDias(h, 14), detalle: 'Curso manipulador de alimentos (obligatorio sanitario)' },
       { id: 'BIE-2', empleadoId: 'EMP-1', tipo: 'beneficio', fecha: sumarDias(h, -30), detalle: 'Aguinaldo fiestas patrias' },
     ];
-    base.secuencias = { ...base.secuencias, TER: 5, PRO: 5, EMP: 3, CAM: 2, BIE: 2 };
+    base.secuencias = { ...base.secuencias, TER: 6, PRO: 5, EMP: 3, CAM: 2, BIE: 2 };
     return base;
   }
 
@@ -201,9 +254,9 @@
     return {
       version: 1,
       config: {
-        empresa: { razonSocial: '', rut: '', giro: '', rubro: '' },
+        empresa: { razonSocial: '', rut: '', giro: '', rubro: '', regimen: 'pro_pyme_general' },
         modulos: { direccion: true, comercial: true, finanzas: true, rrhh: true, produccion: true, marketing: true },
-        opciones: { ordenesProduccion: false, postventaAutomatica: true, diasPostventa: 7, slaDias: { consulta: 3, reclamo: 5, garantia: 10, postventa: 5 } },
+        opciones: { ordenesProduccion: false, postventaAutomatica: true, diasPostventa: 7, interesMora: false, slaDias: { consulta: 3, reclamo: 5, garantia: 10, retracto: 5, postventa: 5 } },
         camposPersonalizados: { tercero: [], producto: [], empleado: [] },
         legal: { ...LEGAL_POR_DEFECTO },
       },
@@ -213,6 +266,16 @@
       folios: { factura: 0, boleta: 0, nota_credito: 0 },
       secuencias: {},
     };
+  }
+
+  // Completa datos guardados con versiones anteriores del prototipo
+  function migrar(d) {
+    const vacia = estructuraVacia();
+    d.config.legal = { ...LEGAL_POR_DEFECTO, ...d.config.legal };
+    d.config.opciones = { ...vacia.config.opciones, ...d.config.opciones, slaDias: { ...vacia.config.opciones.slaDias, ...d.config.opciones.slaDias } };
+    d.config.empresa = { ...vacia.config.empresa, ...d.config.empresa };
+    for (const doc of d.documentos) if (doc.clase === 'compra' && !doc.estadoAcuse) Object.assign(doc, { estadoAcuse: 'aceptada', fechaRecepcion: doc.fecha });
+    return d;
   }
 
   function aplicarPlantillaEn(config, rubro) {
@@ -235,7 +298,7 @@
       this.oyentes = {};
       this._registrarIntegraciones();
       const guardado = this.almacen && this.almacen.leer(this.clave);
-      if (guardado) this.d = JSON.parse(guardado);
+      if (guardado) this.d = migrar(JSON.parse(guardado));
       else this.reiniciar();
     }
 
@@ -247,7 +310,7 @@
     importar(texto) {
       const d = JSON.parse(texto);
       if (!d || d.version !== 1 || !d.config) throw new Error('Archivo no corresponde a un respaldo válido del ERP');
-      this.d = d; this.guardar();
+      this.d = migrar(d); this.guardar();
     }
     reiniciar(vacio = false) {
       this.d = vacio ? estructuraVacia() : datosDemo(this.hoy());
@@ -264,8 +327,11 @@
       this.registrarCompra({ terceroId: 'TER-4', folioProveedor: '88121', fecha: dia(-35), lineas: [{ productoId: 'PRO-1', cantidad: 10, costo: 18500 }, { productoId: 'PRO-2', cantidad: 5, costo: 4600 }] });
       this.registrarCompra({ terceroId: 'TER-5', folioProveedor: '1203', fecha: dia(-45), destino: 'marketing', campanaId: 'CAM-1', montoNeto: 180000, glosa: 'Pauta Instagram' });
       this.registrarCompra({ terceroId: 'TER-5', folioProveedor: '1219', fecha: dia(-38), destino: 'marketing', campanaId: 'CAM-2', montoNeto: 480000, glosa: 'Stand feria + material impreso' });
+      this.d.documentos.filter((d) => d.clase === 'compra').forEach((d) => (d.estadoAcuse = 'aceptada')); // aceptadas en su momento
       this.registrarPago(this.d.documentos[0].id, null, dia(-10));
-      const f1 = this.emitirVenta({ tipo: 'factura', terceroId: 'TER-1', fecha: dia(-40), diasCredito: 30, lineas: [{ productoId: 'PRO-3', cantidad: 15 }, { productoId: 'PRO-5', cantidad: 1 }] });
+      this.registrarCompra({ terceroId: 'TER-6', folioProveedor: '214', fecha: dia(-20), destino: 'honorarios', montoNeto: 350000, glosa: 'Contabilidad mensual' });
+      this.registrarCompra({ terceroId: 'TER-4', folioProveedor: '88390', fecha: dia(-6), lineas: [{ productoId: 'PRO-1', cantidad: 6, costo: 18600 }] });
+      const f1 = this.emitirVenta({ tipo: 'factura', terceroId: 'TER-1', fecha: dia(-40), diasCredito: 30, ordenCompra: 'OC-4512', lineas: [{ productoId: 'PRO-3', cantidad: 15 }, { productoId: 'PRO-5', cantidad: 1 }] });
       this.emitirVenta({ tipo: 'factura', terceroId: 'TER-3', fecha: dia(-6), diasCredito: 30, lineas: [{ productoId: 'PRO-4', cantidad: 4 }] });
       const f3 = this.emitirVenta({ tipo: 'boleta', terceroId: 'TER-2', fecha: dia(-2), lineas: [{ productoId: 'PRO-3', cantidad: 3 }] });
       this.emitirVenta({ tipo: 'boleta', fecha: dia(-1), lineas: [{ productoId: 'PRO-3', cantidad: 6 }, { productoId: 'PRO-4', cantidad: 1 }] });
@@ -385,12 +451,31 @@
       if (!validarRut(t.rut)) throw new Error('RUT no válido');
       const rut = formatearRut(t.rut);
       if (this.d.terceros.some((x) => x.rut === rut && x.id !== t.id)) throw new Error('Ya existe un tercero con ese RUT');
-      const registro = { tipo: 'cliente', email: '', telefono: '', origenCampanaId: '', consentimientoDatos: false, extra: {}, ...t, rut };
-      if (t.id) Object.assign(this.buscar('terceros', t.id), registro);
+      const previo = t.id ? this.buscar('terceros', t.id) : null;
+      const registro = { tipo: 'cliente', email: '', telefono: '', origenCampanaId: '', consentimientoDatos: false, exigeOC: false, bajaComunicaciones: false, fechaConsentimiento: '', medioConsentimiento: '', extra: {}, ...t, rut };
+      // Ley 21.719: el consentimiento queda registrado con fecha y medio
+      if (registro.consentimientoDatos && !(previo && previo.consentimientoDatos)) {
+        registro.fechaConsentimiento = this.hoy();
+        registro.medioConsentimiento = registro.medioConsentimiento || 'Registro manual';
+      }
+      if (!registro.consentimientoDatos) { registro.fechaConsentimiento = ''; registro.medioConsentimiento = ''; }
+      if (previo) Object.assign(previo, registro);
       else { registro.id = this._id('TER'); this.d.terceros.push(registro); }
       this._auditar('comercial', t.id ? 'Tercero modificado' : 'Tercero creado', `${registro.nombre} (${rut})`);
       this.guardar();
       return registro;
+    }
+
+    // Derecho de supresión (Ley 21.719). Nombre y RUT se conservan porque los
+    // documentos tributarios deben guardarse (Código Tributario, 6 años).
+    suprimirDatosPersonales(id, solicitud) {
+      const t = this.buscar('terceros', id);
+      if (!t) throw new Error('Cliente inexistente');
+      if (!solicitud) throw new Error('Indique cómo llegó la solicitud');
+      Object.assign(t, { email: '', telefono: '', extra: {}, consentimientoDatos: false, fechaConsentimiento: '', medioConsentimiento: '', bajaComunicaciones: true, datosSuprimidos: this.hoy() });
+      this._auditar('marketing', 'Supresión de datos personales', `${t.id}: ${solicitud}`);
+      this.guardar();
+      return t;
     }
 
     // --- Producción: productos e inventario -----------------------------------
@@ -428,11 +513,12 @@
       return { lineas: ls, neto, iva: montoIva, total: neto + montoIva };
     }
 
-    emitirVenta({ tipo = 'factura', terceroId, lineas, fecha, diasCredito = 30 }) {
+    emitirVenta({ tipo = 'factura', terceroId, lineas, fecha, diasCredito = 30, ordenCompra = '' }) {
       if (!['factura', 'boleta'].includes(tipo)) throw new Error('Tipo de documento de venta no válido');
       fecha = fecha || this.hoy();
       const cliente = terceroId ? this.buscar('terceros', terceroId) : null;
       if (tipo === 'factura' && !cliente) throw new Error('La factura exige un cliente identificado con RUT');
+      if (tipo === 'factura' && cliente.exigeOC && !String(ordenCompra).trim()) throw new Error(`${cliente.nombre} exige orden de compra: ingrese su número para que no rechacen el pago`);
       for (const l of lineas || []) {
         const p = this.buscar('productos', l.productoId);
         if (p && p.tipo !== 'servicio' && p.stock < Number(l.cantidad)) throw new Error(`Stock insuficiente de ${p.nombre} (disponible: ${p.stock})`);
@@ -443,7 +529,7 @@
       const doc = {
         id: this._id('DOC'), clase: 'venta', tipo, folio, fecha, terceroId: terceroId || '', ...calc,
         vencimiento: pagadaAlContado ? fecha : sumarDias(fecha, Number(diasCredito) || 0),
-        pagado: pagadaAlContado ? calc.total : 0, anulado: false,
+        pagado: pagadaAlContado ? calc.total : 0, anulado: false, ordenCompra: String(ordenCompra).trim(),
       };
       this.d.documentos.push(doc);
 
@@ -496,12 +582,14 @@
       return nc;
     }
 
-    registrarCompra({ terceroId, folioProveedor, fecha, destino = 'inventario', lineas, montoNeto, glosa, campanaId, diasCredito = 30 }) {
+    registrarCompra({ terceroId, folioProveedor, fecha, fechaRecepcion, destino = 'inventario', lineas, montoNeto, glosa, campanaId, diasCredito = 30 }) {
       fecha = fecha || this.hoy();
       const prov = this.buscar('terceros', terceroId);
       if (!prov) throw new Error('La compra exige un proveedor');
-      if (!folioProveedor) throw new Error('Indique el folio de la factura del proveedor');
-      if (this.d.documentos.some((d) => d.clase === 'compra' && d.terceroId === terceroId && String(d.folio) === String(folioProveedor))) throw new Error('Factura de proveedor ya registrada');
+      if (!folioProveedor) throw new Error('Indique el folio del documento del proveedor');
+      if (!['inventario', 'marketing', 'general', 'honorarios', 'retiro'].includes(destino)) throw new Error('Destino de compra no válido');
+      if (this.d.documentos.some((d) => d.clase === 'compra' && d.terceroId === terceroId && String(d.folio) === String(folioProveedor))) throw new Error('Documento de proveedor ya registrado');
+      const L = this.d.config.legal;
       let calc;
       if (destino === 'inventario') {
         calc = this._calcularLineas((lineas || []).map((l) => {
@@ -510,17 +598,27 @@
         }));
       } else {
         const neto = redondear(montoNeto);
-        if (neto <= 0) throw new Error('Monto neto no válido');
-        const iva = redondear(neto * this.d.config.legal.iva);
+        if (neto <= 0) throw new Error('Monto no válido');
+        // Honorarios y gastos personales no tienen IVA recuperable
+        const iva = ['honorarios', 'retiro'].includes(destino) ? 0 : redondear(neto * L.iva);
         calc = { lineas: [{ descripcion: glosa || 'Gasto', cantidad: 1, precioNeto: neto, subtotal: neto }], neto, iva, total: neto + iva };
       }
       if (destino === 'marketing' && campanaId && !this.buscar('campanas', campanaId)) throw new Error('Campaña inexistente');
-      const doc = { id: this._id('DOC'), clase: 'compra', tipo: 'factura_compra', folio: folioProveedor, fecha, terceroId, destino, campanaId: destino === 'marketing' ? campanaId || '' : '', glosa: glosa || '', ...calc, vencimiento: sumarDias(fecha, Number(diasCredito) || 0), pagado: 0 };
+      const retencion = destino === 'honorarios' ? redondear(calc.neto * L.retencionHonorarios) : 0;
+      const tipo = destino === 'honorarios' ? 'boleta_honorarios' : destino === 'retiro' ? 'gasto_personal' : 'factura_compra';
+      const doc = {
+        id: this._id('DOC'), clase: 'compra', tipo, folio: folioProveedor, fecha, terceroId, destino,
+        campanaId: destino === 'marketing' ? campanaId || '' : '', glosa: glosa || '', ...calc, retencion, total: calc.total - retencion,
+        vencimiento: sumarDias(fecha, Number(diasCredito) || 0), pagado: 0,
+        fechaRecepcion: fechaRecepcion || fecha, estadoAcuse: tipo === 'factura_compra' ? 'pendiente' : 'no_aplica',
+      };
       this.d.documentos.push(doc);
-      const cuentaDestino = { inventario: '1105', marketing: '5202', general: '5203' }[destino];
-      this._asiento(fecha, `Compra ${prov.nombre} F-${folioProveedor}`, { modulo: destino === 'marketing' ? 'marketing' : 'comercial', ref: doc.id }, [
+      const cuentaDestino = { inventario: '1105', marketing: '5202', general: '5203', honorarios: '5204', retiro: '3102' }[destino];
+      const nombreDoc = { boleta_honorarios: 'Honorarios', gasto_personal: 'Gasto personal (retiro)', factura_compra: 'Compra' }[tipo];
+      this._asiento(fecha, `${nombreDoc} ${prov.nombre} N° ${folioProveedor}`, { modulo: destino === 'marketing' ? 'marketing' : 'comercial', ref: doc.id }, [
         { cuenta: cuentaDestino, debe: doc.neto },
         { cuenta: '1104', debe: doc.iva },
+        { cuenta: '2106', haber: retencion },
         { cuenta: '2101', haber: doc.total },
       ]);
       if (destino === 'inventario') {
@@ -532,7 +630,42 @@
           this._moverStock(p.id, l.cantidad);
         });
       }
-      this._auditar(destino === 'marketing' ? 'marketing' : 'comercial', 'Compra registrada', `${prov.nombre} F-${folioProveedor} — $${doc.total}`);
+      this._auditar(destino === 'marketing' ? 'marketing' : 'comercial', `${nombreDoc} registrada`, `${prov.nombre} N° ${folioProveedor} — $${doc.total}`);
+      this.guardar();
+      return doc;
+    }
+
+    // Una factura recibida se acepta sola a los 8 días: después el proveedor puede cobrarla judicialmente
+    estadoAcuse(doc) {
+      if (doc.estadoAcuse !== 'pendiente') return doc.estadoAcuse;
+      return this.diasParaReclamar(doc) < 0 ? 'aceptada_tacita' : 'pendiente';
+    }
+
+    diasParaReclamar(doc) {
+      return this.d.config.legal.diasReclamoFactura - diasEntre(doc.fechaRecepcion, this.hoy());
+    }
+
+    acusarCompra(id, decision, motivo) {
+      const doc = this.buscar('documentos', id);
+      if (!doc || doc.tipo !== 'factura_compra') throw new Error('Solo las facturas de compra tienen acuse de recibo');
+      const estado = this.estadoAcuse(doc);
+      if (estado === 'aceptada_tacita') throw new Error('Pasaron los 8 días: la factura quedó aceptada y ya no se puede reclamar en el SII');
+      if (estado !== 'pendiente') throw new Error('La factura ya fue ' + estado);
+      if (decision === 'aceptar') {
+        doc.estadoAcuse = 'aceptada';
+      } else if (decision === 'reclamar') {
+        if (!motivo) throw new Error('Indique el motivo del reclamo');
+        if (doc.pagado) throw new Error('La factura tiene pagos registrados; revise con el proveedor antes de reclamar');
+        const cuenta = { inventario: '1105', marketing: '5202', general: '5203' }[doc.destino];
+        this._asiento(this.hoy(), `Reclamo factura ${doc.folio} (${motivo})`, { modulo: 'finanzas', ref: doc.id }, [
+          { cuenta: '2101', debe: doc.total },
+          { cuenta, haber: doc.neto },
+          { cuenta: '1104', haber: doc.iva },
+        ]);
+        if (doc.destino === 'inventario') doc.lineas.forEach((l) => this._moverStock(l.productoId, -l.cantidad));
+        Object.assign(doc, { estadoAcuse: 'reclamada', motivoReclamo: motivo, anulado: true, pagado: doc.total });
+      } else throw new Error('Decisión no válida');
+      this._auditar('finanzas', decision === 'aceptar' ? 'Factura de compra aceptada' : 'Factura de compra reclamada', `N° ${doc.folio}${motivo ? ': ' + motivo : ''}`);
       this.guardar();
       return doc;
     }
@@ -604,6 +737,14 @@
       if (!descripcion) throw new Error('Describa la solicitud');
       fechaApertura = fechaApertura || this.hoy();
       const t = { id: this._id('TIC'), terceroId, documentoId, tipo, descripcion, fechaApertura, plazo: sumarDias(fechaApertura, this.d.config.opciones.slaDias[tipo] || 5), estado: 'abierto', observacion: '' };
+      if (tipo === 'retracto') {
+        const doc = this.buscar('documentos', documentoId);
+        if (!doc) throw new Error('Un retracto debe asociarse al documento de venta');
+        const limite = sumarDias(doc.fecha, this.d.config.legal.diasRetracto);
+        t.observacion = fechaApertura <= limite
+          ? `Dentro del plazo de retracto (hasta ${limite}, contado desde la entrega). Devolver el dinero y emitir nota de crédito.`
+          : `Fuera del plazo de retracto (venció ${limite}). Revisar si hubo entrega posterior a la fecha del documento.`;
+      }
       if (tipo === 'garantia') {
         const doc = this.buscar('documentos', documentoId);
         if (!doc) throw new Error('Una garantía debe asociarse al documento de venta');
@@ -646,7 +787,7 @@
 
     // Audiencia respetando la protección de datos personales (Ley 21.719)
     audiencia({ soloInactivosDias = 0 } = {}) {
-      return this.d.terceros.filter((t) => t.tipo !== 'proveedor' && t.consentimientoDatos && t.email).filter((t) => {
+      return this.d.terceros.filter((t) => t.tipo !== 'proveedor' && t.consentimientoDatos && !t.bajaComunicaciones && t.email).filter((t) => {
         if (!soloInactivosDias) return true;
         const ultima = this.d.documentos.filter((d) => d.clase === 'venta' && d.terceroId === t.id).map((d) => d.fecha).sort().pop();
         return !ultima || diasEntre(ultima, this.hoy()) >= soloInactivosDias;
@@ -667,7 +808,7 @@
       if (e.tipoContrato === 'plazo_fijo' && !e.fechaTermino) throw new Error('El contrato a plazo fijo requiere fecha de término');
       if (e.tipoContrato === 'plazo_fijo' && diasEntre(e.fechaIngreso, e.fechaTermino) > 365) throw new Error('Plazo fijo no puede exceder 1 año (2 para profesionales/técnicos: registrar como indefinido o validar)');
       if (!AFP[e.afp]) throw new Error('AFP no válida');
-      const r = { renovaciones: 0, fechaFirmaContrato: '', fechaTermino: '', salud: 'Fonasa', colacion: 0, movilizacion: 0, extra: {}, ...e, rut: formatearRut(e.rut) };
+      const r = { renovaciones: 0, fechaFirmaContrato: '', fechaTermino: '', salud: 'Fonasa', sexo: '', colacion: 0, movilizacion: 0, extra: {}, ...e, rut: formatearRut(e.rut) };
       ['sueldoBase', 'jornadaSemanal', 'colacion', 'movilizacion', 'renovaciones'].forEach((k) => (r[k] = Number(r[k]) || 0));
       if (e.id) Object.assign(this.buscar('empleados', e.id), r);
       else { r.id = this._id('EMP'); this.d.empleados.push(r); this.d.config.modulos.rrhh = true; }
@@ -688,14 +829,15 @@
       const imponible = Math.min(imponibleReal, redondear(L.topeImponibleUF * L.valorUF));
       const afp = redondear(imponible * (L.tasaAFP + AFP[e.afp]));
       const salud = redondear(imponible * L.tasaSalud);
-      const cesantia = e.tipoContrato === 'indefinido' ? redondear(imponible * L.cesantiaTrabajadorIndefinido) : 0;
+      const imponibleCesantia = Math.min(imponibleReal, redondear(L.topeCesantiaUF * L.valorUF));
+      const cesantia = e.tipoContrato === 'indefinido' ? redondear(imponibleCesantia * L.cesantiaTrabajadorIndefinido) : 0;
       const tributable = imponibleReal - afp - salud - cesantia;
       const enUTM = tributable / L.valorUTM;
       const [, tasa, rebaja] = TRAMOS_IUSC.find(([hasta]) => enUTM <= hasta);
       const impuesto = Math.max(0, redondear((enUTM * tasa - rebaja) * L.valorUTM));
       const noImponibles = e.colacion + e.movilizacion;
       const liquido = imponibleReal - afp - salud - cesantia - impuesto + noImponibles;
-      const cesantiaEmpleador = redondear(imponible * (e.tipoContrato === 'indefinido' ? L.cesantiaEmpleadorIndefinido : L.cesantiaEmpleadorPlazoFijo));
+      const cesantiaEmpleador = redondear(imponibleCesantia * (e.tipoContrato === 'indefinido' ? L.cesantiaEmpleadorIndefinido : L.cesantiaEmpleadorPlazoFijo));
       const sis = redondear(imponible * L.sis);
       const mutual = redondear(imponible * L.mutualBase);
       const reforma = redondear(imponible * L.aporteEmpleadorReforma);
@@ -766,10 +908,15 @@
       periodo = periodo || periodoDe(this.hoy());
       const docs = this.d.documentos.filter((d) => periodoDe(d.fecha) === periodo);
       const debito = docs.filter((d) => d.clase === 'venta').reduce((s, d) => s + d.iva, 0);
-      const credito = docs.filter((d) => d.clase === 'compra').reduce((s, d) => s + d.iva, 0);
+      const credito = docs.filter((d) => d.clase === 'compra' && !d.anulado).reduce((s, d) => s + d.iva, 0);
+      const retenciones = docs.filter((d) => d.tipo === 'boleta_honorarios').reduce((s, d) => s + d.retencion, 0);
+      const impuestoUnico = this.d.liquidaciones.filter((l) => l.periodo === periodo).reduce((s, l) => s + l.impuesto, 0);
+      const ingresos = docs.filter((d) => d.clase === 'venta').reduce((s, d) => s + d.neto, 0);
+      const ppm = Math.max(0, redondear(ingresos * this.d.config.legal.ppmTasa));
       const [y, m] = periodo.split('-').map(Number);
       const sig = m === 12 ? `${y + 1}-01` : `${y}-${String(m + 1).padStart(2, '0')}`;
-      return { periodo, debito, credito, aPagar: Math.max(debito - credito, 0), remanente: Math.max(credito - debito, 0), vencimientoF29: `${sig}-${String(this.d.config.legal.diaVencimientoF29).padStart(2, '0')}` };
+      const aPagar = Math.max(debito - credito, 0);
+      return { periodo, debito, credito, aPagar, remanente: Math.max(credito - debito, 0), retenciones, impuestoUnico, ppm, totalF29: aPagar + retenciones + impuestoUnico + ppm, vencimientoF29: `${sig}-${String(this.d.config.legal.diaVencimientoF29).padStart(2, '0')}` };
     }
 
     cuentasPendientes(clase) {
@@ -785,7 +932,7 @@
       const ventasNetas = ventas.reduce((s, d) => s + d.neto, 0);
       const costoVentas = this.d.asientos.filter(delMes).flatMap((a) => a.lineas).filter((l) => l.cuenta === '5101').reduce((s, l) => s + (l.debe || 0) - (l.haber || 0), 0);
       const nomina = this.d.liquidaciones.filter((l) => l.periodo === periodo).reduce((s, l) => s + l.costoEmpresa, 0);
-      const gastos = this.d.documentos.filter((d) => d.clase === 'compra' && d.destino !== 'inventario' && delMes(d)).reduce((s, d) => s + d.neto, 0);
+      const gastos = this.d.documentos.filter((d) => d.clase === 'compra' && !['inventario', 'retiro'].includes(d.destino) && !d.anulado && delMes(d)).reduce((s, d) => s + d.neto, 0);
       const porCobrar = this.cuentasPendientes('venta');
       const porPagar = this.cuentasPendientes('compra');
       const s = this.saldos();
@@ -805,6 +952,23 @@
         clientes: this.d.terceros.filter((t) => t.tipo !== 'proveedor').length,
         iva: this.resumenIVA(periodo),
       };
+    }
+
+    // Qué tan cerca está la empresa de cada obligación que se activa al crecer
+    umbrales() {
+      const desde = sumarDias(this.hoy(), -365);
+      const ventas12m = this.d.documentos.filter((d) => d.clase === 'venta' && d.fecha > desde).reduce((s, d) => s + d.neto, 0);
+      const valores = {
+        trabajadores: this.d.empleados.length,
+        trabajadoras: this.d.empleados.filter((e) => e.sexo === 'F').length,
+        ventasUF: Math.round(ventas12m / this.d.config.legal.valorUF),
+      };
+      return UMBRALES.map((u) => {
+        const valor = valores[u.medida];
+        const faltan = u.umbral - valor;
+        const cerca = u.medida === 'ventasUF' ? valor >= u.umbral * 0.8 : faltan <= 2;
+        return { ...u, valor, faltan, estado: faltan <= 0 ? 'activa' : cerca ? 'cerca' : 'lejos' };
+      });
     }
 
     alertas() {
@@ -838,9 +1002,17 @@
 
       // Finanzas — tributario
       const ivaAnterior = this.resumenIVA(periodoAnterior);
-      if (ivaAnterior.debito || ivaAnterior.credito) {
+      if (ivaAnterior.totalF29) {
         const d = diasEntre(hoy, ivaAnterior.vencimientoF29);
-        if (d >= 0 && d <= 10) add('aviso', 'finanzas', `F29 de ${periodoAnterior} vence el ${ivaAnterior.vencimientoF29}: IVA a pagar $${ivaAnterior.aPagar.toLocaleString('es-CL')}.`);
+        if (d >= 0 && d <= 10) add('aviso', 'finanzas', `F29 de ${periodoAnterior} vence el ${ivaAnterior.vencimientoF29}: total estimado $${ivaAnterior.totalF29.toLocaleString('es-CL')} (IVA, retenciones, impuesto único y PPM).`);
+      }
+      for (const doc of this.d.documentos.filter((x) => x.tipo === 'factura_compra' && this.estadoAcuse(x) === 'pendiente')) {
+        const d = this.diasParaReclamar(doc);
+        add(d <= 2 ? 'critica' : 'aviso', 'finanzas', `Factura ${doc.folio} de ${this.buscar('terceros', doc.terceroId)?.nombre}: ${d === 0 ? 'hoy es el último día' : `quedan ${d} días`} para reclamarla en el SII. Después queda aceptada y se puede cobrar judicialmente.`);
+      }
+      if (this.d.config.opciones.interesMora) {
+        const morosas = this.cuentasPendientes('venta').filter((x) => x.tipo === 'factura' && diasEntre(x.fecha, hoy) > 30);
+        if (morosas.length) add('info', 'finanzas', `${morosas.length} factura(s) con más de 30 días: puede cobrar interés por mora con nota de débito (Ley 21.131).`);
       }
       const vencidas = this.cuentasPendientes('venta').filter((x) => x.diasVencido > 0);
       if (vencidas.length) add('aviso', 'finanzas', `${vencidas.length} factura(s) de clientes vencidas por $${vencidas.reduce((s, x) => s + x.saldo, 0).toLocaleString('es-CL')}.`);
@@ -872,12 +1044,17 @@
       const sinConsentimiento = this.d.terceros.filter((t) => t.tipo !== 'proveedor' && !t.consentimientoDatos).length;
       if (sinConsentimiento) add('info', 'marketing', `${sinConsentimiento} cliente(s) sin consentimiento de datos: excluidos de campañas (Ley 21.719).`);
 
+      // Crecimiento: obligaciones que se activan por tamaño
+      for (const u of this.umbrales()) {
+        if (u.estado === 'cerca') add('aviso', u.area, `A ${u.faltan.toLocaleString('es-CL')} ${u.medida === 'ventasUF' ? 'UF de ventas' : u.medida} de una nueva obligación: ${u.obligacion}.`);
+      }
+
       const orden = { critica: 0, aviso: 1, info: 2 };
       return A.sort((a, b) => orden[a.nivel] - orden[b.nivel]);
     }
   }
 
-  const api = { ERP, MODULOS, PLANTILLAS, PLAN_CUENTAS, FLUJOS, AFP, LEGAL_POR_DEFECTO, LIMITE_CAMPOS_PERSONALIZADOS, validarRut, formatearRut, rutDesdeNumero, sumarDias, diasEntre, periodoDe };
+  const api = { ERP, MODULOS, PLANTILLAS, PLAN_CUENTAS, FLUJOS, AFP, LEGAL_POR_DEFECTO, LEGAL_META, UMBRALES, LIMITE_CAMPOS_PERSONALIZADOS, validarRut, formatearRut, rutDesdeNumero, sumarDias, diasEntre, periodoDe };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else global.NucleoERP = api;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -209,7 +209,8 @@ figure { margin: 0; display: flex; flex-direction: column; gap: 10px; }
             { t: 'tarea', x: 'Cotizar con 2 o 3 proveedores' },
             { t: 'decision', x: '¿Supera el monto que exige aprobación?', rama: { b: 'Sí', x: 'Dirección aprueba antes de comprar', a: ['direccion'] } },
             { t: 'tarea', x: 'Recibir mercadería y revisar factura contra lo recibido' },
-            { t: 'tarea', x: 'Registrar factura con su destino', d: 'Inventario, gasto de marketing (con campaña) o gasto general' },
+            { t: 'decision', x: '¿La factura coincide con lo recibido?', d: 'Hay 8 días corridos desde que llega al SII', rama: { b: 'No', x: 'Reclamar en el SII antes del día 8: si no, queda aceptada', a: ['finanzas'], alerta: true } },
+            { t: 'tarea', x: 'Registrar el documento con su destino', d: 'Inventario, marketing (con campaña), gasto general, honorarios (con retención) o gasto personal del dueño' },
             { t: 'auto', x: 'Stock y costo promedio, IVA crédito y cuenta por pagar', a: ['produccion', 'finanzas', 'marketing'] },
             { t: 'fin', x: 'Pago al vencimiento', a: ['finanzas'] },
           ],
@@ -260,7 +261,7 @@ figure { margin: 0; display: flex; flex-direction: column; gap: 10px; }
             { t: 'inicio', x: 'Termina el mes' },
             { t: 'tarea', x: 'Conciliar banco con el libro', d: 'Cada movimiento del banco debe tener su asiento' },
             { t: 'tarea', x: 'Revisar libros de compras y ventas' },
-            { t: 'auto', x: 'Calcula IVA débito menos crédito' },
+            { t: 'auto', x: 'Propuesta de F29: IVA, retención de honorarios, impuesto único y PPM' },
             { t: 'tarea', x: 'Pagar cotizaciones en Previred', d: 'Día 13, con las liquidaciones de RR.HH.', a: ['rrhh'] },
             { t: 'tarea', x: 'Declarar y pagar el F29 en sii.cl', d: 'Día 20 (facturador electrónico)' },
             { t: 'auto', x: 'Balance y resultado del mes' },
@@ -418,11 +419,15 @@ figure { margin: 0; display: flex; flex-direction: column; gap: 10px; }
   const NOMBRE = { comercial: 'Comercial', finanzas: 'Finanzas', marketing: 'Marketing', rrhh: 'RR.HH.', produccion: 'Producción', direccion: 'Dirección' };
 
   const CALENDARIO = [
+    ['8 días desde recibida', 'Aceptar o reclamar factura de compra', 'Después queda aceptada y se puede cobrar judicialmente', 'finanzas'],
     ['Días 1–5', 'Cierre contable', 'Conciliación bancaria y revisión de libros', 'finanzas'],
     ['Cada lunes', 'Revisión de dirección', 'Panel, alertas y prioridades', 'direccion'],
     ['Último día hábil', 'Pago de sueldos', 'Liquidaciones emitidas y firmadas', 'rrhh'],
-    ['Día 13', 'Cotizaciones en Previred', 'AFP, salud, cesantía, SIS, mutual', 'rrhh'],
-    ['Día 20', 'F29 en el SII', 'IVA e impuesto único del mes anterior', 'finanzas'],
+    ['Día 13', 'Cotizaciones en Previred', 'AFP, salud, cesantía, aporte de la reforma (incluye SIS) y mutual', 'rrhh'],
+    ['Día 15 aprox.', 'Libro de Remuneraciones Electrónico', 'Empresas con 5 o más trabajadores', 'rrhh'],
+    ['Día 20', 'F29 en el SII', 'IVA, retención de honorarios, impuesto único y PPM', 'finanzas'],
+    ['Marzo', 'Declaraciones juradas', 'Según régimen tributario', 'finanzas'],
+    ['30 de abril', 'F22 Operación Renta', 'Empresa y sus dueños', 'finanzas'],
     ['Fin de mes', 'Conteo de inventario', 'Ajustes por merma o vencimiento', 'produccion'],
   ];
 

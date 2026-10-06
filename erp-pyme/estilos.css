@@ -145,6 +145,12 @@ tr.motivo td { background: var(--accent-soft); }
 .obs { display: inline-block; margin-top: 4px; }
 .cuadre { margin: 0; text-align: right; }
 
+/* Barras de avance hacia un umbral */
+.barra { display: inline-block; width: 120px; max-width: 100%; height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; vertical-align: middle; }
+.barra > span { display: block; height: 100%; background: var(--muted); }
+.barra.cerca > span { background: var(--warn); }
+.barra.activa > span { background: var(--ok); }
+
 /* Formularios */
 .formulario { display: flex; flex-direction: column; gap: 14px; }
 .rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px 14px; }

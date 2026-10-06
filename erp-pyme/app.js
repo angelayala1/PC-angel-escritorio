@@ -1,7 +1,7 @@
 /* Interfaz del ERP Pyme. Toda la lógica vive en nucleo.js; aquí solo se dibuja. */
 (function () {
   'use strict';
-  const { ERP, MODULOS, PLANTILLAS, PLAN_CUENTAS, FLUJOS, AFP, LEGAL_POR_DEFECTO, LIMITE_CAMPOS_PERSONALIZADOS, periodoDe } = window.NucleoERP;
+  const { ERP, MODULOS, PLANTILLAS, PLAN_CUENTAS, FLUJOS, AFP, LEGAL_POR_DEFECTO, LEGAL_META, LIMITE_CAMPOS_PERSONALIZADOS, periodoDe } = window.NucleoERP;
 
   const almacen = {
     leer: (k) => { try { return localStorage.getItem(k); } catch { return null; } },
@@ -127,7 +127,7 @@
           ${tile('Caja', $(i.caja), 'saldo contable', i.caja < 0 ? 'malo' : '')}
           ${tile('Por cobrar', $(i.porCobrar), `vencido ${$(i.porCobrarVencido)}`, i.porCobrarVencido ? 'atencion' : '')}
           ${tile('Por pagar', $(i.porPagar), 'proveedores')}
-          ${tile('IVA del período', $(i.iva.aPagar), `F29 vence ${fecha(i.iva.vencimientoF29)}`)}
+          ${tile('F29 estimado', $(i.iva.totalF29), `IVA ${$(i.iva.aPagar)} · vence ${fecha(i.iva.vencimientoF29)}`)}
           ${tile('Nómina', $(i.nomina), `${pct(i.nominaSobreVentas)} de ventas · ${i.dotacion} pers.`)}
         </div>
         <div class="dos-col">
@@ -141,6 +141,7 @@
             <ol class="bitacora">${erp.d.auditoria.slice(0, 8).map((a) => `<li>${chipModulo(a.modulo)}<div><b>${esc(a.accion)}</b><span>${esc(a.detalle)}</span></div></li>`).join('')}</ol>
           </section>
         </div>
+        ${seccion('Obligaciones que llegan al crecer', tablaUmbrales(), 'Se activan por número de trabajadores o por ventas de los últimos 12 meses. El sistema avisa antes de cruzar cada umbral.')}
         ${erp.moduloActivo('marketing') ? seccion('Retorno de campañas', tablaCampanas()) : ''}`;
     },
 
@@ -156,15 +157,16 @@
           { k: 'terceroId', label: 'Cliente', tipo: 'select', vacio: 'Consumidor final (solo boleta)', opciones: opcionesTerceros('cliente') },
           { k: 'fecha', label: 'Fecha', tipo: 'date' },
           { k: 'diasCredito', label: 'Días de crédito', tipo: 'number', ayuda: 'Solo facturas' },
+          { k: 'ordenCompra', label: 'N° orden de compra', ayuda: 'Obligatoria si el cliente la exige' },
         ], { fecha: erp.hoy(), diasCredito: 30 }, 'Emitir', `<div class="lineas">${filas}</div><button type="button" class="btn mini" data-accion="masLinea" data-doc="venta">+ Agregar ítem</button>`),
         'Al emitir: folio correlativo, IVA, asiento contable, rebaja de stock y seguimiento de postventa.')
           + seccion('Libro de ventas', tabla([
             { t: 'Doc.', v: (d) => `${esc(d.tipo.replace('_', ' '))} <b>${d.folio}</b>${d.anulado ? ' ' + chip('anulada', 'malo') : ''}` },
             { t: 'Fecha', v: (d) => fecha(d.fecha) },
-            { t: 'Cliente', v: (d) => esc(nombreTercero(d.terceroId)) },
+            { t: 'Cliente', v: (d) => esc(nombreTercero(d.terceroId)) + (d.ordenCompra ? `<br><small>OC ${esc(d.ordenCompra)}</small>` : '') },
             { t: 'Neto', num: true, v: (d) => $(d.neto) }, { t: 'IVA', num: true, v: (d) => $(d.iva) }, { t: 'Total', num: true, v: (d) => $(d.total) },
             { t: 'Saldo', num: true, v: (d) => (d.total - d.pagado ? $(d.total - d.pagado) : chip('pagado', 'bueno')) },
-            { t: '', v: (d) => d.tipo === 'nota_credito' || d.anulado ? '' : (d.total - d.pagado > 0 ? btn('Cobrar saldo', 'pagar', { id: d.id }) : '') + btn('Anular (NC)', 'notaCredito', { id: d.id }, 'peligro') },
+            { t: '', v: (d) => d.tipo === 'nota_credito' || d.anulado ? '' : (d.total - d.pagado > 0 ? btn('Cobrar saldo', 'pagar', { id: d.id }) : '') + btn('Anular (NC)', 'pedirMotivo', { tipo: 'nc', id: d.id }, 'peligro') },
           ], erp.d.documentos.filter((d) => d.clase === 'venta').slice().reverse()));
       }
       if (sub === 'compras') {
@@ -172,24 +174,27 @@
           ${campo({ form: 'compra', k: `linea_producto_${n}`, label: `Ítem ${n + 1}`, tipo: 'select', vacio: 'Seleccionar…', opciones: opcionesProductos((p) => p.tipo !== 'servicio') })}
           ${campo({ form: 'compra', k: `linea_cantidad_${n}`, label: 'Cantidad', tipo: 'number' })}
           ${campo({ form: 'compra', k: `linea_costo_${n}`, label: 'Costo neto unit.', tipo: 'number' })}</div>`).join('');
-        cuerpo = seccion('Registrar factura de proveedor', formulario('compra', 'registrarCompra', [
+        cuerpo = seccion('Registrar documento de proveedor', formulario('compra', 'registrarCompra', [
           { k: 'terceroId', label: 'Proveedor', tipo: 'select', req: true, vacio: 'Seleccionar…', opciones: opcionesTerceros('proveedor') },
-          { k: 'folioProveedor', label: 'Folio factura', req: true },
-          { k: 'fecha', label: 'Fecha', tipo: 'date' },
+          { k: 'folioProveedor', label: 'Folio del documento', req: true },
+          { k: 'fecha', label: 'Fecha de emisión', tipo: 'date' },
+          { k: 'fechaRecepcion', label: 'Recibida en el SII el', tipo: 'date', ayuda: 'Desde aquí corren los 8 días para reclamar' },
           { k: 'diasCredito', label: 'Días de crédito', tipo: 'number' },
-          { k: 'destino', label: 'Destino', tipo: 'select', opciones: [['inventario', 'Inventario (insumos / mercadería)'], ['marketing', 'Gasto de marketing'], ['general', 'Gasto general']] },
+          { k: 'destino', label: 'Destino', tipo: 'select', opciones: Object.entries(DESTINOS) },
           { k: 'campanaId', label: 'Campaña (si es marketing)', tipo: 'select', vacio: '—', opciones: opcionesCampanas() },
-          { k: 'montoNeto', label: 'Monto neto (si es gasto)', tipo: 'number' },
+          { k: 'montoNeto', label: 'Monto (gastos: neto; honorarios: bruto)', tipo: 'number' },
           { k: 'glosa', label: 'Glosa', ancho: true },
-        ], { fecha: erp.hoy(), diasCredito: 30 }, 'Registrar compra', `<p class="nota">Ítems (solo para destino inventario): actualizan stock y costo promedio.</p><div class="lineas">${filas}</div><button type="button" class="btn mini" data-accion="masLinea" data-doc="compra">+ Agregar ítem</button>`),
-        'Si el destino es marketing, el gasto se imputa a la campaña y alimenta su ROI.')
+        ], { fecha: erp.hoy(), fechaRecepcion: erp.hoy(), diasCredito: 30 }, 'Registrar compra', `<p class="nota">Ítems (solo para destino inventario): actualizan stock y costo promedio.</p><div class="lineas">${filas}</div><button type="button" class="btn mini" data-accion="masLinea" data-doc="compra">+ Agregar ítem</button>`),
+        'Marketing alimenta el retorno de la campaña. Honorarios retiene el impuesto. El gasto personal del dueño se registra como retiro: no es gasto de la empresa ni da derecho a IVA crédito.')
           + seccion('Libro de compras', tabla([
             { t: 'Folio', v: (d) => `<b>${esc(d.folio)}</b>` }, { t: 'Fecha', v: (d) => fecha(d.fecha) },
             { t: 'Proveedor', v: (d) => esc(nombreTercero(d.terceroId)) },
-            { t: 'Destino', v: (d) => chip(d.destino) + (d.campanaId ? ' ' + esc(erp.buscar('campanas', d.campanaId)?.nombre || '') : '') },
-            { t: 'Neto', num: true, v: (d) => $(d.neto) }, { t: 'IVA', num: true, v: (d) => $(d.iva) }, { t: 'Total', num: true, v: (d) => $(d.total) },
-            { t: 'Saldo', num: true, v: (d) => (d.total - d.pagado ? $(d.total - d.pagado) : chip('pagado', 'bueno')) },
-            { t: '', v: (d) => (d.total - d.pagado > 0 ? btn('Pagar', 'pagar', { id: d.id }) : '') },
+            { t: 'Destino', v: (d) => chip(DESTINOS[d.destino] || d.destino) + (d.campanaId ? '<br><small>' + esc(erp.buscar('campanas', d.campanaId)?.nombre || '') + '</small>' : '') },
+            { t: 'Neto', num: true, v: (d) => $(d.neto) }, { t: 'IVA', num: true, v: (d) => $(d.iva) },
+            { t: 'Total', num: true, v: (d) => $(d.total) + (d.retencion ? `<br><small>ret. ${$(d.retencion)}</small>` : '') },
+            { t: 'Acuse SII', v: celdaAcuse },
+            { t: 'Saldo', num: true, v: (d) => (d.anulado ? chip('reclamada', 'malo') : d.total - d.pagado ? $(d.total - d.pagado) : chip('pagado', 'bueno')) },
+            { t: '', v: (d) => (!d.anulado && d.total - d.pagado > 0 ? btn('Pagar', 'pagar', { id: d.id }) : '') },
           ], erp.d.documentos.filter((d) => d.clase === 'compra').slice().reverse()));
       }
       if (sub === 'terceros') {
@@ -201,6 +206,9 @@
           { k: 'email', label: 'Correo', tipo: 'email' }, { k: 'telefono', label: 'Teléfono' },
           { k: 'origenCampanaId', label: 'Llegó por campaña', tipo: 'select', vacio: 'Sin campaña / no sabe', opciones: opcionesCampanas() },
           { k: 'consentimientoDatos', label: 'Autoriza uso de datos para comunicaciones (Ley 21.719)', tipo: 'checkbox' },
+          { k: 'medioConsentimiento', label: 'Cómo autorizó', ph: 'Formulario web, firma en tienda…' },
+          { k: 'bajaComunicaciones', label: 'Pidió no recibir comunicaciones', tipo: 'checkbox' },
+          { k: 'exigeOC', label: 'Exige orden de compra para facturarle', tipo: 'checkbox' },
           ...camposExtra('tercero'),
         ], ed))
           + seccion('Cartera', tabla([
@@ -209,19 +217,21 @@
             { t: 'Contacto', v: (t) => esc(t.email) + (t.telefono ? '<br><small>' + esc(t.telefono) + '</small>' : '') },
             { t: 'Ventas', num: true, v: (t) => $(erp.d.documentos.filter((d) => d.clase === 'venta' && d.terceroId === t.id).reduce((s, d) => s + d.neto, 0)) },
             { t: 'Tickets', num: true, v: (t) => erp.d.tickets.filter((x) => x.terceroId === t.id).length },
-            { t: 'Datos', v: (t) => (t.consentimientoDatos ? chip('consentido', 'bueno') : chip('sin consentimiento', 'atencion')) },
+            { t: 'Datos personales', v: (t) => (t.datosSuprimidos ? chip('suprimidos', 'malo') + `<br><small>${fecha(t.datosSuprimidos)}</small>`
+              : (t.consentimientoDatos ? chip('consentido', 'bueno') + `<br><small>${fecha(t.fechaConsentimiento)} · ${esc(t.medioConsentimiento)}</small>` : chip('sin consentimiento', 'atencion'))
+                + (t.bajaComunicaciones ? '<br>' + chip('no contactar', 'malo') : '')) },
             ...erp.d.config.camposPersonalizados.tercero.map((c) => ({ t: c.etiqueta, v: (t) => esc(t.extra?.[c.clave]) })),
-            { t: '', v: (t) => btn('Editar', 'editar', { entidad: 'tercero', id: t.id }) },
-          ], erp.d.terceros));
+            { t: '', v: (t) => btn('Editar', 'editar', { entidad: 'tercero', id: t.id }) + (t.tipo !== 'proveedor' && !t.datosSuprimidos ? btn('Suprimir datos', 'pedirMotivo', { tipo: 'supresion', id: t.id }, 'peligro') : '') },
+          ], erp.d.terceros), 'Suprimir datos borra contacto y campos propios. Nombre y RUT se conservan porque las boletas y facturas deben guardarse 6 años.');
       }
       if (sub === 'postventa') {
         const docsVenta = erp.d.documentos.filter((d) => d.clase === 'venta' && d.tipo !== 'nota_credito').map((d) => [d.id, `${d.tipo} ${d.folio} · ${fecha(d.fecha)} · ${nombreTercero(d.terceroId)}`]);
         cuerpo = seccion('Nueva solicitud', formulario('ticket', 'crearTicket', [
           { k: 'terceroId', label: 'Cliente', tipo: 'select', req: true, vacio: 'Seleccionar…', opciones: opcionesTerceros('cliente') },
-          { k: 'tipo', label: 'Tipo', tipo: 'select', opciones: [['consulta', 'Consulta'], ['reclamo', 'Reclamo'], ['garantia', 'Garantía legal'], ['postventa', 'Seguimiento postventa']] },
+          { k: 'tipo', label: 'Tipo', tipo: 'select', opciones: [['consulta', 'Consulta'], ['reclamo', 'Reclamo'], ['garantia', 'Garantía legal'], ['retracto', 'Retracto (compra a distancia)'], ['postventa', 'Seguimiento postventa']] },
           { k: 'documentoId', label: 'Documento asociado', tipo: 'select', vacio: '—', opciones: docsVenta },
           { k: 'descripcion', label: 'Descripción', tipo: 'textarea', req: true, ancho: true },
-        ], {}, 'Abrir ticket'), `Plazos de respuesta (SLA) según tipo; las garantías se verifican contra los ${erp.d.config.legal.mesesGarantiaLegal} meses de la Ley 19.496.`)
+        ], {}, 'Abrir ticket'), `Plazos de respuesta (SLA) según tipo; las garantías se verifican contra los ${erp.d.config.legal.mesesGarantiaLegal} meses de la Ley 19.496 y los retractos contra sus ${erp.d.config.legal.diasRetracto} días.`)
           + seccion('Tickets', tabla([
             { t: 'Ticket', v: (t) => `<b>${t.id}</b><br>${chip(t.tipo)}` },
             { t: 'Cliente', v: (t) => esc(nombreTercero(t.terceroId)) },
@@ -241,10 +251,12 @@
       let cuerpo = '';
       if (sub === 'iva') {
         const periodos = [...new Set([periodoDe(erp.hoy()), ...erp.d.documentos.map((d) => periodoDe(d.fecha))])].sort().reverse();
-        cuerpo = seccion('Resumen IVA mensual (base F29)', tabla([
+        cuerpo = seccion('Propuesta de F29 por mes', tabla([
           { t: 'Período', v: (r) => `<b>${r.periodo}</b>` }, { t: 'Débito fiscal', num: true, v: (r) => $(r.debito) }, { t: 'Crédito fiscal', num: true, v: (r) => $(r.credito) },
-          { t: 'IVA a pagar', num: true, v: (r) => $(r.aPagar) }, { t: 'Remanente', num: true, v: (r) => $(r.remanente) }, { t: 'Vence F29', v: (r) => fecha(r.vencimientoF29) },
-        ], periodos.map((p) => erp.resumenIVA(p))), 'La declaración real se hace en sii.cl; esta tabla prepara los montos.');
+          { t: 'IVA a pagar', num: true, v: (r) => $(r.aPagar) }, { t: 'Retención honorarios', num: true, v: (r) => $(r.retenciones) },
+          { t: 'Impuesto único', num: true, v: (r) => $(r.impuestoUnico) }, { t: 'PPM', num: true, v: (r) => $(r.ppm) },
+          { t: 'Total F29', num: true, v: (r) => `<b>${$(r.totalF29)}</b>` }, { t: 'Remanente IVA', num: true, v: (r) => $(r.remanente) }, { t: 'Vence', v: (r) => fecha(r.vencimientoF29) },
+        ], periodos.map((p) => erp.resumenIVA(p))), `La declaración real se hace en sii.cl; esta tabla prepara los montos. PPM a ${(erp.d.config.legal.ppmTasa * 100).toFixed(3)} % de las ventas netas (confirmar con el contador según régimen).`);
       }
       if (sub === 'cuentas') {
         const cols = (accion) => [
@@ -316,6 +328,7 @@
           { k: 'jornadaSemanal', label: 'Horas semanales', tipo: 'number', req: true, ayuda: `Máximo legal ${L.jornadaMaximaSemanal} h` },
           { k: 'afp', label: 'AFP', tipo: 'select', opciones: Object.keys(AFP).map((a) => [a, a]) },
           { k: 'salud', label: 'Salud', tipo: 'select', opciones: [['Fonasa', 'Fonasa'], ['Isapre', 'Isapre (7% referencial)']] },
+          { k: 'sexo', label: 'Sexo registral', tipo: 'select', vacio: '—', opciones: [['F', 'Femenino'], ['M', 'Masculino'], ['X', 'No binario']], ayuda: 'Se usa para el umbral de sala cuna' },
           { k: 'colacion', label: 'Colación', tipo: 'number' }, { k: 'movilizacion', label: 'Movilización', tipo: 'number' },
           ...camposExtra('empleado'),
         ], ed, ed.id ? 'Guardar cambios' : 'Ingresar'), 'Campos mínimos del contrato según el art. 10 del Código del Trabajo.')
@@ -429,6 +442,7 @@
       if (sub === 'empresa') {
         cuerpo = seccion('Datos de la empresa', formulario('empresa', 'guardarEmpresa', [
           { k: 'razonSocial', label: 'Razón social', req: true, ancho: true }, { k: 'rut', label: 'RUT', req: true }, { k: 'giro', label: 'Giro', ancho: true },
+          { k: 'regimen', label: 'Régimen tributario', tipo: 'select', opciones: [['pro_pyme_general', 'Pro Pyme General (14 D N°3)'], ['pro_pyme_transparente', 'Pro Pyme Transparente (14 D N°8)'], ['general', 'Régimen general']], ayuda: 'Ajusta la tasa de PPM en Parámetros legales según indique el contador' },
         ], cfg.empresa))
           + seccion('Plantilla por rubro', `<div class="plantillas">${Object.entries(PLANTILLAS).map(([k, p]) => `<div class="plantilla${cfg.empresa.rubro === k ? ' activa' : ''}"><b>${esc(p.nombre)}</b>
             <small>${p.opciones.ordenesProduccion ? 'Con órdenes de producción' : 'Sin órdenes de producción'} · postventa a ${p.opciones.diasPostventa} días · ${Object.values(p.campos).flat().length} campos propios</small>
@@ -436,7 +450,8 @@
           'Una plantilla ajusta módulos, opciones y campos de partida. Los datos ya cargados no se borran.')
           + seccion('Módulos', `<div class="modulos">${Object.entries(MODULOS).map(([k, m]) => `<label class="check modulo" for="f-mod-${k}"><input type="checkbox" id="f-mod-${k}" data-accion="modulo" data-modulo="${k}"${erp.moduloActivo(k) ? ' checked' : ''}${m.obligatorio ? ' disabled' : ''}> ${esc(m.nombre)} ${m.obligatorio ? chip('núcleo legal') : ''}</label>`).join('')}
             <label class="check modulo" for="f-op-ordenes"><input type="checkbox" id="f-op-ordenes" data-accion="opcion" data-opcion="ordenesProduccion"${cfg.opciones.ordenesProduccion ? ' checked' : ''}> Órdenes de producción</label>
-            <label class="check modulo" for="f-op-postventa"><input type="checkbox" id="f-op-postventa" data-accion="opcion" data-opcion="postventaAutomatica"${cfg.opciones.postventaAutomatica ? ' checked' : ''}> Seguimiento postventa automático</label></div>`,
+            <label class="check modulo" for="f-op-postventa"><input type="checkbox" id="f-op-postventa" data-accion="opcion" data-opcion="postventaAutomatica"${cfg.opciones.postventaAutomatica ? ' checked' : ''}> Seguimiento postventa automático</label>
+            <label class="check modulo" for="f-op-mora"><input type="checkbox" id="f-op-mora" data-accion="opcion" data-opcion="interesMora"${cfg.opciones.interesMora ? ' checked' : ''}> Avisar cobro de interés por mora (Ley 21.131)</label></div>`,
           'Dirección, Comercial y Finanzas no se apagan: sostienen las obligaciones tributarias. RR.HH. queda obligatorio si hay trabajadores.');
       }
       if (sub === 'campos') {
@@ -458,9 +473,13 @@
           cesantiaTrabajadorIndefinido: 'Cesantía trabajador (indefinido)', cesantiaEmpleadorIndefinido: 'Cesantía empleador (indefinido)', cesantiaEmpleadorPlazoFijo: 'Cesantía empleador (plazo fijo)',
           sis: 'SIS (empleador)', mutualBase: 'Mutual cotización básica', aporteEmpleadorReforma: 'Aporte empleador reforma previsional', diasEscrituraContrato: 'Días para escriturar contrato',
           diasEscrituraContratoCorto: 'Días escritura (contratos < 30 días)', mesesGarantiaLegal: 'Meses garantía legal', diasInvestigacionKarin: 'Días investigación Ley Karin',
+          topeImponibleUF: 'Tope imponible AFP y salud (UF)', topeCesantiaUF: 'Tope imponible seguro de cesantía (UF)', retencionHonorarios: 'Retención boletas de honorarios',
+          ppmTasa: 'Tasa de PPM', diasReclamoFactura: 'Días para reclamar factura recibida', diasRetracto: 'Días de retracto (compra a distancia)',
         };
-        cuerpo = seccion('Parámetros legales', formulario('legal', 'guardarLegal', Object.keys(LEGAL_POR_DEFECTO).map((k) => ({ k, label: etiquetas[k] || k, tipo: 'number' })), cfg.legal, 'Guardar parámetros'),
-          'Valores referenciales para Chile (oct-2026). Confírmalos con tu contador, Previred y el SII: cambian por ley o por reajuste.');
+        const ESTADO = { confirmado: 'Confirmado', verificar: 'Por verificar', actualizar: 'Actualizar seguido' };
+        const ayuda = (k) => { const m = LEGAL_META[k]; return m ? `${ESTADO[m.estado]} · ${m.fuente}${m.nota ? ' · ' + m.nota : ''}` : ''; };
+        cuerpo = seccion('Parámetros legales', formulario('legal', 'guardarLegal', Object.keys(LEGAL_POR_DEFECTO).map((k) => ({ k, label: etiquetas[k] || k, tipo: 'number', ayuda: ayuda(k) })), cfg.legal, 'Guardar parámetros'),
+          'Valores para Chile revisados en octubre de 2026 contra el informe de investigación y fuentes oficiales. Bajo cada valor está su fuente y si falta confirmarlo con el contador.');
       }
       if (sub === 'respaldo') {
         cuerpo = seccion('Respaldo', `<div class="acciones-form">${btn('Generar respaldo', 'exportar')}${estado.respaldo ? btn('Copiar', 'copiarRespaldo') : ''}</div>
@@ -485,6 +504,28 @@
   };
 
   const cabecera = (t, s) => `<div class="cabecera-vista"><div><h2>${esc(t)}</h2><p class="lead">${esc(s)}</p></div></div>`;
+
+  const DESTINOS = { inventario: 'Inventario', marketing: 'Gasto de marketing', general: 'Gasto general', honorarios: 'Boleta de honorarios', retiro: 'Gasto personal del dueño' };
+
+  function celdaAcuse(d) {
+    const e = erp.estadoAcuse(d);
+    if (e === 'pendiente') {
+      const n = erp.diasParaReclamar(d);
+      return chip(n === 0 ? 'último día' : `quedan ${n} días`, n <= 2 ? 'malo' : 'atencion') + '<br>' + btn('Aceptar', 'aceptarCompra', { id: d.id }) + btn('Reclamar', 'pedirMotivo', { tipo: 'reclamo', id: d.id }, 'peligro');
+    }
+    return { aceptada: chip('aceptada', 'bueno'), aceptada_tacita: chip('aceptada sola', 'atencion'), reclamada: chip('reclamada', 'malo'), no_aplica: '—' }[e] || '—';
+  }
+
+  function tablaUmbrales() {
+    const nombre = { trabajadores: 'trabajadores', trabajadoras: 'trabajadoras', ventasUF: 'UF de ventas' };
+    return tabla([
+      { t: 'Obligación', v: (u) => `<b>${esc(u.obligacion)}</b>` },
+      { t: 'Área', v: (u) => chipModulo(u.area) },
+      { t: 'Hoy / umbral', num: true, v: (u) => `${u.valor.toLocaleString('es-CL')} / ${u.umbral.toLocaleString('es-CL')} <small>${nombre[u.medida]}</small>` },
+      { t: 'Avance', v: (u) => `<span class="barra ${u.estado}" role="img" aria-label="${Math.min(100, Math.round((u.valor / u.umbral) * 100))} %"><span style="width:${Math.min(100, (u.valor / u.umbral) * 100)}%"></span></span>` },
+      { t: 'Estado', v: (u) => chip(u.estado === 'activa' ? 'ya aplica' : u.estado === 'cerca' ? 'se acerca' : 'lejos', u.estado === 'activa' ? 'bueno' : u.estado === 'cerca' ? 'atencion' : '') },
+    ], erp.umbrales());
+  }
 
   function tablaCampanas(conEditar) {
     return tabla([
@@ -548,9 +589,15 @@
     return out;
   }
 
+  const MOTIVOS = {
+    nc: { etiqueta: 'Motivo de anulación', boton: 'Emitir nota de crédito', fn: (id, m) => erp.emitirNotaCredito(id, m), ok: (nc) => `Nota de crédito N° ${nc.folio} emitida. Stock y contabilidad revertidos.` },
+    reclamo: { etiqueta: 'Motivo del reclamo', boton: 'Reclamar factura', fn: (id, m) => erp.acusarCompra(id, 'reclamar', m), ok: 'Factura reclamada: se revirtieron la deuda, el IVA crédito y el stock. Regístralo también en el SII.' },
+    supresion: { etiqueta: 'Cómo llegó la solicitud', boton: 'Suprimir datos', fn: (id, m) => erp.suprimirDatosPersonales(id, m), ok: 'Datos personales suprimidos. El cliente queda excluido de toda comunicación.' },
+  };
+
   const ACCIONES_FORM = {
-    emitirVenta: (d) => ejecutar(() => erp.emitirVenta({ tipo: d.tipo, terceroId: d.terceroId, fecha: d.fecha, diasCredito: d.diasCredito, lineas: leerLineas(d, 'linea', ['producto', 'cantidad']) }), (doc) => `${doc.tipo} N° ${doc.folio} emitida por ${$(doc.total)}. Stock, contabilidad y postventa actualizados.`),
-    registrarCompra: (d) => ejecutar(() => erp.registrarCompra({ ...d, lineas: leerLineas(d, 'linea', ['producto', 'cantidad', 'costo']) }), 'Compra registrada y contabilizada.'),
+    emitirVenta: (d) => ejecutar(() => erp.emitirVenta({ tipo: d.tipo, terceroId: d.terceroId, fecha: d.fecha, diasCredito: d.diasCredito, ordenCompra: d.ordenCompra, lineas: leerLineas(d, 'linea', ['producto', 'cantidad']) }), (doc) => `${doc.tipo} N° ${doc.folio} emitida por ${$(doc.total)}. Stock, contabilidad y postventa actualizados.`),
+    registrarCompra: (d) => ejecutar(() => erp.registrarCompra({ ...d, lineas: leerLineas(d, 'linea', ['producto', 'cantidad', 'costo']) }), (doc) => doc.retencion ? `Boleta registrada: retención de ${$(doc.retencion)} va al F29.` : doc.estadoAcuse === 'pendiente' ? `Compra registrada. Tienes hasta el ${fecha(window.NucleoERP.sumarDias(doc.fechaRecepcion, erp.d.config.legal.diasReclamoFactura))} para aceptarla o reclamarla.` : 'Registrado y contabilizado.'),
     guardarTercero: (d) => ejecutar(() => { erp.guardarTercero(d); estado.edicion.tercero = null; }, 'Ficha guardada.'),
     crearTicket: (d) => ejecutar(() => erp.crearTicket(d), (t) => `Ticket ${t.id} abierto. Plazo de respuesta: ${fecha(t.plazo)}.`),
     guardarCampana: (d) => ejecutar(() => { erp.guardarCampana(d); estado.edicion.campana = null; }, 'Campaña guardada.'),
@@ -574,12 +621,15 @@
     editar: (b) => { estado.edicion[b.dataset.entidad] = b.dataset.id; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); },
     cancelarEdicion: (b) => { estado.edicion[b.dataset.entidad] = null; render(); },
     pagar: (b) => ejecutar(() => erp.registrarPago(b.dataset.id), (d) => `${d.clase === 'venta' ? 'Cobro' : 'Pago'} registrado en caja.`),
-    notaCredito: (b) => {
+    // Acciones que piden un motivo antes de ejecutarse: se abre una fila bajo el registro
+    pedirMotivo: (b) => {
       const tr = b.closest('tr');
       if (tr.nextElementSibling?.classList.contains('motivo')) return;
-      tr.insertAdjacentHTML('afterend', `<tr class="motivo"><td colspan="8"><form class="motivo-form" data-accion="confirmarNC" data-id="${esc(b.dataset.id)}"><label class="campo" for="f-motivo"><span>Motivo de anulación</span><input id="f-motivo" name="motivo" required></label><button class="btn mini peligro" type="submit">Emitir nota de crédito</button>${btn('Cancelar', 'cerrarFila')}</form></td></tr>`);
+      const m = MOTIVOS[b.dataset.tipo];
+      tr.insertAdjacentHTML('afterend', `<tr class="motivo"><td colspan="12"><form class="motivo-form" data-accion="confirmarMotivo" data-tipo="${esc(b.dataset.tipo)}" data-id="${esc(b.dataset.id)}"><label class="campo" for="f-motivo"><span>${esc(m.etiqueta)}</span><input id="f-motivo" name="motivo" required></label><button class="btn mini peligro" type="submit">${esc(m.boton)}</button>${btn('Cancelar', 'cerrarFila')}</form></td></tr>`);
       document.getElementById('f-motivo').focus();
     },
+    aceptarCompra: (b) => ejecutar(() => erp.acusarCompra(b.dataset.id, 'aceptar'), 'Factura aceptada.'),
     cerrarFila: (b) => b.closest('tr').remove(),
     estadoTicket: (b) => ejecutar(() => erp.cambiarEstadoTicket(b.dataset.id, b.dataset.estado), 'Ticket actualizado.'),
     estadoOrden: (b) => ejecutar(() => erp.cambiarEstadoOrden(b.dataset.id, b.dataset.estado), b.dataset.estado === 'terminada' ? 'Orden terminada: insumos descontados y stock actualizado.' : 'Orden actualizada.'),
@@ -603,7 +653,10 @@
   document.addEventListener('submit', (ev) => {
     const f = ev.target;
     ev.preventDefault();
-    if (f.dataset.accion === 'confirmarNC') return ejecutar(() => erp.emitirNotaCredito(f.dataset.id, f.elements.motivo.value.trim()), (nc) => `Nota de crédito N° ${nc.folio} emitida. Stock y contabilidad revertidos.`);
+    if (f.dataset.accion === 'confirmarMotivo') {
+      const m = MOTIVOS[f.dataset.tipo];
+      return ejecutar(() => m.fn(f.dataset.id, f.elements.motivo.value.trim()), m.ok);
+    }
     if (f.dataset.accion === 'guardarReceta') {
       const d = leerFormulario(f);
       return ejecutar(() => erp.guardarReceta(f.dataset.producto, leerLineas(d, 'ins', ['producto', 'cantidad'])), 'Receta guardada.');
